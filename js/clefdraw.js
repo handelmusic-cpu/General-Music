@@ -110,7 +110,7 @@
         ctx.beginPath(); ctx.moveTo(70, y); ctx.lineTo(W - 40, y); ctx.stroke();
       }
       var gLineY = top + 3 * gap;  // 2nd line from bottom (the G line — treble spiral)
-      var fLineY = top + 2 * gap;  // the F line — tuned so the bass clef's two dots straddle it
+      var fLineY = top + 1 * gap;  // 2nd line from top (the F line — the bass clef's two dots straddle it)
 
       if (state.showGuide) {
         ctx.save();
@@ -120,9 +120,10 @@
         var isTreble = state.clef === "treble";
         var glyph = isTreble ? "𝄞" : "𝄢";
         var size = isTreble ? 360 : 250;
-        // "frac" = where the clef's anchor sits within its own bounding box.
-        // Treble: the spiral belly (~62% down). Bass: the two dots (~22% down).
-        var frac = isTreble ? 0.62 : 0.24;
+        // "frac" = where the clef's anchor sits within its own bounding box
+        // (measured from the actual glyph). Treble: the spiral belly (~62% down).
+        // Bass: the two dots (~39% down) straddle the F line.
+        var frac = isTreble ? 0.62 : 0.39;
         var targetY = isTreble ? gLineY : fLineY;
         ctx.font = size + "px serif";
         var m = ctx.measureText(glyph);
