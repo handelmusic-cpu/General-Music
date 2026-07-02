@@ -110,7 +110,7 @@
         ctx.beginPath(); ctx.moveTo(70, y); ctx.lineTo(W - 40, y); ctx.stroke();
       }
       var gLineY = top + 3 * gap;  // 2nd line from bottom (the G line — treble spiral)
-      var fLineY = top + 1 * gap;  // 2nd line from top (the F line — bass two dots)
+      var fLineY = top + 2 * gap;  // the F line — tuned so the bass clef's two dots straddle it
 
       if (state.showGuide) {
         ctx.save();
