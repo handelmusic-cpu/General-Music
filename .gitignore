@@ -1,0 +1,10 @@
+# Claude Code / editor local settings (machine-specific, not app code)
+.claude/
+
+# Leftover from an unrelated "Music Looper" project — not part of this app
+controllers.py
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp

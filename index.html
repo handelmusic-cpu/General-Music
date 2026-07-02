@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#ff5da2" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>Music Playground</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>" />
+</head>
+<body>
+  <header class="app-header">
+    <button class="home-btn" id="homeBtn" aria-label="Home" title="Home">
+      <span class="home-btn__icon">🎵</span>
+      <span class="home-btn__text">Music Playground</span>
+    </button>
+    <div class="header-spacer"></div>
+    <button class="ghost-btn" id="fullscreenBtn" aria-label="Full screen" title="Full screen">⛶</button>
+  </header>
+
+  <main id="view" class="view" aria-live="polite"></main>
+
+  <footer class="app-footer">
+    <span>Made for music teachers &amp; their students · works on iPads &amp; Chromebooks</span>
+  </footer>
+
+  <!-- Load order matters: data + core first, then each activity registers itself -->
+  <script src="js/data.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/library.js"></script>
+  <script src="js/beatboxes.js"></script>
+  <script src="js/staff.js"></script>
+  <script src="js/clefdraw.js"></script>
+  <script src="js/steadybeat.js"></script>
+  <script src="js/majorminor.js"></script>
+  <script>window.addEventListener('DOMContentLoaded', function () { App.start(); });</script>
+</body>
+</html>
