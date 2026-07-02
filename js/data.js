@@ -306,5 +306,159 @@ window.DATA = {
     { id: "sixteenths", fruits: "🍓🍓🍓🍓", syllable: "ti-ka-ti-ka", hits: 4, name: "Four sixteenths (4 sounds)" },
     { id: "triplet", fruits: "🍇🍇🍇",   syllable: "tri-o-la",   hits: 3, name: "Triplet (3 sounds)" },
     { id: "rest",    fruits: "🥕",        syllable: "sh (rest)",  hits: 0, name: "Rest (silent)" }
+  ],
+
+  /* Ukulele chords (standard GCEA re-entrant tuning). frets/fingers are given
+     left-to-right as they appear on a real chord chart: G, C, E, A strings.
+     "" = open string, finger numbers are 1=index 2=middle 3=ring 4=pinky. */
+  ukuleleChords: [
+    { name: "C",  frets: [0, 0, 0, 3], fingers: ["", "", "", "3"], tip: "The easiest first chord — just one finger!" },
+    { name: "Am", frets: [2, 0, 0, 0], fingers: ["2", "", "", ""], tip: "One finger, right next to C." },
+    { name: "F",  frets: [2, 0, 1, 0], fingers: ["2", "", "1", ""], tip: "Two fingers — sounds great with C and G7." },
+    { name: "G7", frets: [0, 2, 1, 2], fingers: ["", "2", "1", "3"], tip: "Wants to resolve back home to C!" },
+    { name: "G",  frets: [0, 2, 3, 2], fingers: ["", "1", "3", "2"], tip: "A little trickier — three fingers." },
+    { name: "A7", frets: [0, 1, 0, 0], fingers: ["", "1", "", ""], tip: "One finger — pairs nicely with D7." },
+    { name: "D7", frets: [2, 2, 2, 3], fingers: ["1", "2", "3", "4"], tip: "All four fingers in a row — a fun challenge!" },
+    { name: "Em", frets: [0, 4, 3, 2], fingers: ["", "4", "3", "2"], tip: "A dreamy, mysterious minor sound." }
+  ],
+
+  /* Musical terms: dynamics, tempo, and expression. Each has a "demo" the
+     app can play so kids hear, not just read, what the word means. */
+  termCategories: ["Dynamics", "Tempo", "Expression"],
+  terms: [
+    { term: "Pianissimo", abbr: "pp", category: "Dynamics", meaning: "Very soft", demo: { type: "volume", peak: 0.05 } },
+    { term: "Piano", abbr: "p", category: "Dynamics", meaning: "Soft", demo: { type: "volume", peak: 0.12 } },
+    { term: "Mezzo Piano", abbr: "mp", category: "Dynamics", meaning: "Medium soft", demo: { type: "volume", peak: 0.19 } },
+    { term: "Mezzo Forte", abbr: "mf", category: "Dynamics", meaning: "Medium loud", demo: { type: "volume", peak: 0.27 } },
+    { term: "Forte", abbr: "f", category: "Dynamics", meaning: "Loud", demo: { type: "volume", peak: 0.38 } },
+    { term: "Fortissimo", abbr: "ff", category: "Dynamics", meaning: "Very loud", demo: { type: "volume", peak: 0.52 } },
+    { term: "Crescendo", abbr: "cresc.", category: "Dynamics", meaning: "Gradually getting louder", demo: { type: "cresc" } },
+    { term: "Decrescendo", abbr: "decresc.", category: "Dynamics", meaning: "Gradually getting softer (also called diminuendo)", demo: { type: "decresc" } },
+
+    { term: "Largo", abbr: "", category: "Tempo", meaning: "Very slow and broad", demo: { type: "tempo", bpm: 44 } },
+    { term: "Adagio", abbr: "", category: "Tempo", meaning: "Slow, at ease", demo: { type: "tempo", bpm: 64 } },
+    { term: "Andante", abbr: "", category: "Tempo", meaning: "A walking pace", demo: { type: "tempo", bpm: 92 } },
+    { term: "Moderato", abbr: "", category: "Tempo", meaning: "A moderate, medium speed", demo: { type: "tempo", bpm: 112 } },
+    { term: "Allegro", abbr: "", category: "Tempo", meaning: "Fast and lively", demo: { type: "tempo", bpm: 138 } },
+    { term: "Presto", abbr: "", category: "Tempo", meaning: "Very fast", demo: { type: "tempo", bpm: 184 } },
+    { term: "Ritardando", abbr: "rit.", category: "Tempo", meaning: "Gradually slowing down", demo: { type: "rit" } },
+    { term: "Accelerando", abbr: "accel.", category: "Tempo", meaning: "Gradually speeding up", demo: { type: "accel" } },
+
+    { term: "Legato", abbr: "", category: "Expression", meaning: "Smooth and connected, no gaps between notes", demo: { type: "legato" } },
+    { term: "Staccato", abbr: "", category: "Expression", meaning: "Short and detached, with space between notes", demo: { type: "staccato" } },
+    { term: "Accent", abbr: "", category: "Expression", meaning: "Give that one note extra punch", demo: { type: "accent" } },
+    { term: "Fermata", abbr: "", category: "Expression", meaning: "Hold the note longer than its usual length", demo: { type: "fermata" } }
+  ],
+
+  /* Orchestra instruments, grouped by family/section. */
+  instrumentSections: ["Strings", "Woodwinds", "Brass", "Percussion"],
+  instruments: [
+    { name: "Violin", section: "Strings", emoji: "🎻",
+      blurb: "The smallest and highest-voiced string instrument, played with a bow tucked under the chin.",
+      fact: "A violin has only 4 strings but can play thousands of different pitches!" },
+    { name: "Viola", section: "Strings", emoji: "🎻",
+      blurb: "A little bigger than the violin, with a warmer, deeper voice.",
+      fact: "Violas read a special clef (alto clef) that almost no other instrument uses!" },
+    { name: "Cello", section: "Strings", emoji: "🎻",
+      blurb: "Big enough to rest on the floor between the player's knees.",
+      fact: "The cello's rich sound is often compared to the human voice." },
+    { name: "Double Bass", section: "Strings", emoji: "🎻",
+      blurb: "The biggest and lowest string instrument — so tall that players often stand or sit on a tall stool!",
+      fact: "It's sometimes just called the 'bass' or 'contrabass.'" },
+    { name: "Harp", section: "Strings", emoji: "🎼",
+      blurb: "A tall, triangular instrument with dozens of strings plucked by hand.",
+      fact: "Orchestra harps have foot pedals that can change the pitch of every string!" },
+
+    { name: "Flute", section: "Woodwinds", emoji: "🪈",
+      blurb: "A metal tube played sideways — the sound is made by blowing across a hole.",
+      fact: "Even though it's metal today, it's still called a 'woodwind' because it used to be made of wood!" },
+    { name: "Clarinet", section: "Woodwinds", emoji: "🪈",
+      blurb: "Uses a single reed to make a warm, smooth sound.",
+      fact: "The clarinet has one of the widest pitch ranges of any orchestra instrument." },
+    { name: "Oboe", section: "Woodwinds", emoji: "🪈",
+      blurb: "Uses a double reed — two thin pieces of cane that buzz together.",
+      fact: "The whole orchestra tunes to the oboe's 'A' before a concert!" },
+    { name: "Bassoon", section: "Woodwinds", emoji: "🪈",
+      blurb: "A very long double-reed instrument that folds back on itself so it's easier to hold.",
+      fact: "If you unrolled its tube, a bassoon would be about 8 feet long!" },
+    { name: "Saxophone", section: "Woodwinds", emoji: "🎷",
+      blurb: "Made of metal but played with a single reed, like a clarinet.",
+      fact: "It isn't always in a classical orchestra, but it's a star in jazz and concert bands!" },
+
+    { name: "Trumpet", section: "Brass", emoji: "🎺",
+      blurb: "The smallest and highest brass instrument — buzz your lips and press 3 valves.",
+      fact: "Trumpets are one of the oldest instruments; early versions date back thousands of years!" },
+    { name: "French Horn", section: "Brass", emoji: "📯",
+      blurb: "A long, coiled tube that makes a warm, mellow sound.",
+      fact: "If uncoiled, a French horn's tubing would stretch about 12 feet!" },
+    { name: "Trombone", section: "Brass", emoji: "🎺",
+      blurb: "The only brass instrument with a slide instead of valves.",
+      fact: "Players move the slide in and out to change the pitch." },
+    { name: "Tuba", section: "Brass", emoji: "🎺",
+      blurb: "The biggest and lowest brass instrument — it provides the deep, booming bass.",
+      fact: "It's the youngest member of the brass family, invented in the 1800s." },
+
+    { name: "Timpani", section: "Percussion", emoji: "🥁",
+      blurb: "Large tuned drums, also called 'kettledrums' — players can change their pitch with a foot pedal!",
+      fact: "Timpani are some of the only drums that play actual musical pitches." },
+    { name: "Snare Drum", section: "Percussion", emoji: "🥁",
+      blurb: "Has metal wires called 'snares' stretched across the bottom that buzz when it's hit.",
+      fact: "You'll hear it in marching bands and orchestras alike." },
+    { name: "Bass Drum", section: "Percussion", emoji: "🥁",
+      blurb: "A huge drum with a deep, booming sound.",
+      fact: "It's often used for dramatic, powerful moments in music." },
+    { name: "Cymbals", section: "Percussion", emoji: "🥁",
+      blurb: "Two metal plates crashed together for a bright, shimmering crash.",
+      fact: "A single cymbal can also be tapped with a stick for a lighter sound." },
+    { name: "Xylophone", section: "Percussion", emoji: "🎹",
+      blurb: "Wooden bars struck with mallets to play a tune.",
+      fact: "Its metal-barred cousin, the glockenspiel, sounds bright and bell-like." }
+  ],
+
+  /* Composer Spotlight — the "big three." Facts are widely documented and
+     kid-friendly. Melodies are only included where we can play them with
+     confidence; otherwise a "Find a recording" search link is offered. */
+  composers: [
+    {
+      name: "Johann Sebastian Bach", short: "Bach", born: 1685, died: 1750,
+      era: "Baroque", country: "Germany", color: "#5b8cff",
+      facts: [
+        "Bach had 20 children, and several of them grew up to be composers too!",
+        "He wrote new music almost every week for his church job — hundreds of pieces called cantatas.",
+        "Bach was such an amazing organist that people traveled long distances just to hear him play."
+      ],
+      works: ["Minuet in G", "Brandenburg Concertos", "Toccata and Fugue in D minor", "Air on the G String"],
+      searchQuery: "Bach music for kids"
+    },
+    {
+      name: "Wolfgang Amadeus Mozart", short: "Mozart", born: 1756, died: 1791,
+      era: "Classical", country: "Austria", color: "#ffab3d",
+      facts: [
+        "Mozart started composing his own music when he was only 5 years old!",
+        "He performed for kings, queens, and empresses all across Europe as a child.",
+        "He wrote over 600 pieces of music in his lifetime."
+      ],
+      works: ["Eine kleine Nachtmusik", "The Magic Flute", "Twelve Variations on 'Ah vous dirai-je, Maman'"],
+      searchQuery: "Mozart music for kids",
+      // Mozart's famous variations use this exact tune — reuses the Twinkle melody above.
+      melodyFromSong: "Twinkle, Twinkle, Little Star",
+      melodyCaption: "🎵 Mozart wrote famous variations on this exact tune!"
+    },
+    {
+      name: "Ludwig van Beethoven", short: "Beethoven", born: 1770, died: 1827,
+      era: "Classical → Romantic", country: "Germany", color: "#a06bff",
+      facts: [
+        "Beethoven kept composing even after he lost most of his hearing.",
+        "He is said to have sawed the legs off a piano so he could feel its vibrations through the floor.",
+        "The main tune from his 9th Symphony, 'Ode to Joy,' is now the official anthem of the European Union!"
+      ],
+      works: ["Symphony No. 5", "Symphony No. 9 (Ode to Joy)", "Für Elise", "Moonlight Sonata"],
+      searchQuery: "Beethoven music for kids",
+      melody: { tempo: 120, notes: [
+        ["E4",1],["E4",1],["F4",1],["G4",1],["G4",1],["F4",1],["E4",1],["D4",1],
+        ["C4",1],["C4",1],["D4",1],["E4",1],["E4",1.5],["D4",0.5],["D4",2]
+      ]},
+      melodyCaption: "🎵 The famous opening of 'Ode to Joy'"
+    }
   ]
 };

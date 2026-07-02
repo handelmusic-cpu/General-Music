@@ -41,16 +41,36 @@ window.Sound = (function () {
   }
 
   // A short pitched "boop" for rhythm sounds / note previews.
-  function tone(freq, when, dur, type) {
+  // peak (0–1) sets loudness — used by the Musical Terms dynamics demos.
+  function tone(freq, when, dur, type, peak) {
     var c = ac();
     when = when || c.currentTime;
     dur = dur || 0.18;
+    peak = peak == null ? 0.28 : peak;
     var osc = c.createOscillator();
     var gain = c.createGain();
     osc.type = type || "triangle";
     osc.frequency.value = freq;
     gain.gain.setValueAtTime(0.0001, when);
-    gain.gain.exponentialRampToValueAtTime(0.28, when + 0.01);
+    gain.gain.exponentialRampToValueAtTime(peak, when + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+    osc.connect(gain).connect(c.destination);
+    osc.start(when);
+    osc.stop(when + dur + 0.02);
+  }
+
+  // A quick percussive "thump" at a chosen pitch — used to give each
+  // orchestra percussion instrument (timpani, snare, cymbals…) its own feel.
+  function perc(freq, when, dur, type) {
+    var c = ac();
+    when = when || c.currentTime;
+    dur = dur || 0.16;
+    var osc = c.createOscillator();
+    var gain = c.createGain();
+    osc.type = type || "square";
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.0001, when);
+    gain.gain.exponentialRampToValueAtTime(0.45, when + 0.004);
     gain.gain.exponentialRampToValueAtTime(0.0001, when + dur);
     osc.connect(gain).connect(c.destination);
     osc.start(when);
@@ -96,6 +116,7 @@ window.Sound = (function () {
     unlock: unlock,
     click: click,
     tone: tone,
+    perc: perc,
     playNote: playNote,
     playMelody: playMelody,
     noteFreq: noteFreq,

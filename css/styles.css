@@ -183,6 +183,11 @@ body {
 .tile--purple { background: linear-gradient(150deg, #c79bff, var(--purple)); }
 .tile--teal   { background: linear-gradient(150deg, #6ff0dd, var(--teal)); }
 .tile--yellow { background: linear-gradient(150deg, #ffe27a, #ffab3d); }
+.tile--indigo { background: linear-gradient(150deg, #8aa0ff, var(--blue)); }
+.tile--coral  { background: linear-gradient(150deg, #ff9e7a, var(--coral)); }
+.tile--grape  { background: linear-gradient(150deg, #e0a3ff, var(--grape)); }
+.tile--mint   { background: linear-gradient(150deg, #8ff0c0, #24c39a); }
+.tile--gold   { background: linear-gradient(150deg, #ffe08a, #cf9a2e); }
 
 /* ---------------------------- Activity pages ----------------------------- */
 .page-head {
@@ -472,6 +477,119 @@ input[type="range"]::-moz-range-thumb {
 .hint { color: var(--ink-soft); font-weight: 700; font-size: 15px; }
 .spacer-sm { height: 10px; }
 .row-wrap { display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+
+/* ------------------------------ Piano ------------------------------------ */
+.piano-wrap { overflow-x: auto; padding: 4px 2px 10px; }
+.piano {
+  position: relative; display: flex; height: 240px; min-width: 680px;
+  user-select: none; touch-action: manipulation;
+}
+.pkey-white {
+  position: relative; flex: 1; background: #fff;
+  border: 2px solid var(--ink); border-radius: 0 0 10px 10px;
+  margin-right: -2px; cursor: pointer;
+  display: flex; align-items: flex-end; justify-content: center; padding-bottom: 12px;
+  box-shadow: inset 0 -7px 0 rgba(43,33,64,.05);
+}
+.pkey-white:active, .pkey-white.active { background: linear-gradient(#ffe27a, #ffd23f); }
+.pkey-white .lbl { font-family: var(--font-round); font-weight: 800; color: var(--ink-soft); font-size: 15px; }
+.pkey-black {
+  position: absolute; top: 0; height: 60%; background: var(--ink);
+  border-radius: 0 0 8px 8px; z-index: 2; cursor: pointer;
+  box-shadow: 0 5px 0 rgba(0,0,0,.35);
+  display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px;
+}
+.pkey-black:active, .pkey-black.active { background: var(--purple); }
+.pkey-black .lbl { color: #fff; font-family: var(--font-round); font-weight: 800; font-size: 10.5px; }
+
+/* -------------------------- Rhythm Flashcards ---------------------------- */
+.rhythm-card { text-align: center; }
+.rhythm-beats { display: flex; justify-content: center; gap: 4px; flex-wrap: wrap; margin: 8px 0 4px; }
+.rbeat { min-width: 84px; padding: 6px 4px; border-radius: 14px; }
+.rbeat.hit { background: var(--yellow); }
+.rbeat .glyph { font-size: clamp(40px, 10vw, 64px); font-family: serif; line-height: 1.1; }
+.rbeat .syl { font-family: var(--font-round); font-weight: 800; color: var(--ink-soft); font-size: 15px; }
+.barline { width: 4px; align-self: stretch; background: var(--ink); border-radius: 2px; margin: 0 4px; }
+
+/* ---------------------------- Ukulele Chords ----------------------------- */
+.uke-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+.uke-card {
+  background: #fff; border-radius: var(--radius); box-shadow: var(--shadow-sm);
+  padding: 14px 12px 18px; text-align: center; border-top: 10px solid var(--coral);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.uke-card h3 { margin: 0; font-family: var(--font-round); font-size: 26px; }
+.uke-diagram { width: 100%; max-width: 160px; height: auto; }
+.uke-tip { margin: 0; font-size: 13.5px; color: var(--ink-soft); font-weight: 700; line-height: 1.35; min-height: 2.6em; }
+
+/* ----------------------------- Musical Terms ----------------------------- */
+.term-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; margin-top: 16px; }
+.term-card {
+  background: #fff; border-radius: var(--radius); box-shadow: var(--shadow-sm);
+  padding: 16px 18px 18px; border-left: 10px solid var(--grape);
+  display: flex; flex-direction: column; gap: 8px; align-items: flex-start;
+}
+.term-cat-tag {
+  font-size: 12px; font-weight: 800; font-family: var(--font-round); color: #fff;
+  background: var(--grape); border-radius: 999px; padding: 3px 11px;
+}
+.term-card h3 { margin: 0; font-family: var(--font-round); font-size: 21px; }
+.term-abbr { font-family: serif; font-style: italic; font-weight: 700; color: var(--pink); font-size: 16px; }
+.term-card p { margin: 0; color: var(--ink-soft); font-weight: 600; font-size: 14.5px; line-height: 1.4; }
+
+/* ------------------------- Orchestra Instruments ------------------------- */
+.orch-section-head {
+  display: flex; align-items: center; gap: 10px; margin: 22px 0 10px;
+}
+.orch-section-head:first-of-type { margin-top: 6px; }
+.orch-section-emoji {
+  font-size: 26px; width: 46px; height: 46px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--sc, var(--sky)); box-shadow: var(--shadow-sm);
+}
+.orch-section-head h3 { margin: 0; font-family: var(--font-round); font-size: clamp(20px, 3.4vw, 26px); color: var(--sc, var(--ink)); }
+.orch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.orch-card {
+  border: none; border-radius: 18px; padding: 16px 10px; cursor: pointer;
+  background: #fff; box-shadow: var(--shadow-sm); border-bottom: 7px solid var(--sc, var(--sky));
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.orch-card:active { transform: translateY(3px); }
+.orch-card.flash { animation: orchflash .3s ease; }
+@keyframes orchflash { 40% { transform: scale(1.06); background: var(--cream); } }
+.orch-emoji { font-size: 34px; }
+.orch-name { font-family: var(--font-round); font-weight: 800; font-size: 14.5px; color: var(--ink); text-align: center; }
+
+/* --------------------------- Composer Spotlight --------------------------- */
+.composer-timeline { padding: 10px 4px 0; }
+.timeline-bar { position: relative; height: 6px; background: #e3ddef; border-radius: 999px; margin: 30px 10px 22px; }
+.timeline-dot {
+  position: absolute; top: 50%; transform: translate(-50%, -50%);
+  width: 20px; height: 20px; border-radius: 50%; background: var(--dc, var(--pink));
+  border: 4px solid #fff; box-shadow: var(--shadow-sm);
+}
+.timeline-dot-label {
+  position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+  font-family: var(--font-round); font-weight: 800; font-size: 13px; color: var(--dc, var(--ink));
+  white-space: nowrap;
+}
+.composer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+.composer-card {
+  background: #fff; border-radius: var(--radius); box-shadow: var(--shadow-sm);
+  padding: 20px; display: flex; gap: 16px; border-top: 10px solid var(--ac, var(--purple));
+}
+.composer-avatar {
+  flex: none; width: 64px; height: 64px; border-radius: 50%;
+  background: var(--ac, var(--purple)); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-round); font-weight: 800; font-size: 30px;
+  box-shadow: var(--shadow-sm);
+}
+.composer-info h3 { margin: 0 0 2px; font-family: var(--font-round); font-size: 21px; }
+.composer-meta { font-size: 13.5px; font-weight: 700; color: var(--ink-soft); margin-bottom: 8px; }
+.composer-facts { margin: 0 0 10px; padding-left: 20px; }
+.composer-facts li { font-size: 14.5px; line-height: 1.4; margin-bottom: 5px; color: var(--ink); }
+.composer-works { font-size: 14px; color: var(--ink-soft); font-weight: 600; margin: 0 0 12px; line-height: 1.4; }
 
 @media (max-width: 520px) {
   .home-btn__text { display: none; }
