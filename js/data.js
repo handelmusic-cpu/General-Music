@@ -428,7 +428,16 @@ window.DATA = {
         "Bach was such an amazing organist that people traveled long distances just to hear him play."
       ],
       works: ["Minuet in G", "Brandenburg Concertos", "Toccata and Fugue in D minor", "Air on the G String"],
-      searchQuery: "Bach music for kids"
+      searchQuery: "Bach music for kids",
+      // Opening phrase of "Air on the G String" (Orchestral Suite No. 3, BWV 1068),
+      // melody line only. Transcribed from the public-domain Mutopia Project score
+      // (mutopiaproject.org, BWV1068), grace-note ornaments simplified out.
+      melody: { tempo: 56, notes: [
+        ["F#5",4.5],["B5",.25],["G5",.25],["E5",.25],["D5",.25],["C#5",.25],["D5",.25],["C#5",1],["A4",1],
+        ["A5",2.25],["F#5",.25],["C5",.25],["B4",.25],["E5",.25],["D#5",.25],["A5",.25],["G5",.25],
+        ["G5",2.25],["E5",.25],["B4",.25],["A4",.25],["D5",.25],["C#5",.25],["G5",.25],["F#5",.25]
+      ]},
+      melodyCaption: "🎵 The famous opening of 'Air on the G String'"
     },
     {
       name: "Wolfgang Amadeus Mozart", short: "Mozart", born: 1756, died: 1791,
