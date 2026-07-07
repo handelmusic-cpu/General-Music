@@ -73,11 +73,44 @@
     }});
     container.appendChild(el("div.control-row", { style: "justify-content:center" }, playBtn, clearBtn));
 
+    // ---- Save My Beat (Magic Link) --------------------------------------
+    container.appendChild(el("div.card", null,
+      App.shareControl({ label: "🔗 Save My Beat", hashId: "beatmaker", key: "beat", thing: "beat", getValue: encodeState })
+    ));
+
     container.appendChild(el("div.card", null,
       el("p.hint", { text: "Try this starter beat: tap Kick on squares 1 and 5, Snare on 5 and 13, and Hi-Hat on every other square. Press Play!" })
     ));
 
+    loadFromLink();
+
     // ---------------------------------------------------------------------
+    // ---- Magic Link encode / decode -------------------------------------
+    // Format: "<tempo>-<gridHex>", e.g. "100-ffa1…"
+    function encodeState() {
+      var bits = "";
+      for (var r = 0; r < KIT.length; r++) {
+        for (var c = 0; c < STEPS; c++) bits += state.grid[r][c] ? "1" : "0";
+      }
+      return state.tempo + "-" + App.bitsToHex(bits);
+    }
+
+    function loadFromLink() {
+      var code = App.consumeParam("beat");
+      if (!code) return;
+      var parts = code.split("-");
+      if (parts.length < 2) return;
+      state.tempo = Math.min(168, Math.max(60, parseInt(parts[0], 10) || 100));
+      var bits = App.hexToBits(parts[1], KIT.length * STEPS);
+      var i = 0;
+      state.grid = KIT.map(function () { return new Array(STEPS).fill(false); });
+      for (var r = 0; r < KIT.length; r++) {
+        for (var c = 0; c < STEPS; c++) state.grid[r][c] = bits.charAt(i++) === "1";
+      }
+      tempo.value = state.tempo; tempoVal.textContent = state.tempo;
+      redrawCells();
+    }
+
     function redrawCells() {
       var cells = board.querySelectorAll(".bm-step");
       Array.prototype.forEach.call(cells, function (cell) {

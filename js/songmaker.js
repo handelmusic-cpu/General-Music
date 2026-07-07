@@ -66,11 +66,17 @@
     }});
     container.appendChild(el("div.control-row", { style: "justify-content:center" }, playBtn, clearBtn));
 
+    // ---- Save My Song (Magic Link) --------------------------------------
+    container.appendChild(el("div.card", null,
+      App.shareControl({ label: "🔗 Save My Song", hashId: "songmaker", key: "song", thing: "song", getValue: encodeState })
+    ));
+
     container.appendChild(el("div.card", null,
       el("p.hint", { text: "Tip: try tapping a few squares in a staircase going up — then press Play and listen to your melody climb!" })
     ));
 
     drawGrid();
+    loadFromLink();
 
     // ---------------------------------------------------------------------
     // Rows are drawn top (highest pitch) to bottom (lowest), like a staff.
@@ -149,6 +155,42 @@
       playBtn.classList.add("btn--play"); playBtn.classList.remove("btn--stop");
       var cells = gridEl.querySelectorAll(".col-playing");
       Array.prototype.forEach.call(cells, function (cell) { cell.classList.remove("col-playing"); });
+    }
+
+    // ---- Magic Link encode / decode -------------------------------------
+    // Format: "<scale><voiceIdx>-<tempo>-<gridHex>", e.g. "P0-120-a1b2…"
+    function encodeState() {
+      var scaleCode = state.scale === "Pentatonic" ? "P" : "M";
+      var voiceIdx = Object.keys(VOICES).indexOf(state.voice);
+      var bits = "";
+      for (var r = 0; r < state.rows.length; r++) {
+        for (var c = 0; c < COLS; c++) bits += state.grid[r][c] ? "1" : "0";
+      }
+      return scaleCode + voiceIdx + "-" + state.tempo + "-" + App.bitsToHex(bits);
+    }
+
+    function loadFromLink() {
+      var code = App.consumeParam("song");
+      if (!code) return;
+      var parts = code.split("-");
+      if (parts.length < 3) return;
+      var scaleCode = parts[0].charAt(0);
+      var voiceIdx = parseInt(parts[0].charAt(1), 10) || 0;
+      state.scale = scaleCode === "M" ? "Major" : "Pentatonic";
+      state.rows = SCALES[state.scale];
+      state.tempo = Math.min(180, Math.max(60, parseInt(parts[1], 10) || 120));
+      state.voice = Object.keys(VOICES)[voiceIdx] || "Bells";
+      state.grid = blankGrid();
+      var bits = App.hexToBits(parts[2], state.rows.length * COLS);
+      var i = 0;
+      for (var r = 0; r < state.rows.length; r++) {
+        for (var c = 0; c < COLS; c++) state.grid[r][c] = bits.charAt(i++) === "1";
+      }
+      // Refresh the controls to match the loaded creation.
+      tempo.value = state.tempo; tempoVal.textContent = state.tempo;
+      syncPills(scaleGroup, state.scale);
+      syncPills(voiceGroup, state.voice);
+      drawGrid();
     }
 
     function pillGroup(labels, active, onpick) {

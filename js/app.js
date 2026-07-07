@@ -128,10 +128,85 @@ window.App = (function () {
     routeFromHash();
   }
 
+  // ---- "Magic Link" sharing helpers -----------------------------------
+  // Creations are encoded into a URL query param (?key=...) so a shared link
+  // reopens the exact grid — no server needed, perfect for static hosting.
+
+  function readParam(key) {
+    try { return new URLSearchParams(location.search).get(key); }
+    catch (e) { return null; }
+  }
+
+  // Read a param, then strip it from the address bar so navigating away and
+  // back doesn't keep reloading the shared creation over the student's edits.
+  function consumeParam(key) {
+    var params;
+    try { params = new URLSearchParams(location.search); } catch (e) { return null; }
+    if (!params.has(key)) return null;
+    var value = params.get(key);
+    params.delete(key);
+    var s = params.toString();
+    history.replaceState(null, "", location.pathname + (s ? "?" + s : "") + location.hash);
+    return value;
+  }
+
+  function shareUrl(hashId, key, value) {
+    return location.origin + location.pathname + "?" + key + "=" + encodeURIComponent(value) + "#" + hashId;
+  }
+
+  // Pack/unpack a "010110…" bit string as compact hex for short URLs.
+  function bitsToHex(bits) {
+    var hex = "";
+    for (var i = 0; i < bits.length; i += 4) {
+      var chunk = bits.substr(i, 4);
+      while (chunk.length < 4) chunk += "0";
+      hex += parseInt(chunk, 2).toString(16);
+    }
+    return hex;
+  }
+  function hexToBits(hex, len) {
+    var bits = "";
+    for (var i = 0; i < hex.length; i++) {
+      var v = parseInt(hex.charAt(i), 16);
+      if (isNaN(v)) v = 0;
+      bits += ("000" + v.toString(2)).slice(-4);
+    }
+    while (bits.length < len) bits += "0";
+    return bits.slice(0, len);
+  }
+
+  // Build the "Save My …" button + a reveal box that copies the link.
+  // opts: { label, hashId, key, thing ("song"/"beat"), getValue: fn -> string }
+  function shareControl(opts) {
+    var box = el("div.share-box", { style: "display:none" });
+    var btn = el("button.btn.btn--blue", { html: opts.label, onclick: function () {
+      var url = shareUrl(opts.hashId, opts.key, opts.getValue());
+      box.style.display = "";
+      box.innerHTML = "";
+      box.appendChild(el("div.share-msg", {
+        html: "✨ Ta-da! Here's your <b>Magic Link</b> — it's copied! Paste it in a message, or open it later to hear your " + opts.thing + " again."
+      }));
+      var input = el("input.share-input", { type: "text", value: url, readonly: "readonly", "aria-label": "Your magic link" });
+      input.addEventListener("focus", function () { input.select(); });
+      box.appendChild(input);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).catch(function () {});
+      }
+      setTimeout(function () { input.focus(); input.select(); }, 30);
+    }});
+    return el("div", null, btn, box);
+  }
+
   return {
     register: register,
     start: start,
     el: el,
-    goHome: goHome
+    goHome: goHome,
+    readParam: readParam,
+    consumeParam: consumeParam,
+    shareUrl: shareUrl,
+    bitsToHex: bitsToHex,
+    hexToBits: hexToBits,
+    shareControl: shareControl
   };
 })();
