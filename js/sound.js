@@ -77,6 +77,35 @@ window.Sound = (function () {
     osc.stop(when + dur + 0.02);
   }
 
+  // A burst of filtered white noise — the backbone of snare/hi-hat/clap sounds.
+  // flavor: "hat" (bright/short), "snare" (mid), "clap" (mid, softer).
+  function noise(when, dur, peak, flavor) {
+    var c = ac();
+    when = when || c.currentTime;
+    dur = dur || 0.1;
+    peak = peak == null ? 0.3 : peak;
+    var n = Math.max(1, Math.floor(c.sampleRate * dur));
+    var buf = c.createBuffer(1, n, c.sampleRate);
+    var data = buf.getChannelData(0);
+    for (var i = 0; i < n; i++) data[i] = Math.random() * 2 - 1;
+    var src = c.createBufferSource();
+    src.buffer = buf;
+    var gain = c.createGain();
+    gain.gain.setValueAtTime(peak, when);
+    gain.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+    if (flavor === "hat" || flavor === "snare" || flavor === "clap") {
+      var hp = c.createBiquadFilter();
+      hp.type = "highpass";
+      hp.frequency.value = flavor === "hat" ? 7000 : 1400;
+      src.connect(hp); hp.connect(gain);
+    } else {
+      src.connect(gain);
+    }
+    gain.connect(c.destination);
+    src.start(when);
+    src.stop(when + dur + 0.02);
+  }
+
   // Note name (e.g. "C4") -> frequency in Hz, so the staff can sing pitches.
   var SEMITONES = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
   function noteFreq(name) {
@@ -117,6 +146,7 @@ window.Sound = (function () {
     click: click,
     tone: tone,
     perc: perc,
+    noise: noise,
     playNote: playNote,
     playMelody: playMelody,
     noteFreq: noteFreq,
