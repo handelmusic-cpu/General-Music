@@ -126,6 +126,74 @@ window.App = (function () {
 
     window.addEventListener("hashchange", routeFromHash);
     routeFromHash();
+
+    initInstallBanner();
+  }
+
+  // ---- "Add to Home Screen" banner --------------------------------------
+  // Chromebooks/Android/desktop Chrome fire beforeinstallprompt, so we can
+  // trigger the real install flow. iPad Safari has no such event, so we show
+  // simple manual instructions instead. Dismissal is remembered so it
+  // doesn't nag on every visit.
+  var DISMISS_KEY = "mp_install_dismissed_v1";
+  var deferredInstallPrompt = null;
+
+  function isStandalone() {
+    return (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) ||
+      window.navigator.standalone === true;
+  }
+  function isIOS() {
+    return /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  }
+
+  function initInstallBanner() {
+    if (isStandalone()) return;
+    var dismissed = false;
+    try { dismissed = !!localStorage.getItem(DISMISS_KEY); } catch (e) {}
+    if (dismissed) return;
+
+    var banner = null;
+
+    function showBanner(mode) {
+      if (banner) return;
+      banner = el("div.install-banner", null,
+        el("span.install-banner__icon", { text: "📲" }),
+        el("div.install-banner__text", null,
+          el("b", { text: "Add Music Playground to your Home Screen!" }),
+          el("span", { text: mode === "ios"
+            ? " Tap the Share icon below, then \"Add to Home Screen.\""
+            : " One tap to open, and it works offline too." })
+        ),
+        mode === "prompt" ? el("button.install-banner__btn", { text: "Install", onclick: doInstall }) : null,
+        el("button.install-banner__close", { text: "✕", "aria-label": "Dismiss", onclick: dismissBanner })
+      );
+      document.body.appendChild(banner);
+    }
+
+    function dismissBanner() {
+      if (banner) { banner.remove(); banner = null; }
+      try { localStorage.setItem(DISMISS_KEY, "1"); } catch (e) {}
+    }
+
+    function doInstall() {
+      if (!deferredInstallPrompt) return;
+      deferredInstallPrompt.prompt();
+      deferredInstallPrompt.userChoice.finally(function () {
+        deferredInstallPrompt = null;
+        dismissBanner();
+      });
+    }
+
+    window.addEventListener("beforeinstallprompt", function (e) {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      showBanner("prompt");
+    });
+
+    if (isIOS()) {
+      setTimeout(function () { showBanner("ios"); }, 1500);
+    }
   }
 
   // ---- "Magic Link" sharing helpers -----------------------------------
