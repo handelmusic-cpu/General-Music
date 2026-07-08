@@ -6,13 +6,42 @@
    ========================================================================== */
 
 (function () {
+  // Hand-drawn SVG note icons rather than Unicode music characters ("♩♫♬𝄽")
+  // — those glyphs render inconsistently (or as a missing-tofu box, as with
+  // the quarter rest) depending on the device's installed fonts. These are
+  // plain vector shapes, so they look identical and correct everywhere.
+  var NOTEHEAD = '<ellipse cx="{cx}" cy="82" rx="{r}" ry="{ry}" fill="#2b2140" transform="rotate(-18 {cx} 82)"/>';
+  var STEM = '<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="#2b2140"/>';
+  function tpl(s, vals) { return s.replace(/\{(\w+)\}/g, function (_, k) { return vals[k]; }); }
+
+  var ICONS = {
+    quarter: '<svg viewBox="0 0 40 96" class="rnote-svg">' +
+      tpl(NOTEHEAD, { cx: 16, r: 14, ry: 10.5 }) +
+      tpl(STEM, { x: 27, y: 14, w: 6, h: 70 }) +
+      '</svg>',
+    eighths: '<svg viewBox="0 0 106 96" class="rnote-svg">' +
+      tpl(NOTEHEAD, { cx: 16, r: 14, ry: 10.5 }) + tpl(STEM, { x: 27, y: 20, w: 6, h: 64 }) +
+      tpl(NOTEHEAD, { cx: 76, r: 14, ry: 10.5 }) + tpl(STEM, { x: 87, y: 20, w: 6, h: 64 }) +
+      tpl(STEM, { x: 27, y: 20, w: 66, h: 10 }) + // flat beam joining both stems
+      '</svg>',
+    sixteenths: '<svg viewBox="0 0 180 96" class="rnote-svg">' +
+      [16, 62, 108, 154].map(function (cx) {
+        return tpl(NOTEHEAD, { cx: cx, r: 13, ry: 9.5 }) + tpl(STEM, { x: cx + 10, y: 16, w: 5.5, h: 66 });
+      }).join("") +
+      tpl(STEM, { x: 26, y: 16, w: 143.5, h: 9 }) + tpl(STEM, { x: 26, y: 29, w: 143.5, h: 9 }) + // double flat beam
+      '</svg>',
+    rest: '<svg viewBox="0 0 40 70" class="rnote-svg">' +
+      '<path d="M 26,6 C 30,12 20,16 24,22 L 8,36 L 28,46 L 10,58 C 6,62 8,66 14,64" ' +
+      'fill="none" stroke="#2b2140" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '</svg>'
+  };
+
   // One beat's worth of rhythm. hits = onset positions within the beat (0–1).
   var VALUES = {
-    quarter:   { glyph: "♩",       syl: "ta",           hits: [0] },
-    eighths:   { glyph: "♫",       syl: "ti-ti",        hits: [0, 0.5] },
-    sixteenths:{ glyph: "♬♬", syl: "ti-ka-ti-ka",  hits: [0, .25, .5, .75] },
-    tiri:      { glyph: "♩♪", syl: "ta  ti",       hits: [0, 0.5] }, // shown as quarter+eighth feel
-    rest:      { glyph: "𝄽", syl: "sh",           hits: [] }
+    quarter:    { icon: ICONS.quarter,    syl: "ta",          hits: [0] },
+    eighths:    { icon: ICONS.eighths,    syl: "ti-ti",       hits: [0, 0.5] },
+    sixteenths: { icon: ICONS.sixteenths, syl: "ti-ka-ti-ka", hits: [0, .25, .5, .75] },
+    rest:       { icon: ICONS.rest,       syl: "sh",          hits: [] }
   };
   var LEVELS = {
     "Easy":   ["quarter", "quarter", "eighths", "rest"],
@@ -81,7 +110,7 @@
       state.card.forEach(function (id, i) {
         var v = VALUES[id];
         var cell = el("div.rbeat", null,
-          el("div.glyph", { text: v.glyph }),
+          el("div.glyph", { html: v.icon }),
           el("div.syl", { text: v.syl })
         );
         cell.dataset.i = i;

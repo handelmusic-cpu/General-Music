@@ -45,6 +45,26 @@
     return n;
   }
 
+  // Hand-drawn bass clef (hook + two dots straddling the F line). Drawn as
+  // pure vector shapes rather than the Unicode "𝄢" character, whose glyph
+  // proportions vary unpredictably across fonts/browsers — this guarantees
+  // the dots always land exactly on the F line everywhere.
+  function bassClefGroup(x0, fY, gap) {
+    var ox = x0 + 1.333 * gap;
+    function px(mx) { return ox + mx * gap; }
+    function py(my) { return fY + my * gap; }
+    var d = "M " + px(-0.083) + "," + py(-1.25) +
+      " C " + px(0.917) + "," + py(-1.25) + " " + px(1.5) + "," + py(-0.583) + " " + px(1.5) + "," + py(0.167) +
+      " C " + px(1.5) + "," + py(1.0) + " " + px(0.833) + "," + py(1.667) + " " + px(-0.167) + "," + py(1.75) +
+      " C " + px(-1.0) + "," + py(1.8125) + " " + px(-1.417) + "," + py(1.333) + " " + px(-1.25) + "," + py(0.833);
+    var g = svgEl("g", {});
+    g.appendChild(svgEl("path", { d: d, fill: "none", stroke: "#2b2140",
+      "stroke-width": gap * 0.396, "stroke-linecap": "round" }));
+    g.appendChild(svgEl("circle", { cx: px(2.0), cy: py(-0.375), r: gap * 0.229, fill: "#2b2140" }));
+    g.appendChild(svgEl("circle", { cx: px(2.0), cy: py(0.625), r: gap * 0.229, fill: "#2b2140" }));
+    return g;
+  }
+
   function render(container, h) {
     var el = h.el;
     var state = { clef: "treble", mode: "explore", showLabels: false,
@@ -144,11 +164,15 @@
           stroke: "#2b2140", "stroke-width": 3, "stroke-linecap": "round" }));
       });
 
-      var baseline = clefBaseline(clef.glyph, clef.glyphSize, Y[clef.anchorIdx], clef.anchorFrac);
-      var clefText = svgEl("text", { x: 66, y: baseline, "font-size": clef.glyphSize,
-        fill: "#2b2140", "font-family": "serif" });
-      clefText.textContent = clef.glyph;
-      svg.appendChild(clefText);
+      if (state.clef === "bass") {
+        svg.appendChild(bassClefGroup(x0, Y[clef.anchorIdx], 24));
+      } else {
+        var baseline = clefBaseline(clef.glyph, clef.glyphSize, Y[clef.anchorIdx], clef.anchorFrac);
+        var clefText = svgEl("text", { x: 66, y: baseline, "font-size": clef.glyphSize,
+          fill: "#2b2140", "font-family": "serif" });
+        clefText.textContent = clef.glyph;
+        svg.appendChild(clefText);
+      }
 
       // Labels only make sense in Explore (would give away the Quiz answer).
       if (state.mode === "explore" && state.showLabels) {

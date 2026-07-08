@@ -510,7 +510,8 @@ input[type="range"]::-moz-range-thumb {
 .rhythm-beats { display: flex; justify-content: center; gap: 4px; flex-wrap: wrap; margin: 8px 0 4px; }
 .rbeat { min-width: 84px; padding: 6px 4px; border-radius: 14px; }
 .rbeat.hit { background: var(--yellow); }
-.rbeat .glyph { font-size: clamp(40px, 10vw, 64px); font-family: serif; line-height: 1.1; }
+.rbeat .glyph { display: flex; align-items: flex-end; justify-content: center; min-height: clamp(40px, 10vw, 64px); }
+.rbeat .glyph .rnote-svg { height: clamp(40px, 10vw, 64px); width: auto; display: block; }
 .rbeat .syl { font-family: var(--font-round); font-weight: 800; color: var(--ink-soft); font-size: 15px; }
 .barline { width: 4px; align-self: stretch; background: var(--ink); border-radius: 2px; margin: 0 4px; }
 
