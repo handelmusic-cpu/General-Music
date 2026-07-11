@@ -67,8 +67,17 @@ window.App = (function () {
     );
   }
 
+  // Fire one custom event per activity/Home view. Guarded so a blocked or
+  // slow-to-load analytics script can never break navigation.
+  function trackView(id, title) {
+    try {
+      if (window.posthog) posthog.capture("activity_opened", { activity: id || "home", title: title || "Home" });
+    } catch (e) {}
+  }
+
   function renderHome() {
     clearView();
+    trackView("home", "Home");
     var hero = el("div.hero", null,
       el("h1", { html: 'Welcome to the <span class="wave">Music Playground</span>!' }),
       el("p", { text: "Pick an activity below. Everything works with a tap — perfect for iPads, Chromebooks, and the classroom projector." })
@@ -97,6 +106,7 @@ window.App = (function () {
     if (!act) return goHome();
     location.hash = id;
     clearView();
+    trackView(id, act.title);
     // activity.render(container, helpers) may return a teardown function
     current = act.render(view, { el: el, pageHead: pageHead, goHome: goHome }) || null;
     window.scrollTo(0, 0);
