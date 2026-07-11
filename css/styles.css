@@ -547,10 +547,11 @@ input[type="range"]::-moz-range-thumb {
 }
 .orch-section-head:first-of-type { margin-top: 6px; }
 .orch-section-emoji {
-  font-size: 26px; width: 46px; height: 46px; border-radius: 14px;
+  width: 46px; height: 46px; border-radius: 14px; flex: none;
   display: flex; align-items: center; justify-content: center;
   background: var(--sc, var(--sky)); box-shadow: var(--shadow-sm);
 }
+.orch-section-emoji .orch-svg { width: 24px; height: 24px; }
 .orch-section-head h3 { margin: 0; font-family: var(--font-round); font-size: clamp(20px, 3.4vw, 26px); color: var(--sc, var(--ink)); }
 .orch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
 .orch-card {
@@ -561,8 +562,11 @@ input[type="range"]::-moz-range-thumb {
 .orch-card:active { transform: translateY(3px); }
 .orch-card.flash { animation: orchflash .3s ease; }
 @keyframes orchflash { 40% { transform: scale(1.06); background: var(--cream); } }
-.orch-emoji { font-size: 34px; }
+.orch-icon { display: flex; align-items: flex-end; justify-content: center; height: 56px; }
+.orch-icon .orch-svg { height: 100%; width: auto; max-width: 64px; }
 .orch-name { font-family: var(--font-round); font-weight: 800; font-size: 14.5px; color: var(--ink); text-align: center; }
+.orch-credit { text-align: center; color: var(--ink-soft); font-size: 12.5px; font-weight: 600; margin-top: 18px; }
+.orch-credit a { color: var(--ink-soft); }
 
 /* --------------------------- Composer Spotlight --------------------------- */
 .composer-timeline { padding: 10px 4px 0; }

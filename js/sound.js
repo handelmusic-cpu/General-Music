@@ -106,6 +106,37 @@ window.Sound = (function () {
     src.stop(when + dur + 0.02);
   }
 
+  // Load + decode an audio file once and cache the result, so real recorded
+  // samples (e.g. orchestra instrument notes) can be played back like any
+  // other sound. Returns a Promise<AudioBuffer>.
+  var bufferCache = {};
+  function loadBuffer(url) {
+    if (bufferCache[url]) return bufferCache[url];
+    var p = fetch(url)
+      .then(function (res) { return res.arrayBuffer(); })
+      .then(function (data) {
+        return new Promise(function (resolve, reject) {
+          // decodeAudioData's callback form is the widest-compatible signature.
+          ac().decodeAudioData(data, resolve, reject);
+        });
+      });
+    bufferCache[url] = p;
+    return p;
+  }
+
+  function playBuffer(buffer, when, peak) {
+    var c = ac();
+    when = when || c.currentTime;
+    peak = peak == null ? 1 : peak;
+    var src = c.createBufferSource();
+    src.buffer = buffer;
+    var gain = c.createGain();
+    gain.gain.value = peak;
+    src.connect(gain).connect(c.destination);
+    src.start(when);
+    return src;
+  }
+
   // Note name (e.g. "C4") -> frequency in Hz, so the staff can sing pitches.
   var SEMITONES = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
   function noteFreq(name) {
@@ -147,6 +178,8 @@ window.Sound = (function () {
     tone: tone,
     perc: perc,
     noise: noise,
+    loadBuffer: loadBuffer,
+    playBuffer: playBuffer,
     playNote: playNote,
     playMelody: playMelody,
     noteFreq: noteFreq,

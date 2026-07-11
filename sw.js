@@ -5,7 +5,7 @@
    deploy that changes file contents so old caches are cleared out.
    ========================================================================== */
 
-var CACHE_NAME = "music-playground-v1";
+var CACHE_NAME = "music-playground-v2";
 
 var PRECACHE_URLS = [
   "./",
@@ -35,7 +35,23 @@ var PRECACHE_URLS = [
   "./icons/icon-512.png",
   "./icons/icon-maskable-192.png",
   "./icons/icon-maskable-512.png",
-  "./icons/apple-touch-icon.png"
+  "./icons/apple-touch-icon.png",
+  "./audio/instruments/violin.mp3",
+  "./audio/instruments/viola.mp3",
+  "./audio/instruments/cello.mp3",
+  "./audio/instruments/double-bass.mp3",
+  "./audio/instruments/flute.mp3",
+  "./audio/instruments/clarinet.mp3",
+  "./audio/instruments/oboe.mp3",
+  "./audio/instruments/bassoon.mp3",
+  "./audio/instruments/saxophone.mp3",
+  "./audio/instruments/trumpet.mp3",
+  "./audio/instruments/french-horn.mp3",
+  "./audio/instruments/trombone.mp3",
+  "./audio/instruments/tuba.mp3",
+  "./audio/instruments/snare-drum.mp3",
+  "./audio/instruments/bass-drum.mp3",
+  "./audio/instruments/cymbals.mp3"
 ];
 
 self.addEventListener("install", function (event) {
