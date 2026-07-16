@@ -26,7 +26,7 @@
       "Tap the squares to build a beat — the band plays along when you press Play!"));
 
     var tempoVal = el("b", { text: state.tempo + "" });
-    var tempo = el("input", { type: "range", min: "60", max: "168", value: state.tempo + "", "aria-label": "Tempo",
+    var tempo = el("input", { type: "range", min: "20", max: "500", value: state.tempo + "", "aria-label": "Tempo",
       oninput: function () { state.tempo = +tempo.value; tempoVal.textContent = tempo.value; } });
     container.appendChild(el("div.card", null,
       el("div.control-row", null, el("label.slider", null, el("span", { text: "🐢 Tempo " }), tempo,
@@ -100,7 +100,7 @@
       if (!code) return;
       var parts = code.split("-");
       if (parts.length < 2) return;
-      state.tempo = Math.min(168, Math.max(60, parseInt(parts[0], 10) || 100));
+      state.tempo = Math.min(500, Math.max(20, parseInt(parts[0], 10) || 100));
       var bits = App.hexToBits(parts[1], KIT.length * STEPS);
       var i = 0;
       state.grid = KIT.map(function () { return new Array(STEPS).fill(false); });

@@ -47,7 +47,7 @@
     // ---- Controls: tempo -------------------------------------------------
     var tempoVal = el("b", { text: state.tempo + "" });
     var tempo = el("input", {
-      type: "range", min: "50", max: "160", value: state.tempo + "",
+      type: "range", min: "20", max: "500", value: state.tempo + "",
       "aria-label": "Tempo",
       oninput: function () { state.tempo = +tempo.value; tempoVal.textContent = tempo.value; }
     });
