@@ -42,7 +42,7 @@
     var voiceGroup = pillGroup(Object.keys(VOICES), state.voice, function (v) { state.voice = v; });
 
     var tempoVal = el("b", { text: state.tempo + "" });
-    var tempo = el("input", { type: "range", min: "60", max: "180", value: state.tempo + "", "aria-label": "Tempo",
+    var tempo = el("input", { type: "range", min: "20", max: "500", value: state.tempo + "", "aria-label": "Tempo",
       oninput: function () { state.tempo = +tempo.value; tempoVal.textContent = tempo.value; } });
 
     container.appendChild(el("div.card", null,
@@ -178,7 +178,7 @@
       var voiceIdx = parseInt(parts[0].charAt(1), 10) || 0;
       state.scale = scaleCode === "M" ? "Major" : "Pentatonic";
       state.rows = SCALES[state.scale];
-      state.tempo = Math.min(180, Math.max(60, parseInt(parts[1], 10) || 120));
+      state.tempo = Math.min(500, Math.max(20, parseInt(parts[1], 10) || 120));
       state.voice = Object.keys(VOICES)[voiceIdx] || "Bells";
       state.grid = blankGrid();
       var bits = App.hexToBits(parts[2], state.rows.length * COLS);

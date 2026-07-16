@@ -67,7 +67,7 @@
       levelGroup.appendChild(p);
     });
     var tempoVal = el("b", { text: state.tempo + "" });
-    var tempo = el("input", { type: "range", min: "50", max: "140", value: state.tempo + "", "aria-label": "Tempo",
+    var tempo = el("input", { type: "range", min: "20", max: "500", value: state.tempo + "", "aria-label": "Tempo",
       oninput: function () { state.tempo = +tempo.value; tempoVal.textContent = tempo.value; } });
     container.appendChild(el("div.card", null,
       el("div.control-row", null, el("span.hint", { text: "Level:" }), levelGroup),

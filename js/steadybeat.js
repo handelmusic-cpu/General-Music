@@ -15,7 +15,7 @@
 
     // Tempo + meter controls
     var tempoVal = el("b", { text: state.tempo + "" });
-    var tempo = el("input", { type: "range", min: "40", max: "160", value: state.tempo + "", "aria-label": "Tempo",
+    var tempo = el("input", { type: "range", min: "20", max: "500", value: state.tempo + "", "aria-label": "Tempo",
       oninput: function () { state.tempo = +tempo.value; tempoVal.textContent = tempo.value; } });
     var meterGroup = el("div.pill-group");
     [2, 3, 4, 6].forEach(function (n) {
