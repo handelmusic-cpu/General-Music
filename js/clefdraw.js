@@ -8,29 +8,19 @@
 (function () {
   var COLORS = ["#ff5da2", "#ff7a59", "#ffab3d", "#7ed957", "#38bdf8", "#a06bff", "#2b2140"];
 
-  // Hand-drawn bass clef guide (hook + two dots straddling the F line), drawn
-  // as pure Canvas paths rather than the Unicode "𝄢" character — glyph
-  // proportions for that character vary unpredictably across fonts/browsers,
-  // so this guarantees the dots always land exactly on the F line for every
-  // student, regardless of device.
-  function drawBassClefGuide(ctx, x0, fY, gap, alpha) {
-    var ox = x0 + 1.333 * gap;
-    function px(mx) { return ox + mx * gap; }
-    function py(my) { return fY + my * gap; }
+  // Draws a clef glyph so its notation anchor (the treble spiral's belly, or
+  // the bass clef's two dots) lands exactly on targetY, regardless of the
+  // font's own internal padding.
+  function drawClefGlyph(ctx, glyph, size, frac, x, targetY, alpha) {
     ctx.save();
     ctx.globalAlpha = alpha;
-    ctx.strokeStyle = "#2b2140";
     ctx.fillStyle = "#2b2140";
-    ctx.lineCap = "round";
-    ctx.lineWidth = gap * 0.396;
-    ctx.beginPath();
-    ctx.moveTo(px(-0.083), py(-1.25));
-    ctx.bezierCurveTo(px(0.917), py(-1.25), px(1.5), py(-0.583), px(1.5), py(0.167));
-    ctx.bezierCurveTo(px(1.5), py(1.0), px(0.833), py(1.667), px(-0.167), py(1.75));
-    ctx.bezierCurveTo(px(-1.0), py(1.8125), px(-1.417), py(1.333), px(-1.25), py(0.833));
-    ctx.stroke();
-    ctx.beginPath(); ctx.arc(px(2.0), py(-0.375), gap * 0.229, 0, Math.PI * 2); ctx.fill();
-    ctx.beginPath(); ctx.arc(px(2.0), py(0.625), gap * 0.229, 0, Math.PI * 2); ctx.fill();
+    ctx.textBaseline = "alphabetic";
+    ctx.font = size + "px serif";
+    var m = ctx.measureText(glyph);
+    var asc = m.actualBoundingBoxAscent, desc = m.actualBoundingBoxDescent;
+    var baseline = (asc && desc) ? (targetY + asc - frac * (asc + desc)) : (targetY + size * 0.16);
+    ctx.fillText(glyph, x, baseline);
     ctx.restore();
   }
 
@@ -140,22 +130,9 @@
 
       if (state.showGuide) {
         if (state.clef === "bass") {
-          drawBassClefGuide(ctx, 70, fLineY, gap, 0.16);
+          drawClefGlyph(ctx, "𝄢", 235, 0.24, 96, fLineY, 0.16);
         } else {
-          ctx.save();
-          ctx.globalAlpha = 0.16;
-          ctx.fillStyle = "#2b2140";
-          ctx.textBaseline = "alphabetic";
-          var size = 360;
-          // "frac" = where the clef's anchor (the spiral belly, ~62% down its
-          // own bounding box) sits, measured from the actual rendered glyph.
-          var frac = 0.62;
-          ctx.font = size + "px serif";
-          var m = ctx.measureText("𝄞");
-          var asc = m.actualBoundingBoxAscent, desc = m.actualBoundingBoxDescent;
-          var baseline = (asc && desc) ? (gLineY + asc - frac * (asc + desc)) : (gLineY + size * 0.16);
-          ctx.fillText("𝄞", 96, baseline);
-          ctx.restore();
+          drawClefGlyph(ctx, "𝄞", 360, 0.62, 96, gLineY, 0.16);
         }
       }
     }
