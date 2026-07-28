@@ -45,23 +45,41 @@
     return n;
   }
 
-  // Hand-drawn bass clef (hook + two dots straddling the F line). Drawn as
-  // pure vector shapes rather than the Unicode "𝄢" character, whose glyph
-  // proportions vary unpredictably across fonts/browsers — this guarantees
-  // the dots always land exactly on the F line everywhere.
+  // Hand-drawn bass clef (loop + tapering tail + two dots straddling the F
+  // line). Drawn as pure vector shapes rather than the Unicode "𝄢"
+  // character, whose glyph proportions vary unpredictably across
+  // fonts/browsers — this guarantees the dots always land exactly on the F
+  // line everywhere.
   function bassClefGroup(x0, fY, gap) {
-    var ox = x0 + 1.333 * gap;
+    var ox = x0 + 1.3 * gap;
     function px(mx) { return ox + mx * gap; }
     function py(my) { return fY + my * gap; }
-    var d = "M " + px(-0.083) + "," + py(-1.25) +
-      " C " + px(0.917) + "," + py(-1.25) + " " + px(1.5) + "," + py(-0.583) + " " + px(1.5) + "," + py(0.167) +
-      " C " + px(1.5) + "," + py(1.0) + " " + px(0.833) + "," + py(1.667) + " " + px(-0.167) + "," + py(1.75) +
-      " C " + px(-1.0) + "," + py(1.8125) + " " + px(-1.417) + "," + py(1.333) + " " + px(-1.25) + "," + py(0.833);
     var g = svgEl("g", {});
-    g.appendChild(svgEl("path", { d: d, fill: "none", stroke: "#2b2140",
-      "stroke-width": gap * 0.396, "stroke-linecap": "round" }));
-    g.appendChild(svgEl("circle", { cx: px(2.0), cy: py(-0.375), r: gap * 0.229, fill: "#2b2140" }));
-    g.appendChild(svgEl("circle", { cx: px(2.0), cy: py(0.625), r: gap * 0.229, fill: "#2b2140" }));
+
+    // Loop: a thick closed ring near the top line.
+    function circlePath(rad) {
+      return "M " + rad + ",0 A " + rad + "," + rad + " 0 1,1 " + (-rad) + ",0" +
+        " A " + rad + "," + rad + " 0 1,1 " + rad + ",0 Z";
+    }
+    var R = gap * 0.62, r = gap * 0.30;
+    var loopG = svgEl("g", { transform: "translate(" + px(0.55) + "," + py(-1.55) + ") rotate(-14.3) scale(1,1.15)" });
+    loopG.appendChild(svgEl("path", { d: circlePath(R) + " " + circlePath(r), "fill-rule": "evenodd", fill: "#2b2140" }));
+    g.appendChild(loopG);
+
+    // Tail: a tapering ribbon swooping from the loop down through the F
+    // line, curling to a point (like a comma's tail).
+    var d = "M " + px(1.05) + "," + py(-1.15) +
+      " C " + px(1.95) + "," + py(-0.75) + " " + px(2.05) + "," + py(0.35) + " " + px(1.35) + "," + py(1.05) +
+      " C " + px(0.95) + "," + py(1.44) + " " + px(0.40) + "," + py(1.62) + " " + px(-0.15) + "," + py(1.58) +
+      " C " + px(-0.45) + "," + py(1.56) + " " + px(-0.62) + "," + py(1.44) + " " + px(-0.60) + "," + py(1.30) +
+      " C " + px(-0.58) + "," + py(1.18) + " " + px(-0.40) + "," + py(1.14) + " " + px(-0.20) + "," + py(1.19) +
+      " C " + px(0.05) + "," + py(1.24) + " " + px(0.30) + "," + py(1.15) + " " + px(0.45) + "," + py(0.98) +
+      " C " + px(0.85) + "," + py(0.60) + " " + px(1.15) + "," + py(0.25) + " " + px(1.30) + "," + py(-0.15) +
+      " C " + px(1.45) + "," + py(-0.55) + " " + px(1.35) + "," + py(-0.90) + " " + px(0.85) + "," + py(-1.05) + " Z";
+    g.appendChild(svgEl("path", { d: d, fill: "#2b2140" }));
+
+    g.appendChild(svgEl("circle", { cx: px(2.35), cy: py(-0.45), r: gap * 0.13, fill: "#2b2140" }));
+    g.appendChild(svgEl("circle", { cx: px(2.35), cy: py(0.55), r: gap * 0.13, fill: "#2b2140" }));
     return g;
   }
 

@@ -8,29 +8,46 @@
 (function () {
   var COLORS = ["#ff5da2", "#ff7a59", "#ffab3d", "#7ed957", "#38bdf8", "#a06bff", "#2b2140"];
 
-  // Hand-drawn bass clef guide (hook + two dots straddling the F line), drawn
-  // as pure Canvas paths rather than the Unicode "𝄢" character — glyph
-  // proportions for that character vary unpredictably across fonts/browsers,
-  // so this guarantees the dots always land exactly on the F line for every
-  // student, regardless of device.
+  // Hand-drawn bass clef guide (loop + tapering tail + two dots straddling
+  // the F line), drawn as pure Canvas paths rather than the Unicode "𝄢"
+  // character — glyph proportions for that character vary unpredictably
+  // across fonts/browsers, so this guarantees the dots always land exactly
+  // on the F line for every student, regardless of device.
   function drawBassClefGuide(ctx, x0, fY, gap, alpha) {
-    var ox = x0 + 1.333 * gap;
+    var ox = x0 + 1.3 * gap;
     function px(mx) { return ox + mx * gap; }
     function py(my) { return fY + my * gap; }
     ctx.save();
     ctx.globalAlpha = alpha;
-    ctx.strokeStyle = "#2b2140";
     ctx.fillStyle = "#2b2140";
-    ctx.lineCap = "round";
-    ctx.lineWidth = gap * 0.396;
+
+    // Loop: a thick closed ring near the top line.
+    ctx.save();
+    ctx.translate(px(0.55), py(-1.55));
+    ctx.rotate(-0.25);
+    ctx.scale(1.0, 1.15);
     ctx.beginPath();
-    ctx.moveTo(px(-0.083), py(-1.25));
-    ctx.bezierCurveTo(px(0.917), py(-1.25), px(1.5), py(-0.583), px(1.5), py(0.167));
-    ctx.bezierCurveTo(px(1.5), py(1.0), px(0.833), py(1.667), px(-0.167), py(1.75));
-    ctx.bezierCurveTo(px(-1.0), py(1.8125), px(-1.417), py(1.333), px(-1.25), py(0.833));
-    ctx.stroke();
-    ctx.beginPath(); ctx.arc(px(2.0), py(-0.375), gap * 0.229, 0, Math.PI * 2); ctx.fill();
-    ctx.beginPath(); ctx.arc(px(2.0), py(0.625), gap * 0.229, 0, Math.PI * 2); ctx.fill();
+    ctx.arc(0, 0, gap * 0.62, 0, Math.PI * 2);
+    ctx.arc(0, 0, gap * 0.30, 0, Math.PI * 2, true);
+    ctx.fill("evenodd");
+    ctx.restore();
+
+    // Tail: a tapering ribbon swooping from the loop down through the F
+    // line, curling to a point (like a comma's tail).
+    ctx.beginPath();
+    ctx.moveTo(px(1.05), py(-1.15));
+    ctx.bezierCurveTo(px(1.95), py(-0.75), px(2.05), py(0.35), px(1.35), py(1.05));
+    ctx.bezierCurveTo(px(0.95), py(1.44), px(0.40), py(1.62), px(-0.15), py(1.58));
+    ctx.bezierCurveTo(px(-0.45), py(1.56), px(-0.62), py(1.44), px(-0.60), py(1.30));
+    ctx.bezierCurveTo(px(-0.58), py(1.18), px(-0.40), py(1.14), px(-0.20), py(1.19));
+    ctx.bezierCurveTo(px(0.05), py(1.24), px(0.30), py(1.15), px(0.45), py(0.98));
+    ctx.bezierCurveTo(px(0.85), py(0.60), px(1.15), py(0.25), px(1.30), py(-0.15));
+    ctx.bezierCurveTo(px(1.45), py(-0.55), px(1.35), py(-0.90), px(0.85), py(-1.05));
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.beginPath(); ctx.arc(px(2.35), py(-0.45), gap * 0.13, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(px(2.35), py(0.55), gap * 0.13, 0, Math.PI * 2); ctx.fill();
     ctx.restore();
   }
 
