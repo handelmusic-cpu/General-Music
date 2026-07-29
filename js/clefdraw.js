@@ -8,19 +8,18 @@
 (function () {
   var COLORS = ["#ff5da2", "#ff7a59", "#ffab3d", "#7ed957", "#38bdf8", "#a06bff", "#2b2140"];
 
-  // Draws a clef glyph so its notation anchor (the treble spiral's belly, or
-  // the bass clef's two dots) lands exactly on targetY, regardless of the
-  // font's own internal padding.
-  function drawClefGlyph(ctx, glyph, size, frac, x, targetY, alpha) {
+  // Draws a clef outline anchored on the staff line it names — the F line for
+  // bass, the G line for treble. The outline's own origin is that line, so
+  // this is just a translate + scale, identical on every device.
+  function drawClef(ctx, shape, x, lineY, staffSpace, alpha) {
+    var path = Clefs.path2d(shape);
+    if (!path) return; // no Path2D support — staff still draws, just no guide
     ctx.save();
     ctx.globalAlpha = alpha;
     ctx.fillStyle = "#2b2140";
-    ctx.textBaseline = "alphabetic";
-    ctx.font = size + "px serif";
-    var m = ctx.measureText(glyph);
-    var asc = m.actualBoundingBoxAscent, desc = m.actualBoundingBoxDescent;
-    var baseline = (asc && desc) ? (targetY + asc - frac * (asc + desc)) : (targetY + size * 0.16);
-    ctx.fillText(glyph, x, baseline);
+    ctx.translate(x, lineY);
+    ctx.scale(staffSpace, staffSpace);
+    ctx.fill(path);
     ctx.restore();
   }
 
@@ -130,9 +129,9 @@
 
       if (state.showGuide) {
         if (state.clef === "bass") {
-          drawClefGlyph(ctx, "𝄢", 235, 0.24, 96, fLineY, 0.16);
+          drawClef(ctx, "bass", 96, fLineY, gap, 0.16);
         } else {
-          drawClefGlyph(ctx, "𝄞", 360, 0.62, 96, gLineY, 0.16);
+          drawClef(ctx, "treble", 96, gLineY, gap, 0.16);
         }
       }
     }
