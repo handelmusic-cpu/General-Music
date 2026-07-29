@@ -28,15 +28,17 @@
     }
   };
 
-  // Offscreen canvas so we can measure the clef glyph and align it to a line.
-  var measureCanvas = document.createElement("canvas");
-  var mctx = measureCanvas.getContext("2d");
-  function clefBaseline(glyph, size, targetY, frac) {
-    mctx.font = size + "px serif";
-    var m = mctx.measureText(glyph);
-    var asc = m.actualBoundingBoxAscent, desc = m.actualBoundingBoxDescent;
-    if (asc && desc) return targetY + asc - frac * (asc + desc);
-    return targetY + size * 0.16; // fallback if metrics are unavailable
+  // Nudges an already-rendered <text> glyph so the point "frac" of the way
+  // down its *actual* rendered ink (not a canvas-measured guess — canvas and
+  // SVG can resolve the same font-family to different fallback fonts for a
+  // rare glyph like this, which throws the position off on some browsers)
+  // lands exactly on targetY.
+  function alignClefGlyph(textEl, targetY, frac) {
+    var box = textEl.getBBox();
+    if (!box.height) return; // not laid out yet (e.g. detached) — leave as-is
+    var anchorY = box.y + frac * box.height;
+    var currentY = +textEl.getAttribute("y");
+    textEl.setAttribute("y", currentY + (targetY - anchorY));
   }
 
   function svgEl(name, attrs) {
@@ -134,7 +136,6 @@
     }
 
     function draw() {
-      wrap.innerHTML = "";
       var clef = CLEFS[state.clef];
       var W = 720, H = 300, x0 = 60, x1 = 680;
       var svg = svgEl("svg", { viewBox: "0 0 " + W + " " + H, class: "staff-svg", width: W });
@@ -144,11 +145,15 @@
           stroke: "#2b2140", "stroke-width": 3, "stroke-linecap": "round" }));
       });
 
-      var baseline = clefBaseline(clef.glyph, clef.glyphSize, Y[clef.anchorIdx], clef.anchorFrac);
-      var clefText = svgEl("text", { x: 66, y: baseline, "font-size": clef.glyphSize,
+      var clefText = svgEl("text", { x: 66, y: Y[clef.anchorIdx], "font-size": clef.glyphSize,
         fill: "#2b2140", "font-family": "serif" });
       clefText.textContent = clef.glyph;
       svg.appendChild(clefText);
+      // Attach to the live document now so getBBox() below measures the
+      // glyph's true rendered ink, then nudge it into exact alignment.
+      wrap.innerHTML = "";
+      wrap.appendChild(svg);
+      alignClefGlyph(clefText, Y[clef.anchorIdx], clef.anchorFrac);
 
       // Labels only make sense in Explore (would give away the Quiz answer).
       if (state.mode === "explore" && state.showLabels) {
@@ -185,8 +190,6 @@
           svg.appendChild(band);
         });
       }
-
-      wrap.appendChild(svg);
 
       mnemonicCard.innerHTML = "";
       mnemonicCard.appendChild(el("div.hint", { text: "Remember the names:" }));
