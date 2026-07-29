@@ -13,33 +13,24 @@
   // index 0 = top line (line 5) ... index 8 = bottom line (line 1).
   var Y = [90, 102, 114, 126, 138, 150, 162, 174, 186];
 
+  // Y alternates line, space, line, ... so adjacent slots are HALF a staff
+  // space apart; a full space (line to line) is twice that.
+  var STAFF_SPACE = 2 * (Y[1] - Y[0]);
+
   var CLEFS = {
     treble: {
-      glyph: "𝄞", glyphSize: 230, anchorIdx: 6, anchorFrac: 0.62, // spiral on the G line (2nd from bottom)
+      shape: "treble", anchorIdx: 6, // spiral wraps the G line (2nd from bottom)
       notes: ["F5", "E5", "D5", "C5", "B4", "A4", "G4", "F4", "E4"],
       lineMnemonic: "Every Good Boy Does Fine (E-G-B-D-F, bottom→top)",
       spaceMnemonic: "F-A-C-E (bottom→top) spells FACE"
     },
     bass: {
-      glyph: "𝄢", glyphSize: 150, anchorIdx: 2, anchorFrac: 0.24, // dots on the F line (2nd from top)
+      shape: "bass", anchorIdx: 2, // dots straddle the F line (2nd from top)
       notes: ["A3", "G3", "F3", "E3", "D3", "C3", "B2", "A2", "G2"],
       lineMnemonic: "Good Boys Do Fine Always (G-B-D-F-A, bottom→top)",
       spaceMnemonic: "All Cows Eat Grass (A-C-E-G, bottom→top)"
     }
   };
-
-  // Nudges an already-rendered <text> glyph so the point "frac" of the way
-  // down its *actual* rendered ink (not a canvas-measured guess — canvas and
-  // SVG can resolve the same font-family to different fallback fonts for a
-  // rare glyph like this, which throws the position off on some browsers)
-  // lands exactly on targetY.
-  function alignClefGlyph(textEl, targetY, frac) {
-    var box = textEl.getBBox();
-    if (!box.height) return; // not laid out yet (e.g. detached) — leave as-is
-    var anchorY = box.y + frac * box.height;
-    var currentY = +textEl.getAttribute("y");
-    textEl.setAttribute("y", currentY + (targetY - anchorY));
-  }
 
   function svgEl(name, attrs) {
     var n = document.createElementNS(SVGNS, name);
@@ -145,15 +136,12 @@
           stroke: "#2b2140", "stroke-width": 3, "stroke-linecap": "round" }));
       });
 
-      var clefText = svgEl("text", { x: 66, y: Y[clef.anchorIdx], "font-size": clef.glyphSize,
-        fill: "#2b2140", "font-family": "serif" });
-      clefText.textContent = clef.glyph;
-      svg.appendChild(clefText);
-      // Attach to the live document now so getBBox() below measures the
-      // glyph's true rendered ink, then nudge it into exact alignment.
-      wrap.innerHTML = "";
-      wrap.appendChild(svg);
-      alignClefGlyph(clefText, Y[clef.anchorIdx], clef.anchorFrac);
+      // The outline's origin sits on the line the clef names, so anchoring it
+      // is just a translate — no font measuring, identical on every device.
+      svg.appendChild(svgEl("path", {
+        d: Clefs[clef.shape].d, fill: "#2b2140",
+        transform: "translate(66," + Y[clef.anchorIdx] + ") scale(" + STAFF_SPACE + ")"
+      }));
 
       // Labels only make sense in Explore (would give away the Quiz answer).
       if (state.mode === "explore" && state.showLabels) {
@@ -190,6 +178,9 @@
           svg.appendChild(band);
         });
       }
+
+      wrap.innerHTML = "";
+      wrap.appendChild(svg);
 
       mnemonicCard.innerHTML = "";
       mnemonicCard.appendChild(el("div.hint", { text: "Remember the names:" }));
