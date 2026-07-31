@@ -1,17 +1,17 @@
 /* ==========================================================================
-   composers.js — Composer Spotlight (Bach, Mozart, Beethoven).
+   composers.js — Composer Spotlight.
    A timeline shows when each composer lived, and each card has kid-friendly
    facts, famous works, and — where we can play it with confidence — a short
    synthesized excerpt. Otherwise a "Find a recording" link goes deeper.
    ========================================================================== */
 
 (function () {
-  var TIMELINE_START = 1650, TIMELINE_END = 1850;
+  var TIMELINE_START = 1650, TIMELINE_END = 1950;
 
   function render(container, h) {
     var el = h.el;
     container.appendChild(h.pageHead("🎼", "Composer Spotlight",
-      "Meet three of history's most famous composers."));
+      "Meet many of history's most famous composers."));
 
     // ---- Timeline ----------------------------------------------------
     var timeline = el("div.composer-timeline");
@@ -78,7 +78,7 @@
     id: "composers",
     title: "Composer Spotlight",
     emoji: "🎼",
-    desc: "Meet Bach, Mozart & Beethoven.",
+    desc: "Meet Bach, Mozart, Beethoven & more.",
     color: "tile--gold",
     render: render
   });
