@@ -112,7 +112,12 @@ window.Sound = (function () {
   var bufferCache = {};
   function loadBuffer(url) {
     if (bufferCache[url]) return bufferCache[url];
-    var p = fetch(url)
+    // The single-file bundle (see build/bundle.js) inlines every sample as a
+    // data: URI in this map so the app works with no server at all, e.g.
+    // opened straight from disk. Normal deploys never set this global, so
+    // this is a no-op there.
+    var fetchUrl = (window.__EMBEDDED_AUDIO__ && window.__EMBEDDED_AUDIO__[url]) || url;
+    var p = fetch(fetchUrl)
       .then(function (res) { return res.arrayBuffer(); })
       .then(function (data) {
         return new Promise(function (resolve, reject) {

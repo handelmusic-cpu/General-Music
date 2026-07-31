@@ -5,7 +5,7 @@
    deploy that changes file contents so old caches are cleared out.
    ========================================================================== */
 
-var CACHE_NAME = "music-playground-v3";
+var CACHE_NAME = "music-playground-v4";
 
 var PRECACHE_URLS = [
   "./",
@@ -31,6 +31,7 @@ var PRECACHE_URLS = [
   "./js/songmaker.js",
   "./js/beatmaker.js",
   "./js/bells.js",
+  "./dist/music-playground.html",
   "./icons/favicon-32.png",
   "./icons/icon-192.png",
   "./icons/icon-512.png",

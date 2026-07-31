@@ -16,8 +16,22 @@ no installs, works offline.
 **On this Mac:** double-click `index.html` — it opens in your browser. That's it.
 
 **For sound:** the first tap on any button turns the sound on (browsers require a tap
-before playing audio). Everything is silent, offline-friendly synthesized sound — no
-downloads.
+before playing audio). Most sounds are synthesized; the Orchestra activity also plays
+real recorded instrument samples, fetched over HTTP the normal way.
+
+## Downloading a single offline file
+Click **⬇ Download an offline copy** in the footer of the app (or grab
+`dist/music-playground.html` directly). It's one file with everything baked in —
+styling, every activity, and all the recorded instrument samples — so it works by
+double-clicking it, with no server, no install, and no internet connection. Good for
+emailing to another teacher or keeping on a USB stick.
+
+That file is generated, not hand-edited. If you change anything in `css/`, `js/`, or
+`audio/`, regenerate it with:
+```
+node build/bundle.js
+```
+which writes `dist/music-playground.html` from the current source.
 
 ## Putting it on classroom iPads / Chromebooks
 Because it's just files, you can share it several easy ways:
