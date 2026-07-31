@@ -710,6 +710,38 @@ input[type="range"]::-moz-range-thumb {
   font-size: 16px; font-weight: 800; cursor: pointer; padding: 4px 6px;
 }
 
+/* ------------------------------- Quiz Mode -------------------------------- */
+.quiz-menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.quiz-cat-card { display: flex; flex-direction: column; gap: 8px; }
+.quiz-cat-head { display: flex; align-items: center; gap: 8px; }
+.quiz-cat-emoji { font-size: 28px; }
+.quiz-cat-head h3 { margin: 0; font-family: var(--font-round); font-size: 21px; }
+
+.quiz-progress-track { height: 10px; background: #e3ddef; border-radius: 999px; margin: 10px 0 14px; overflow: hidden; }
+.quiz-progress-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--purple)); border-radius: 999px; transition: width .25s ease; }
+
+.quiz-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 14px; }
+.quiz-option-btn {
+  border: none; border-radius: var(--radius-sm); padding: 16px 12px; cursor: pointer;
+  font-family: var(--font-round); font-weight: 800; font-size: 17px; color: var(--ink);
+  background: #fff; box-shadow: var(--shadow-sm); transition: transform .08s ease, filter .08s ease;
+}
+.quiz-option-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(43,33,64,.14); }
+.quiz-option-btn.is-correct { background: linear-gradient(150deg, #8be86a, var(--lime)); color: #fff; }
+.quiz-option-btn.is-wrong { background: linear-gradient(150deg, #ff8a8a, #ff5d5d); color: #fff; }
+.quiz-option-btn.is-disabled { opacity: 0.55; cursor: default; }
+
+.quiz-sheet { text-align: left; }
+.quiz-score-big { font-family: var(--font-round); font-size: clamp(28px, 5vw, 40px); font-weight: 800; margin-top: 6px; }
+.quiz-grade { font-family: var(--font-round); font-weight: 800; font-size: 18px; color: var(--ink-soft); margin-bottom: 10px; }
+.quiz-review-list { list-style: none; margin: 10px 0 0; padding: 0; }
+.quiz-review-list li { padding: 8px 0; border-top: 1px solid #ede8f5; font-weight: 700; font-size: 14.5px; }
+.quiz-review-list li:first-child { border-top: none; }
+.quiz-review-list li.is-wrong { color: #c0392b; }
+.quiz-review-detail { display: block; font-weight: 600; color: var(--ink-soft); font-size: 13.5px; margin-top: 2px; }
+
+.rbeat.miss { background: #ffd3d3; }
+
 @media (max-width: 520px) {
   .home-btn__text { display: none; }
   .tile { min-height: 150px; }

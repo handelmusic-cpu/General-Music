@@ -31,6 +31,7 @@ var PRECACHE_URLS = [
   "./js/songmaker.js",
   "./js/beatmaker.js",
   "./js/bells.js",
+  "./js/quiz.js",
   "./dist/music-playground.html",
   "./icons/favicon-32.png",
   "./icons/icon-192.png",
