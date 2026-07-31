@@ -5,7 +5,7 @@
    deploy that changes file contents so old caches are cleared out.
    ========================================================================== */
 
-var CACHE_NAME = "music-playground-v5";
+var CACHE_NAME = "music-playground-v6";
 
 var PRECACHE_URLS = [
   "./",
