@@ -724,6 +724,38 @@ input[type="range"]::-moz-range-thumb {
   font-size: 16px; font-weight: 800; cursor: pointer; padding: 4px 6px;
 }
 
+/* ------------------------------- Quiz Mode -------------------------------- */
+.quiz-menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.quiz-cat-card { display: flex; flex-direction: column; gap: 8px; }
+.quiz-cat-head { display: flex; align-items: center; gap: 8px; }
+.quiz-cat-emoji { font-size: 28px; }
+.quiz-cat-head h3 { margin: 0; font-family: var(--font-round); font-size: 21px; }
+
+.quiz-progress-track { height: 10px; background: #e3ddef; border-radius: 999px; margin: 10px 0 14px; overflow: hidden; }
+.quiz-progress-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--purple)); border-radius: 999px; transition: width .25s ease; }
+
+.quiz-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 14px; }
+.quiz-option-btn {
+  border: none; border-radius: var(--radius-sm); padding: 16px 12px; cursor: pointer;
+  font-family: var(--font-round); font-weight: 800; font-size: 17px; color: var(--ink);
+  background: #fff; box-shadow: var(--shadow-sm); transition: transform .08s ease, filter .08s ease;
+}
+.quiz-option-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(43,33,64,.14); }
+.quiz-option-btn.is-correct { background: linear-gradient(150deg, #8be86a, var(--lime)); color: #fff; }
+.quiz-option-btn.is-wrong { background: linear-gradient(150deg, #ff8a8a, #ff5d5d); color: #fff; }
+.quiz-option-btn.is-disabled { opacity: 0.55; cursor: default; }
+
+.quiz-sheet { text-align: left; }
+.quiz-score-big { font-family: var(--font-round); font-size: clamp(28px, 5vw, 40px); font-weight: 800; margin-top: 6px; }
+.quiz-grade { font-family: var(--font-round); font-weight: 800; font-size: 18px; color: var(--ink-soft); margin-bottom: 10px; }
+.quiz-review-list { list-style: none; margin: 10px 0 0; padding: 0; }
+.quiz-review-list li { padding: 8px 0; border-top: 1px solid #ede8f5; font-weight: 700; font-size: 14.5px; }
+.quiz-review-list li:first-child { border-top: none; }
+.quiz-review-list li.is-wrong { color: #c0392b; }
+.quiz-review-detail { display: block; font-weight: 600; color: var(--ink-soft); font-size: 13.5px; margin-top: 2px; }
+
+.rbeat.miss { background: #ffd3d3; }
+
 @media (max-width: 520px) {
   .home-btn__text { display: none; }
   .tile { min-height: 150px; }
@@ -1211,10 +1243,33 @@ window.DATA = {
       fact: "Its metal-barred cousin, the glockenspiel, sounds bright and bell-like." }
   ],
 
-  /* Composer Spotlight — the "big three." Facts are widely documented and
-     kid-friendly. Melodies are only included where we can play them with
-     confidence; otherwise a "Find a recording" search link is offered. */
+  /* Composer Spotlight. Facts are widely documented and kid-friendly.
+     Melodies are only included where we can play them with confidence;
+     otherwise a "Find a recording" search link is offered. Ordered by
+     birth year so the timeline reads left to right. */
   composers: [
+    {
+      name: "Antonio Vivaldi", short: "Vivaldi", born: 1678, died: 1741,
+      era: "Baroque", country: "Italy", color: "#e0507a",
+      facts: [
+        "Vivaldi had bright red hair, so people nicknamed him 'The Red Priest.'",
+        "He wrote 'The Four Seasons,' four violin concertos that paint pictures of spring, summer, fall, and winter in music.",
+        "He taught music at an orphanage for girls in Venice, writing much of his best music for his students to perform."
+      ],
+      works: ["The Four Seasons", "Concerto for Two Trumpets"],
+      searchQuery: "Vivaldi music for kids"
+    },
+    {
+      name: "George Frideric Handel", short: "Handel", born: 1685, died: 1759,
+      era: "Baroque", country: "Germany/England", color: "#3fb5a3",
+      facts: [
+        "Handel moved from Germany to England and eventually became a British citizen.",
+        "He wrote 'Messiah,' a famous piece with the 'Hallelujah' chorus, in just about three weeks.",
+        "He also wrote 'Water Music' to be performed on barges floating down the River Thames for King George I."
+      ],
+      works: ["Messiah (Hallelujah Chorus)", "Water Music", "Music for the Royal Fireworks"],
+      searchQuery: "Handel music for kids"
+    },
     {
       name: "Johann Sebastian Bach", short: "Bach", born: 1685, died: 1750,
       era: "Baroque", country: "Germany", color: "#5b8cff",
@@ -1234,6 +1289,17 @@ window.DATA = {
         ["G5",2.25],["E5",.25],["B4",.25],["A4",.25],["D5",.25],["C#5",.25],["G5",.25],["F#5",.25]
       ]},
       melodyCaption: "🎵 The famous opening of 'Air on the G String'"
+    },
+    {
+      name: "Franz Joseph Haydn", short: "Haydn", born: 1732, died: 1809,
+      era: "Classical", country: "Austria", color: "#4fa8d8",
+      facts: [
+        "Haydn is nicknamed 'The Father of the Symphony' because he wrote over 100 of them.",
+        "He worked for a wealthy prince for almost 30 years, writing music for the prince's private orchestra.",
+        "Haydn wrote a symphony nicknamed 'Surprise' that includes a sudden loud chord to wake up sleepy listeners!"
+      ],
+      works: ["Symphony No. 94 ('Surprise')", "The Toy Symphony", "Trumpet Concerto"],
+      searchQuery: "Haydn music for kids"
     },
     {
       name: "Wolfgang Amadeus Mozart", short: "Mozart", born: 1756, died: 1791,
@@ -1264,6 +1330,259 @@ window.DATA = {
         ["C4",1],["C4",1],["D4",1],["E4",1],["E4",1.5],["D4",0.5],["D4",2]
       ]},
       melodyCaption: "🎵 The famous opening of 'Ode to Joy'"
+    },
+    {
+      name: "Franz Schubert", short: "Schubert", born: 1797, died: 1828,
+      era: "Romantic", country: "Austria", color: "#c47eff",
+      facts: [
+        "Schubert wrote an incredible amount of music in a short life — over 600 songs alone.",
+        "He often composed so quickly that friends said melodies just poured out of him.",
+        "His piece 'Ave Maria' is still performed at weddings and concerts around the world today."
+      ],
+      works: ["Ave Maria", "The Trout Quintet", "Symphony No. 8 ('Unfinished')"],
+      searchQuery: "Schubert music for kids"
+    },
+    {
+      name: "Frédéric Chopin", short: "Chopin", born: 1810, died: 1849,
+      era: "Romantic", country: "Poland", color: "#ff7aa8",
+      facts: [
+        "Chopin wrote almost all of his music for one instrument: the piano.",
+        "He was a child prodigy in Poland before moving to Paris, where he became a star performer.",
+        "Even after leaving Poland, Chopin asked for his heart to be returned there after he died — and it was."
+      ],
+      works: ["Minute Waltz", "Nocturne in E-flat Major", "Revolutionary Étude"],
+      searchQuery: "Chopin music for kids"
+    },
+    {
+      name: "Johannes Brahms", short: "Brahms", born: 1833, died: 1897,
+      era: "Romantic", country: "Germany", color: "#8a6bd6",
+      facts: [
+        "Brahms wrote a gentle 'Lullaby' ('Wiegenlied') that is still sung to babies everywhere.",
+        "He was such a perfectionist that he destroyed many pieces he didn't think were good enough.",
+        "It took Brahms over 20 years to finish his first symphony because he felt pressure to live up to Beethoven."
+      ],
+      works: ["Lullaby (Wiegenlied)", "Hungarian Dance No. 5", "Symphony No. 1"],
+      searchQuery: "Brahms music for kids"
+    },
+    {
+      name: "Camille Saint-Saëns", short: "Saint-Saëns", born: 1835, died: 1921,
+      era: "Romantic", country: "France", color: "#3fae6a",
+      facts: [
+        "Saint-Saëns wrote 'The Carnival of the Animals,' a fun suite with movements about lions, elephants, and even a swan.",
+        "He was a musical prodigy who could already read and write by age three.",
+        "He almost didn't publish 'Carnival of the Animals' because he worried it was too silly for a serious composer."
+      ],
+      works: ["The Carnival of the Animals", "The Swan", "Danse Macabre"],
+      searchQuery: "Saint-Saens music for kids"
+    },
+    {
+      name: "Pyotr Ilyich Tchaikovsky", short: "Tchaikovsky", born: 1840, died: 1893,
+      era: "Romantic", country: "Russia", color: "#e0455a",
+      facts: [
+        "Tchaikovsky composed the music for two of the most famous ballets ever, 'The Nutcracker' and 'Swan Lake.'",
+        "He used a real cannon sound in his '1812 Overture' to represent a battle.",
+        "'The Nutcracker' wasn't very popular when it premiered, but today it's performed every winter around the world."
+      ],
+      works: ["The Nutcracker Suite", "Swan Lake", "1812 Overture"],
+      searchQuery: "Tchaikovsky music for kids"
+    },
+    {
+      name: "Antonín Dvořák", short: "Dvořák", born: 1841, died: 1904,
+      era: "Romantic", country: "Czech Republic", color: "#d68a3d",
+      facts: [
+        "Dvořák was inspired by folk songs from his home country as well as American music.",
+        "He wrote his famous 'New World Symphony' while living and teaching music in the United States.",
+        "Before becoming a full-time composer, Dvořák trained as a butcher, like his father."
+      ],
+      works: ["Symphony No. 9 ('From the New World')", "Humoresque", "Slavonic Dances"],
+      searchQuery: "Dvorak music for kids"
+    },
+    {
+      name: "Edvard Grieg", short: "Grieg", born: 1843, died: 1907,
+      era: "Romantic", country: "Norway", color: "#3d9fd6",
+      facts: [
+        "Grieg loved the folk music and mountain landscapes of his home country, Norway, and wove them into his pieces.",
+        "His music for the play 'Peer Gynt' includes 'In the Hall of the Mountain King,' famous for its dramatic buildup.",
+        "Grieg is considered Norway's most famous composer and appears on Norwegian currency."
+      ],
+      works: ["In the Hall of the Mountain King", "Morning Mood", "Piano Concerto in A minor"],
+      searchQuery: "Grieg music for kids"
+    },
+    {
+      name: "John Philip Sousa", short: "Sousa", born: 1854, died: 1932,
+      era: "Late Romantic", country: "United States", color: "#c62828",
+      facts: [
+        "Sousa is known as 'The March King' because he wrote so many energetic marches for bands.",
+        "He led the U.S. Marine Band before forming his own famous touring concert band.",
+        "The sousaphone, a large brass instrument used in marching bands, was invented and named for him."
+      ],
+      works: ["The Stars and Stripes Forever", "Semper Fidelis", "Washington Post March"],
+      searchQuery: "Sousa music for kids"
+    },
+    {
+      name: "Claude Debussy", short: "Debussy", born: 1862, died: 1918,
+      era: "Impressionist", country: "France", color: "#5aa9a3",
+      facts: [
+        "Debussy's dreamy, colorful style earned him the label 'Impressionist,' like the painters of his time.",
+        "His piece 'Clair de Lune' ('Moonlight') is one of the most beloved piano pieces ever written.",
+        "He often wrote music inspired by nature, water, and even clouds."
+      ],
+      works: ["Clair de Lune", "La Mer", "Prélude à l'après-midi d'un faune"],
+      searchQuery: "Debussy music for kids"
+    },
+    {
+      name: "Scott Joplin", short: "Joplin", born: 1868, died: 1917,
+      era: "Ragtime", country: "United States", color: "#d6a23d",
+      facts: [
+        "Joplin is known as 'The King of Ragtime,' a bouncy, syncopated piano style that led toward jazz.",
+        "His piece 'Maple Leaf Rag' was one of the best-selling pieces of sheet music of its era.",
+        "Joplin's music became popular again decades later when it was featured in the movie 'The Sting.'"
+      ],
+      works: ["Maple Leaf Rag", "The Entertainer"],
+      searchQuery: "Scott Joplin music for kids"
+    },
+    {
+      name: "Sergei Rachmaninoff", short: "Rachmaninoff", born: 1873, died: 1943,
+      era: "Romantic", country: "Russia", color: "#7a5cff",
+      facts: [
+        "Rachmaninoff had enormous hands that could stretch further across the piano than most people's.",
+        "He was one of the greatest pianists of his time, as well as a composer.",
+        "He left Russia after the 1917 revolution and eventually settled in the United States."
+      ],
+      works: ["Piano Concerto No. 2", "Prelude in C-sharp minor", "Rhapsody on a Theme of Paganini"],
+      searchQuery: "Rachmaninoff music for kids"
+    },
+    {
+      name: "Gustav Holst", short: "Holst", born: 1874, died: 1934,
+      era: "20th Century", country: "England", color: "#5b7fd6",
+      facts: [
+        "Holst is best known for 'The Planets,' a suite with a movement inspired by each planet's mood.",
+        "He was also a schoolteacher who wrote music especially for his students to play.",
+        "The 'Jupiter' movement from 'The Planets' later became the tune for a famous hymn."
+      ],
+      works: ["The Planets (Jupiter, Mars)", "St. Paul's Suite"],
+      searchQuery: "Holst The Planets for kids"
+    },
+    {
+      name: "Béla Bartók", short: "Bartók", born: 1881, died: 1945,
+      era: "20th Century", country: "Hungary", color: "#d63d6b",
+      facts: [
+        "Bartók traveled through the Hungarian countryside recording and collecting folk songs on an early sound recorder.",
+        "He blended those folk melodies with his own modern classical style.",
+        "He wrote a set of graded piano pieces called 'Mikrokosmos' to help students learn to play, from beginner to advanced."
+      ],
+      works: ["Romanian Folk Dances", "Concerto for Orchestra", "Mikrokosmos"],
+      searchQuery: "Bartok music for kids"
+    },
+    {
+      name: "Zoltán Kodály", short: "Kodály", born: 1882, died: 1967,
+      era: "20th Century", country: "Hungary", color: "#3dbf7a",
+      facts: [
+        "Kodály developed a famous method for teaching children to sing and read music, still used in classrooms today.",
+        "Like his friend Bartók, he collected and preserved Hungarian folk songs.",
+        "His method uses hand signs and simple syllables to help kids learn to sing in tune."
+      ],
+      works: ["Háry János Suite", "Dances of Galánta"],
+      searchQuery: "Kodaly music for kids"
+    },
+    {
+      name: "Igor Stravinsky", short: "Stravinsky", born: 1882, died: 1971,
+      era: "20th Century", country: "Russia", color: "#e0673d",
+      facts: [
+        "Stravinsky's ballet 'The Rite of Spring' caused a riot at its 1913 premiere because the music and dancing were so shocking for the time.",
+        "He wrote music for ballets, including 'The Firebird' and 'Petrushka.'",
+        "Over his long career, Stravinsky's style changed dramatically, always experimenting with new ideas."
+      ],
+      works: ["The Rite of Spring", "The Firebird", "Petrushka"],
+      searchQuery: "Stravinsky music for kids"
+    },
+    {
+      name: "Florence Price", short: "Florence Price", born: 1887, died: 1953,
+      era: "20th Century", country: "United States", color: "#c23dae",
+      facts: [
+        "Florence Price was the first African American woman to have a symphony performed by a major American orchestra.",
+        "She blended classical forms with African American spirituals and folk melodies.",
+        "Many of her manuscripts were lost for decades until they were rediscovered in an old house in 2009."
+      ],
+      works: ["Symphony No. 1 in E minor", "The Oak"],
+      searchQuery: "Florence Price music for kids"
+    },
+    {
+      name: "Sergei Prokofiev", short: "Prokofiev", born: 1891, died: 1953,
+      era: "20th Century", country: "Russia", color: "#3d8ee0",
+      facts: [
+        "Prokofiev wrote 'Peter and the Wolf,' a story for children where each character has its own instrument.",
+        "He started composing as a young child and wrote his first opera at age nine.",
+        "He also composed music for the ballet 'Romeo and Juliet.'"
+      ],
+      works: ["Peter and the Wolf", "Romeo and Juliet", "Lieutenant Kijé Suite"],
+      searchQuery: "Prokofiev Peter and the Wolf for kids"
+    },
+    {
+      name: "Carl Orff", short: "Orff", born: 1895, died: 1982,
+      era: "20th Century", country: "Germany", color: "#8ac23d",
+      facts: [
+        "Orff created a popular way of teaching music to children using simple percussion, singing, and movement, called Orff Schulwerk.",
+        "Many elementary music classrooms use xylophones and mallet instruments based on his ideas.",
+        "His best-known piece, 'Carmina Burana,' features the dramatic, thundering chorus 'O Fortuna.'"
+      ],
+      works: ["Carmina Burana (O Fortuna)"],
+      searchQuery: "Carl Orff music for kids"
+    },
+    {
+      name: "William Grant Still", short: "W. G. Still", born: 1895, died: 1978,
+      era: "20th Century", country: "United States", color: "#3dc2b0",
+      facts: [
+        "William Grant Still was the first African American composer to have a symphony performed by a major American orchestra.",
+        "He is often called 'The Dean of African American Composers.'",
+        "His 'Afro-American Symphony' blends blues and classical traditions."
+      ],
+      works: ["Afro-American Symphony"],
+      searchQuery: "William Grant Still music for kids"
+    },
+    {
+      name: "George Gershwin", short: "Gershwin", born: 1898, died: 1937,
+      era: "20th Century", country: "United States", color: "#ffb03d",
+      facts: [
+        "Gershwin blended classical music with jazz to create a brand-new American sound.",
+        "He wrote 'Rhapsody in Blue,' famous for its wailing clarinet opening, in just a few weeks.",
+        "He also wrote 'Summertime' from the opera 'Porgy and Bess,' one of the most recorded songs ever."
+      ],
+      works: ["Rhapsody in Blue", "Summertime", "An American in Paris"],
+      searchQuery: "Gershwin music for kids"
+    },
+    {
+      name: "Duke Ellington", short: "Ellington", born: 1899, died: 1974,
+      era: "Jazz", country: "United States", color: "#4a4ae0",
+      facts: [
+        "Duke Ellington led his own jazz orchestra for about 50 years and wrote nearly 3,000 pieces of music.",
+        "He got the nickname 'Duke' as a kid because of his elegant style.",
+        "His band was famous for performances at the Cotton Club in New York City."
+      ],
+      works: ["Take the 'A' Train", "It Don't Mean a Thing", "Mood Indigo"],
+      searchQuery: "Duke Ellington music for kids"
+    },
+    {
+      name: "Aaron Copland", short: "Copland", born: 1900, died: 1990,
+      era: "20th Century", country: "United States", color: "#4aa8e0",
+      facts: [
+        "Copland is often called the 'Dean of American Composers' for his music that captures the sound of the American landscape.",
+        "His ballet 'Appalachian Spring' uses the Shaker tune 'Simple Gifts.'",
+        "'Fanfare for the Common Man' is often played at graduations, ceremonies, and patriotic events."
+      ],
+      works: ["Fanfare for the Common Man", "Appalachian Spring", "Rodeo"],
+      searchQuery: "Copland music for kids"
+    },
+    {
+      name: "John Cage", short: "Cage", born: 1912, died: 1992,
+      era: "20th Century", country: "United States", color: "#9e9e9e",
+      facts: [
+        "Cage wrote a famous — and famously strange — piece called '4′33″,' where the performer plays no notes at all, letting the audience's surroundings become the music.",
+        "He invented the 'prepared piano,' placing objects like screws and rubber erasers between the piano strings to change its sound.",
+        "Cage loved experimenting with chance and silence, pushing people to think differently about what music can be."
+      ],
+      works: ["4′33″", "Sonatas and Interludes"],
+      searchQuery: "John Cage music explained for kids"
     }
   ]
 };
@@ -3668,19 +3987,19 @@ window.App = (function () {
   <script>
 // ---- js/composers.js ----
 /* ==========================================================================
-   composers.js — Composer Spotlight (Bach, Mozart, Beethoven).
+   composers.js — Composer Spotlight.
    A timeline shows when each composer lived, and each card has kid-friendly
    facts, famous works, and — where we can play it with confidence — a short
    synthesized excerpt. Otherwise a "Find a recording" link goes deeper.
    ========================================================================== */
 
 (function () {
-  var TIMELINE_START = 1650, TIMELINE_END = 1850;
+  var TIMELINE_START = 1650, TIMELINE_END = 1950;
 
   function render(container, h) {
     var el = h.el;
     container.appendChild(h.pageHead("🎼", "Composer Spotlight",
-      "Meet three of history's most famous composers."));
+      "Meet many of history's most famous composers."));
 
     // ---- Timeline ----------------------------------------------------
     var timeline = el("div.composer-timeline");
@@ -3747,7 +4066,7 @@ window.App = (function () {
     id: "composers",
     title: "Composer Spotlight",
     emoji: "🎼",
-    desc: "Meet Bach, Mozart & Beethoven.",
+    desc: "Meet Bach, Mozart, Beethoven & more.",
     color: "tile--gold",
     render: render
   });
@@ -4308,6 +4627,577 @@ window.App = (function () {
     emoji: "🔔",
     desc: "A colored xylophone with a follow-the-colors play-along.",
     color: "tile--aqua",
+    render: render
+  });
+})();
+
+</script>
+  <script>
+// ---- js/quiz.js ----
+/* ==========================================================================
+   quiz.js — Quiz Mode: five quick quizzes (Note Names, Musical Terms,
+   Clef Names, Rhythm Reading, Composers), each with Easy/Medium/Hard.
+   Multiple-choice quizzes give instant feedback and auto-advance. Rhythm
+   Reading is tap/spacebar-along instead, graded with a generous timing
+   window since small human timing wobble is expected. Every run ends on a
+   score sheet that can be downloaded as an image (or just screenshotted).
+   ========================================================================== */
+
+(function () {
+  var SVGNS = "http://www.w3.org/2000/svg";
+  function svgEl(name, attrs) {
+    var n = document.createElementNS(SVGNS, name);
+    for (var k in attrs) if (attrs.hasOwnProperty(k)) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function sample(arr, n) { return shuffle(arr).slice(0, n); }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+  // ---- Note Names: mini staff for drawing a single note -------------------
+  var STAFF_Y = [90, 102, 114, 126, 138, 150, 162, 174, 186];
+  var STAFF_SPACE = 2 * (STAFF_Y[1] - STAFF_Y[0]);
+  var NOTE_CLEFS = {
+    treble: { shape: "treble", anchorIdx: 6, notes: ["F5", "E5", "D5", "C5", "B4", "A4", "G4", "F4", "E4"],
+      ledgerBelow: { name: "C4", offset: 1 } },
+    bass: { shape: "bass", anchorIdx: 2, notes: ["A3", "G3", "F3", "E3", "D3", "C3", "B2", "A2", "G2"],
+      ledgerAbove: { name: "C4", offset: -1 } }
+  };
+
+  function drawNoteStaff(wrap, clefKey, slotIdx, isLedger) {
+    var clef = NOTE_CLEFS[clefKey];
+    var W = 260, H = 150, x0 = 20, x1 = 240;
+    var svg = svgEl("svg", { viewBox: "0 0 " + W + " " + H, class: "staff-svg", width: W });
+    [0, 2, 4, 6, 8].forEach(function (idx) {
+      svg.appendChild(svgEl("line", { x1: x0, y1: STAFF_Y[idx], x2: x1, y2: STAFF_Y[idx],
+        stroke: "#2b2140", "stroke-width": 3, "stroke-linecap": "round" }));
+    });
+    svg.appendChild(svgEl("path", {
+      d: Clefs[clef.shape].d, fill: "#2b2140",
+      transform: "translate(26," + STAFF_Y[clef.anchorIdx] + ") scale(" + STAFF_SPACE + ")"
+    }));
+    var cx = 190, y;
+    if (isLedger) {
+      var half = clef.ledgerBelow ? clef.ledgerBelow.offset : clef.ledgerAbove.offset;
+      y = clef.ledgerBelow ? STAFF_Y[8] + STAFF_SPACE : STAFF_Y[0] - STAFF_SPACE;
+      svg.appendChild(svgEl("line", { x1: cx - 20, y1: y, x2: cx + 20, y2: y,
+        stroke: "#2b2140", "stroke-width": 3, "stroke-linecap": "round" }));
+    } else {
+      y = STAFF_Y[slotIdx];
+    }
+    svg.appendChild(svgEl("line", { x1: cx + 14, y1: y, x2: cx + 14, y2: y - 55,
+      stroke: "#a06bff", "stroke-width": 3 }));
+    svg.appendChild(svgEl("ellipse", { cx: cx, cy: y, rx: 14, ry: 10.5, fill: "#a06bff",
+      stroke: "#7a45d6", "stroke-width": 2, transform: "rotate(-20 " + cx + " " + y + ")" }));
+    wrap.innerHTML = "";
+    wrap.appendChild(svg);
+  }
+
+  // ---- Rhythm reading: reuse the same note glyphs as Rhythm Flashcards ----
+  var RNOTEHEAD = '<ellipse cx="{cx}" cy="82" rx="{r}" ry="{ry}" fill="#2b2140" transform="rotate(-18 {cx} 82)"/>';
+  var RSTEM = '<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="#2b2140"/>';
+  function rtpl(s, vals) { return s.replace(/\{(\w+)\}/g, function (_, k) { return vals[k]; }); }
+  var RICONS = {
+    quarter: '<svg viewBox="0 0 40 96" class="rnote-svg">' + rtpl(RNOTEHEAD, { cx: 16, r: 14, ry: 10.5 }) + rtpl(RSTEM, { x: 27, y: 14, w: 6, h: 70 }) + '</svg>',
+    eighths: '<svg viewBox="0 0 106 96" class="rnote-svg">' +
+      rtpl(RNOTEHEAD, { cx: 16, r: 14, ry: 10.5 }) + rtpl(RSTEM, { x: 27, y: 20, w: 6, h: 64 }) +
+      rtpl(RNOTEHEAD, { cx: 76, r: 14, ry: 10.5 }) + rtpl(RSTEM, { x: 87, y: 20, w: 6, h: 64 }) +
+      rtpl(RSTEM, { x: 27, y: 20, w: 66, h: 10 }) + '</svg>',
+    rest: '<svg viewBox="0 0 40 70" class="rnote-svg">' +
+      '<path d="M 26,6 C 30,12 20,16 24,22 L 8,36 L 28,46 L 10,58 C 6,62 8,66 14,64" ' +
+      'fill="none" stroke="#2b2140" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+  };
+  var RVALUES = {
+    quarter: { icon: RICONS.quarter, syl: "ta", hits: [0] },
+    eighths: { icon: RICONS.eighths, syl: "ti-ti", hits: [0, 0.5] },
+    rest: { icon: RICONS.rest, syl: "sh", hits: [] }
+  };
+  var RHYTHM_POOLS = {
+    "Easy": ["quarter", "quarter", "rest"],
+    "Medium": ["quarter", "eighths", "rest"],
+    "Hard": ["quarter", "eighths", "eighths", "rest"]
+  };
+  // Timing tolerance is generous on purpose — this is meant to build
+  // confidence, not penalize normal human timing wobble.
+  var RHYTHM_TOLERANCE_MS = { "Easy": 400, "Medium": 300, "Hard": 220 };
+  var RHYTHM_TEMPO = { "Easy": 72, "Medium": 84, "Hard": 96 };
+
+  // ---- Category definitions -------------------------------------------
+  // Each category builds its own question list. A question is either
+  // { type:"mc", prompt(el fn)->node, options:[...], correctIndex, correctText }
+  // or { type:"rhythm", card:[...], tempo }.
+  var CATEGORIES = {
+    "Note Names": {
+      emoji: "🎵", color: "tile--sky",
+      blurb: "Name the note on the staff.",
+      build: function (level, n) {
+        var qs = [];
+        for (var i = 0; i < n; i++) {
+          var clefKey, isLedger = false, slotIdx = 0;
+          if (level === "Easy") { clefKey = "treble"; slotIdx = Math.floor(Math.random() * 9); }
+          else if (level === "Medium") { clefKey = pick(["treble", "bass"]); slotIdx = Math.floor(Math.random() * 9); }
+          else { clefKey = pick(["treble", "bass"]); isLedger = Math.random() < 0.3; if (!isLedger) slotIdx = Math.floor(Math.random() * 9); }
+          var clef = NOTE_CLEFS[clefKey];
+          var correctName = isLedger ? "C4" : clef.notes[slotIdx];
+          var correctLetter = correctName.charAt(0);
+          var letters = ["C", "D", "E", "F", "G", "A", "B"];
+          var optCount = level === "Hard" ? 3 : 4;
+          var options = sample(letters.filter(function (l) { return l !== correctLetter; }), optCount - 1);
+          options.push(correctLetter);
+          options = shuffle(options);
+          qs.push({
+            type: "mc",
+            draw: function (ck, si, led) { return function (wrap) { drawNoteStaff(wrap, ck, si, led); }; }(clefKey, slotIdx, isLedger),
+            question: "What note is this?",
+            options: options,
+            correctText: correctLetter,
+            onReveal: function (name) { return function () { Sound.playNote(name, 0.7); }; }(correctName)
+          });
+        }
+        return qs;
+      }
+    },
+    "Musical Terms": {
+      emoji: "🔤", color: "tile--grape",
+      blurb: "Match the term to its meaning.",
+      build: function (level, n) {
+        var pool = level === "Easy" ? DATA.terms.filter(function (t) { return t.category === "Dynamics"; })
+          : level === "Medium" ? DATA.terms.filter(function (t) { return t.category !== "Expression"; })
+          : DATA.terms;
+        var used = sample(pool, Math.min(n, pool.length));
+        while (used.length < n) used.push(pick(pool));
+        return used.map(function (t) {
+          var askForTerm = level === "Hard" && Math.random() < 0.5;
+          var distractPool = DATA.terms.filter(function (x) { return x !== t; });
+          var distractors = sample(distractPool, 3);
+          var options, correctText, questionText;
+          if (askForTerm) {
+            questionText = "Which term means: “" + t.meaning + "”?";
+            options = shuffle(distractors.map(function (d) { return d.term; }).concat([t.term]));
+            correctText = t.term;
+          } else {
+            questionText = "What does “" + t.term + (t.abbr ? " (" + t.abbr + ")" : "") + "” mean?";
+            options = shuffle(distractors.map(function (d) { return d.meaning; }).concat([t.meaning]));
+            correctText = t.meaning;
+          }
+          return { type: "mc", question: questionText, options: options, correctText: correctText };
+        });
+      }
+    },
+    "Clef Names": {
+      emoji: "🎼", color: "tile--indigo",
+      blurb: "Identify the clef.",
+      build: function (level, n) {
+        var extraNames = { "Alto Clef": true, "Tenor Clef": true, "Percussion Clef": true, "Soprano Clef": true };
+        var extraPool = Object.keys(extraNames);
+        var optCount = level === "Easy" ? 2 : level === "Medium" ? 3 : 4;
+        var qs = [];
+        for (var i = 0; i < n; i++) {
+          var shapeKey = pick(["treble", "bass"]);
+          var correctText = shapeKey === "treble" ? "Treble Clef" : "Bass Clef";
+          var otherReal = shapeKey === "treble" ? "Bass Clef" : "Treble Clef";
+          var options = [correctText];
+          if (optCount >= 2) options.push(otherReal);
+          if (optCount > 2) options = options.concat(sample(extraPool, optCount - 2));
+          options = shuffle(options);
+          qs.push({
+            type: "mc",
+            draw: function (sk) { return function (wrap) {
+              var W = 140, H = 150;
+              var svg = svgEl("svg", { viewBox: "0 0 " + W + " " + H, class: "staff-svg", width: 140 });
+              [0, 1, 2, 3, 4].forEach(function (li) {
+                var y = 40 + li * 18;
+                svg.appendChild(svgEl("line", { x1: 10, y1: y, x2: 130, y2: y, stroke: "#2b2140", "stroke-width": 3, "stroke-linecap": "round" }));
+              });
+              var anchorY = sk === "treble" ? 40 + 3 * 18 : 40 + 1 * 18;
+              svg.appendChild(svgEl("path", { d: Clefs[sk].d, fill: "#2b2140", transform: "translate(46," + anchorY + ") scale(36)" }));
+              wrap.innerHTML = ""; wrap.appendChild(svg);
+            }; }(shapeKey),
+            question: "What is the name of this clef?",
+            options: options,
+            correctText: correctText
+          });
+        }
+        return qs;
+      }
+    },
+    "Composers": {
+      emoji: "🎼", color: "tile--gold",
+      blurb: "Composer facts & famous works.",
+      build: function (level, n) {
+        var wellKnown = ["Johann Sebastian Bach", "Wolfgang Amadeus Mozart", "Ludwig van Beethoven",
+          "Pyotr Ilyich Tchaikovsky", "George Frideric Handel", "Antonio Vivaldi"];
+        var pool = level === "Easy" ? DATA.composers.filter(function (c) { return wellKnown.indexOf(c.name) !== -1; })
+          : DATA.composers;
+        var qs = [];
+        for (var i = 0; i < n; i++) {
+          var c = pick(pool);
+          var useFact = level === "Hard" && Math.random() < 0.5;
+          var options, questionText, correctText;
+          if (useFact && c.facts && c.facts.length) {
+            var fact = pick(c.facts);
+            questionText = "Which composer: “" + fact + "”?";
+            var distractors = sample(DATA.composers.filter(function (x) { return x !== c; }), 3).map(function (d) { return d.short; });
+            options = shuffle(distractors.concat([c.short]));
+            correctText = c.short;
+          } else {
+            var work = pick(c.works);
+            questionText = "Who composed “" + work + "”?";
+            var pool2 = level === "Easy" ? pool : DATA.composers;
+            var distractors2 = sample(pool2.filter(function (x) { return x !== c; }), 3).map(function (d) { return d.short; });
+            options = shuffle(distractors2.concat([c.short]));
+            correctText = c.short;
+          }
+          qs.push({ type: "mc", question: questionText, options: options, correctText: correctText });
+        }
+        return qs;
+      }
+    },
+    "Rhythm Reading": {
+      emoji: "🥁", color: "tile--lime",
+      blurb: "Tap or press spacebar along with the rhythm.",
+      build: function (level, n) {
+        var pool = RHYTHM_POOLS[level];
+        var tempo = RHYTHM_TEMPO[level];
+        var qs = [];
+        for (var i = 0; i < n; i++) {
+          var card = [];
+          for (var b = 0; b < 4; b++) card.push(pick(pool));
+          if (card.every(function (v) { return v === "rest"; })) card[0] = "quarter";
+          qs.push({ type: "rhythm", card: card, tempo: tempo });
+        }
+        return qs;
+      }
+    }
+  };
+
+  var QUESTIONS_PER_QUIZ = 8;
+  var RHYTHM_QUESTIONS_PER_QUIZ = 5;
+  var LEVELS = ["Easy", "Medium", "Hard"];
+
+  function render(container, h) {
+    var el = h.el;
+    container.appendChild(h.pageHead("❓", "Quiz Mode",
+      "Pick a topic and a difficulty, then see how you do!"));
+
+    var stage = el("div");
+    container.appendChild(stage);
+
+    var state = null;
+    var activeCleanup = null;
+    showMenu();
+
+    function cleanupActive() {
+      if (activeCleanup) { activeCleanup(); activeCleanup = null; }
+    }
+
+    // ===================================================================
+    function showMenu() {
+      cleanupActive();
+      state = null;
+      stage.innerHTML = "";
+      var grid = el("div.quiz-menu-grid");
+      Object.keys(CATEGORIES).forEach(function (catName) {
+        var cat = CATEGORIES[catName];
+        var levelRow = el("div.pill-group");
+        LEVELS.forEach(function (lv) {
+          levelRow.appendChild(el("button.pill", { text: lv, onclick: function () { startQuiz(catName, lv); } }));
+        });
+        grid.appendChild(el("div.card.quiz-cat-card", null,
+          el("div.quiz-cat-head", null, el("span.quiz-cat-emoji", { text: cat.emoji }), el("h3", { text: catName })),
+          el("p.hint", { text: cat.blurb }),
+          levelRow
+        ));
+      });
+      stage.appendChild(grid);
+    }
+
+    function startQuiz(catName, level) {
+      Sound.unlock();
+      var cat = CATEGORIES[catName];
+      var isRhythm = catName === "Rhythm Reading";
+      var count = isRhythm ? RHYTHM_QUESTIONS_PER_QUIZ : QUESTIONS_PER_QUIZ;
+      var questions = cat.build(level, count);
+      state = {
+        catName: catName, level: level, questions: questions, qIndex: 0,
+        results: [], score: 0, maxScore: 0
+      };
+      showQuestion();
+    }
+
+    function progressBar() {
+      var pct = Math.round((state.qIndex / state.questions.length) * 100);
+      return el("div.quiz-progress-track", null,
+        el("div.quiz-progress-fill", { style: "width:" + pct + "%" })
+      );
+    }
+
+    function showQuestion() {
+      cleanupActive();
+      stage.innerHTML = "";
+      var q = state.questions[state.qIndex];
+      var head = el("div.control-row", { style: "justify-content:space-between;align-items:center" },
+        el("span.hint", { text: state.catName + " · " + state.level }),
+        el("span.hint", { text: "Question " + (state.qIndex + 1) + " of " + state.questions.length })
+      );
+      stage.appendChild(head);
+      stage.appendChild(progressBar());
+
+      if (q.type === "mc") stage.appendChild(renderMC(q));
+      else stage.appendChild(renderRhythm(q));
+    }
+
+    function renderMC(q) {
+      var card = el("div.card");
+      if (q.draw) {
+        var wrap = el("div.staff-wrap", { style: "display:flex;justify-content:center" });
+        card.appendChild(wrap);
+        q.draw(wrap);
+      }
+      card.appendChild(el("h3", { text: q.question, style: "margin-top:0" }));
+      var optsWrap = el("div.quiz-options");
+      var answered = false;
+      q.options.forEach(function (opt) {
+        var btn = el("button.quiz-option-btn", { text: opt, onclick: function () {
+          if (answered) return;
+          answered = true;
+          var correct = opt === q.correctText;
+          Array.prototype.forEach.call(optsWrap.children, function (b) {
+            if (b.textContent === q.correctText) b.classList.add("is-correct");
+            else b.classList.add("is-disabled");
+          });
+          if (!correct) btn.classList.add("is-wrong");
+          if (q.onReveal) q.onReveal();
+          recordResult({
+            prompt: q.question, chosen: opt, correctText: q.correctText,
+            isCorrect: correct, pointsEarned: correct ? 1 : 0, maxPoints: 1
+          });
+          Sound.tone(correct ? 880 : 220, null, correct ? 0.12 : 0.18, correct ? "square" : "sawtooth");
+          setTimeout(advance, 900);
+        }});
+        optsWrap.appendChild(btn);
+      });
+      card.appendChild(optsWrap);
+      return card;
+    }
+
+    function renderRhythm(q) {
+      var card = el("div.card.rhythm-card");
+      var readout = el("p.hint", { text: "Tap “Start”, listen to the 4-click count-in, then tap the button (or press spacebar) in time with each beat below." });
+      card.appendChild(readout);
+
+      var beatsRow = el("div.rhythm-beats");
+      q.card.forEach(function (id) {
+        var v = RVALUES[id];
+        beatsRow.appendChild(el("div.rbeat", null, el("div.glyph", { html: v.icon }), el("div.syl", { text: v.syl })));
+      });
+      card.appendChild(beatsRow);
+
+      var tapBtn = el("button.btn.btn--play", { html: "👏 Start", style: "min-width:160px" });
+      var statusLine = el("p.hint", { text: "" });
+      card.appendChild(el("div.control-row", { style: "justify-content:center" }, tapBtn));
+      card.appendChild(statusLine);
+
+      var running = false, done = false, expected = [], taps = [], keyHandler = null, endTimer = null;
+
+      function cellFor(i) { return beatsRow.children[i]; }
+
+      function begin() {
+        if (running || done) return;
+        running = true;
+        // tapBtn stays enabled while running — it doubles as the tap target,
+        // so disabling it here would swallow every click meant as a beat tap.
+        Array.prototype.forEach.call(beatsRow.children, function (c) { c.classList.remove("hit", "miss", "close"); });
+        statusLine.textContent = "Get ready…";
+        var beatSec = 60 / q.tempo;
+        var t0 = Sound.now() + 0.1;
+        for (var c = 0; c < 4; c++) Sound.click(c === 0, t0 + c * beatSec);
+        var patternStart = t0 + 4 * beatSec;
+        expected = [];
+        q.card.forEach(function (id, i) {
+          RVALUES[id].hits.forEach(function (f) {
+            expected.push({ time: patternStart + (i + f) * beatSec, beatIndex: i, matched: false });
+          });
+        });
+        taps = [];
+        var msUntilStart = (patternStart - Sound.now()) * 1000;
+        setTimeout(function () { if (running) statusLine.textContent = "Tap along now! 🥁"; }, Math.max(0, msUntilStart));
+        var totalMs = msUntilStart + (q.card.length * beatSec * 1000) + 400;
+        endTimer = setTimeout(finish, totalMs);
+        keyHandler = function (e) { if (e.code === "Space") { e.preventDefault(); registerTap(); } };
+        window.addEventListener("keydown", keyHandler);
+      }
+
+      function registerTap() {
+        if (!running) return;
+        taps.push(performance.now());
+      }
+
+      function finish() {
+        if (done) return;
+        running = false;
+        done = true;
+        if (keyHandler) window.removeEventListener("keydown", keyHandler);
+        tapBtn.disabled = true;
+        tapBtn.style.opacity = "0.5";
+        var tolerance = RHYTHM_TOLERANCE_MS[state.level];
+        var expectedMs = expected.map(function (e) { return { ms: (e.time - Sound.now()) * 1000 + performance.now(), beatIndex: e.beatIndex, matched: false }; });
+        var hits = 0, close = 0;
+        taps.forEach(function (tapMs) {
+          var best = null, bestDiff = Infinity;
+          expectedMs.forEach(function (e) {
+            if (e.matched) return;
+            var diff = Math.abs(tapMs - e.ms);
+            if (diff < bestDiff) { bestDiff = diff; best = e; }
+          });
+          if (best && bestDiff <= tolerance) { best.matched = true; hits++; }
+          else if (best && bestDiff <= tolerance * 1.8) { best.matched = true; close++; }
+        });
+        expectedMs.forEach(function (e) {
+          var cell = cellFor(e.beatIndex);
+          if (!cell) return;
+          if (e.matched) cell.classList.add("hit"); else cell.classList.add("miss");
+        });
+        var maxPoints = expectedMs.length;
+        var pointsEarned = hits + close * 0.5;
+        var pct = maxPoints ? Math.round((pointsEarned / maxPoints) * 100) : 100;
+        statusLine.innerHTML = "Result: <b>" + hits + " on time</b>" + (close ? ", " + close + " close" : "") +
+          (maxPoints - hits - close > 0 ? ", " + (maxPoints - hits - close) + " missed" : "") + " — " + pct + "%";
+        recordResult({
+          prompt: "Rhythm pattern " + (state.qIndex + 1),
+          chosen: hits + "/" + maxPoints + " on time",
+          correctText: maxPoints + "/" + maxPoints + " on time",
+          isCorrect: pointsEarned >= maxPoints * 0.8,
+          pointsEarned: pointsEarned, maxPoints: maxPoints
+        });
+        var nextBtn = el("button.btn.btn--blue", { html: "Next →", onclick: advance });
+        card.appendChild(el("div.control-row", { style: "justify-content:center" }, nextBtn));
+      }
+
+      // The same button both starts the pattern and, once running, doubles
+      // as the tap target — so kids don't need to hunt for a second control.
+      tapBtn.addEventListener("click", function () { Sound.unlock(); registerTap(); begin(); });
+
+      activeCleanup = function () {
+        running = false;
+        if (keyHandler) window.removeEventListener("keydown", keyHandler);
+        if (endTimer) clearTimeout(endTimer);
+      };
+
+      return card;
+    }
+
+    function recordResult(r) {
+      state.results.push(r);
+      state.score += r.pointsEarned;
+      state.maxScore += r.maxPoints;
+    }
+
+    function advance() {
+      state.qIndex++;
+      if (state.qIndex >= state.questions.length) showResults();
+      else showQuestion();
+    }
+
+    function showResults() {
+      cleanupActive();
+      stage.innerHTML = "";
+      var pct = state.maxScore ? Math.round((state.score / state.maxScore) * 100) : 0;
+      var grade = pct >= 90 ? "🌟 Excellent!" : pct >= 70 ? "👍 Good job!" : pct >= 50 ? "🙂 Keep practicing!" : "💪 Try again!";
+
+      var sheet = el("div.card.quiz-sheet", { id: "quizScoreSheet" },
+        el("h3", { text: "Quiz Results", style: "margin-top:0" }),
+        el("p.hint", { text: state.catName + " · " + state.level + " · " + new Date().toLocaleDateString() }),
+        el("div.quiz-score-big", { text: Math.round(state.score * 10) / 10 + " / " + state.maxScore + " (" + pct + "%)" }),
+        el("div.quiz-grade", { text: grade })
+      );
+
+      var list = el("ul.quiz-review-list");
+      state.results.forEach(function (r) {
+        list.appendChild(el("li", { class: r.isCorrect ? "is-correct" : "is-wrong" },
+          el("span", { text: (r.isCorrect ? "✅ " : "❌ ") + r.prompt }),
+          el("span.quiz-review-detail", { text: r.isCorrect ? "" : "Your answer: " + r.chosen + " · Correct: " + r.correctText })
+        ));
+      });
+      sheet.appendChild(list);
+      stage.appendChild(sheet);
+
+      var downloadBtn = el("button.btn.btn--blue", { html: "⬇ Download score sheet", onclick: function () { downloadScoreSheet(state, pct, grade); } });
+      var tryAgainBtn = el("button.btn.btn--play", { html: "🔁 Try again", onclick: function () { startQuiz(state.catName, state.level); } });
+      var menuBtn = el("button.btn.btn--ghost", { html: "🏠 Quiz menu", onclick: showMenu });
+      stage.appendChild(el("div.control-row", { style: "justify-content:center;margin-top:14px" }, downloadBtn, tryAgainBtn, menuBtn));
+      stage.appendChild(el("p.hint", { text: "Tip: you can also just take a screenshot of this screen!", style: "text-align:center;margin-top:10px" }));
+    }
+
+    return cleanupActive;
+  }
+
+  // ---- Score-sheet image export (canvas -> PNG download) ------------------
+  function downloadScoreSheet(state, pct, grade) {
+    var W = 800, lineH = 30;
+    var lines = state.results.map(function (r) {
+      return (r.isCorrect ? "✓ " : "✗ ") + r.prompt +
+        (r.isCorrect ? "" : "  (you: " + r.chosen + " / correct: " + r.correctText + ")");
+    });
+    var H = 260 + lines.length * lineH + 40;
+    var canvas = document.createElement("canvas");
+    canvas.width = W; canvas.height = H;
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#fff7ee"; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = "#2b2140";
+    ctx.font = "bold 34px sans-serif";
+    ctx.fillText("Quiz Results", 30, 55);
+    ctx.font = "600 18px sans-serif";
+    ctx.fillStyle = "#5a4f73";
+    ctx.fillText(state.catName + " · " + state.level + " · " + new Date().toLocaleDateString(), 30, 85);
+    ctx.fillStyle = "#2b2140";
+    ctx.font = "bold 44px sans-serif";
+    ctx.fillText(Math.round(state.score * 10) / 10 + " / " + state.maxScore + "  (" + pct + "%)", 30, 145);
+    ctx.font = "bold 24px sans-serif";
+    ctx.fillText(grade, 30, 182);
+    ctx.strokeStyle = "#e3ddef"; ctx.beginPath(); ctx.moveTo(30, 200); ctx.lineTo(W - 30, 200); ctx.stroke();
+    ctx.font = "16px sans-serif";
+    var y = 232;
+    lines.forEach(function (line) {
+      ctx.fillStyle = line.charAt(0) === "✓" ? "#1f9d55" : "#c0392b";
+      wrapText(ctx, line, 30, y, W - 60, lineH);
+      y += lineH;
+    });
+    var url = canvas.toDataURL("image/png");
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "quiz-score-" + state.catName.replace(/\s+/g, "-").toLowerCase() + "-" + state.level.toLowerCase() + ".png";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+    var words = text.split(" "), line = "";
+    for (var i = 0; i < words.length; i++) {
+      var test = line + words[i] + " ";
+      if (ctx.measureText(test).width > maxWidth && line) {
+        ctx.fillText(line, x, y);
+        line = words[i] + " ";
+        y += lineHeight;
+      } else line = test;
+    }
+    ctx.fillText(line, x, y);
+  }
+
+  App.register({
+    id: "quiz",
+    title: "Quiz Mode",
+    emoji: "❓",
+    desc: "Note names, terms, clefs, rhythm & composers — Easy to Hard.",
+    color: "tile--berry",
     render: render
   });
 })();

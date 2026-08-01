@@ -445,10 +445,33 @@ window.DATA = {
       fact: "Its metal-barred cousin, the glockenspiel, sounds bright and bell-like." }
   ],
 
-  /* Composer Spotlight — the "big three." Facts are widely documented and
-     kid-friendly. Melodies are only included where we can play them with
-     confidence; otherwise a "Find a recording" search link is offered. */
+  /* Composer Spotlight. Facts are widely documented and kid-friendly.
+     Melodies are only included where we can play them with confidence;
+     otherwise a "Find a recording" search link is offered. Ordered by
+     birth year so the timeline reads left to right. */
   composers: [
+    {
+      name: "Antonio Vivaldi", short: "Vivaldi", born: 1678, died: 1741,
+      era: "Baroque", country: "Italy", color: "#e0507a",
+      facts: [
+        "Vivaldi had bright red hair, so people nicknamed him 'The Red Priest.'",
+        "He wrote 'The Four Seasons,' four violin concertos that paint pictures of spring, summer, fall, and winter in music.",
+        "He taught music at an orphanage for girls in Venice, writing much of his best music for his students to perform."
+      ],
+      works: ["The Four Seasons", "Concerto for Two Trumpets"],
+      searchQuery: "Vivaldi music for kids"
+    },
+    {
+      name: "George Frideric Handel", short: "Handel", born: 1685, died: 1759,
+      era: "Baroque", country: "Germany/England", color: "#3fb5a3",
+      facts: [
+        "Handel moved from Germany to England and eventually became a British citizen.",
+        "He wrote 'Messiah,' a famous piece with the 'Hallelujah' chorus, in just about three weeks.",
+        "He also wrote 'Water Music' to be performed on barges floating down the River Thames for King George I."
+      ],
+      works: ["Messiah (Hallelujah Chorus)", "Water Music", "Music for the Royal Fireworks"],
+      searchQuery: "Handel music for kids"
+    },
     {
       name: "Johann Sebastian Bach", short: "Bach", born: 1685, died: 1750,
       era: "Baroque", country: "Germany", color: "#5b8cff",
@@ -468,6 +491,17 @@ window.DATA = {
         ["G5",2.25],["E5",.25],["B4",.25],["A4",.25],["D5",.25],["C#5",.25],["G5",.25],["F#5",.25]
       ]},
       melodyCaption: "🎵 The famous opening of 'Air on the G String'"
+    },
+    {
+      name: "Franz Joseph Haydn", short: "Haydn", born: 1732, died: 1809,
+      era: "Classical", country: "Austria", color: "#4fa8d8",
+      facts: [
+        "Haydn is nicknamed 'The Father of the Symphony' because he wrote over 100 of them.",
+        "He worked for a wealthy prince for almost 30 years, writing music for the prince's private orchestra.",
+        "Haydn wrote a symphony nicknamed 'Surprise' that includes a sudden loud chord to wake up sleepy listeners!"
+      ],
+      works: ["Symphony No. 94 ('Surprise')", "The Toy Symphony", "Trumpet Concerto"],
+      searchQuery: "Haydn music for kids"
     },
     {
       name: "Wolfgang Amadeus Mozart", short: "Mozart", born: 1756, died: 1791,
@@ -498,6 +532,259 @@ window.DATA = {
         ["C4",1],["C4",1],["D4",1],["E4",1],["E4",1.5],["D4",0.5],["D4",2]
       ]},
       melodyCaption: "🎵 The famous opening of 'Ode to Joy'"
+    },
+    {
+      name: "Franz Schubert", short: "Schubert", born: 1797, died: 1828,
+      era: "Romantic", country: "Austria", color: "#c47eff",
+      facts: [
+        "Schubert wrote an incredible amount of music in a short life — over 600 songs alone.",
+        "He often composed so quickly that friends said melodies just poured out of him.",
+        "His piece 'Ave Maria' is still performed at weddings and concerts around the world today."
+      ],
+      works: ["Ave Maria", "The Trout Quintet", "Symphony No. 8 ('Unfinished')"],
+      searchQuery: "Schubert music for kids"
+    },
+    {
+      name: "Frédéric Chopin", short: "Chopin", born: 1810, died: 1849,
+      era: "Romantic", country: "Poland", color: "#ff7aa8",
+      facts: [
+        "Chopin wrote almost all of his music for one instrument: the piano.",
+        "He was a child prodigy in Poland before moving to Paris, where he became a star performer.",
+        "Even after leaving Poland, Chopin asked for his heart to be returned there after he died — and it was."
+      ],
+      works: ["Minute Waltz", "Nocturne in E-flat Major", "Revolutionary Étude"],
+      searchQuery: "Chopin music for kids"
+    },
+    {
+      name: "Johannes Brahms", short: "Brahms", born: 1833, died: 1897,
+      era: "Romantic", country: "Germany", color: "#8a6bd6",
+      facts: [
+        "Brahms wrote a gentle 'Lullaby' ('Wiegenlied') that is still sung to babies everywhere.",
+        "He was such a perfectionist that he destroyed many pieces he didn't think were good enough.",
+        "It took Brahms over 20 years to finish his first symphony because he felt pressure to live up to Beethoven."
+      ],
+      works: ["Lullaby (Wiegenlied)", "Hungarian Dance No. 5", "Symphony No. 1"],
+      searchQuery: "Brahms music for kids"
+    },
+    {
+      name: "Camille Saint-Saëns", short: "Saint-Saëns", born: 1835, died: 1921,
+      era: "Romantic", country: "France", color: "#3fae6a",
+      facts: [
+        "Saint-Saëns wrote 'The Carnival of the Animals,' a fun suite with movements about lions, elephants, and even a swan.",
+        "He was a musical prodigy who could already read and write by age three.",
+        "He almost didn't publish 'Carnival of the Animals' because he worried it was too silly for a serious composer."
+      ],
+      works: ["The Carnival of the Animals", "The Swan", "Danse Macabre"],
+      searchQuery: "Saint-Saens music for kids"
+    },
+    {
+      name: "Pyotr Ilyich Tchaikovsky", short: "Tchaikovsky", born: 1840, died: 1893,
+      era: "Romantic", country: "Russia", color: "#e0455a",
+      facts: [
+        "Tchaikovsky composed the music for two of the most famous ballets ever, 'The Nutcracker' and 'Swan Lake.'",
+        "He used a real cannon sound in his '1812 Overture' to represent a battle.",
+        "'The Nutcracker' wasn't very popular when it premiered, but today it's performed every winter around the world."
+      ],
+      works: ["The Nutcracker Suite", "Swan Lake", "1812 Overture"],
+      searchQuery: "Tchaikovsky music for kids"
+    },
+    {
+      name: "Antonín Dvořák", short: "Dvořák", born: 1841, died: 1904,
+      era: "Romantic", country: "Czech Republic", color: "#d68a3d",
+      facts: [
+        "Dvořák was inspired by folk songs from his home country as well as American music.",
+        "He wrote his famous 'New World Symphony' while living and teaching music in the United States.",
+        "Before becoming a full-time composer, Dvořák trained as a butcher, like his father."
+      ],
+      works: ["Symphony No. 9 ('From the New World')", "Humoresque", "Slavonic Dances"],
+      searchQuery: "Dvorak music for kids"
+    },
+    {
+      name: "Edvard Grieg", short: "Grieg", born: 1843, died: 1907,
+      era: "Romantic", country: "Norway", color: "#3d9fd6",
+      facts: [
+        "Grieg loved the folk music and mountain landscapes of his home country, Norway, and wove them into his pieces.",
+        "His music for the play 'Peer Gynt' includes 'In the Hall of the Mountain King,' famous for its dramatic buildup.",
+        "Grieg is considered Norway's most famous composer and appears on Norwegian currency."
+      ],
+      works: ["In the Hall of the Mountain King", "Morning Mood", "Piano Concerto in A minor"],
+      searchQuery: "Grieg music for kids"
+    },
+    {
+      name: "John Philip Sousa", short: "Sousa", born: 1854, died: 1932,
+      era: "Late Romantic", country: "United States", color: "#c62828",
+      facts: [
+        "Sousa is known as 'The March King' because he wrote so many energetic marches for bands.",
+        "He led the U.S. Marine Band before forming his own famous touring concert band.",
+        "The sousaphone, a large brass instrument used in marching bands, was invented and named for him."
+      ],
+      works: ["The Stars and Stripes Forever", "Semper Fidelis", "Washington Post March"],
+      searchQuery: "Sousa music for kids"
+    },
+    {
+      name: "Claude Debussy", short: "Debussy", born: 1862, died: 1918,
+      era: "Impressionist", country: "France", color: "#5aa9a3",
+      facts: [
+        "Debussy's dreamy, colorful style earned him the label 'Impressionist,' like the painters of his time.",
+        "His piece 'Clair de Lune' ('Moonlight') is one of the most beloved piano pieces ever written.",
+        "He often wrote music inspired by nature, water, and even clouds."
+      ],
+      works: ["Clair de Lune", "La Mer", "Prélude à l'après-midi d'un faune"],
+      searchQuery: "Debussy music for kids"
+    },
+    {
+      name: "Scott Joplin", short: "Joplin", born: 1868, died: 1917,
+      era: "Ragtime", country: "United States", color: "#d6a23d",
+      facts: [
+        "Joplin is known as 'The King of Ragtime,' a bouncy, syncopated piano style that led toward jazz.",
+        "His piece 'Maple Leaf Rag' was one of the best-selling pieces of sheet music of its era.",
+        "Joplin's music became popular again decades later when it was featured in the movie 'The Sting.'"
+      ],
+      works: ["Maple Leaf Rag", "The Entertainer"],
+      searchQuery: "Scott Joplin music for kids"
+    },
+    {
+      name: "Sergei Rachmaninoff", short: "Rachmaninoff", born: 1873, died: 1943,
+      era: "Romantic", country: "Russia", color: "#7a5cff",
+      facts: [
+        "Rachmaninoff had enormous hands that could stretch further across the piano than most people's.",
+        "He was one of the greatest pianists of his time, as well as a composer.",
+        "He left Russia after the 1917 revolution and eventually settled in the United States."
+      ],
+      works: ["Piano Concerto No. 2", "Prelude in C-sharp minor", "Rhapsody on a Theme of Paganini"],
+      searchQuery: "Rachmaninoff music for kids"
+    },
+    {
+      name: "Gustav Holst", short: "Holst", born: 1874, died: 1934,
+      era: "20th Century", country: "England", color: "#5b7fd6",
+      facts: [
+        "Holst is best known for 'The Planets,' a suite with a movement inspired by each planet's mood.",
+        "He was also a schoolteacher who wrote music especially for his students to play.",
+        "The 'Jupiter' movement from 'The Planets' later became the tune for a famous hymn."
+      ],
+      works: ["The Planets (Jupiter, Mars)", "St. Paul's Suite"],
+      searchQuery: "Holst The Planets for kids"
+    },
+    {
+      name: "Béla Bartók", short: "Bartók", born: 1881, died: 1945,
+      era: "20th Century", country: "Hungary", color: "#d63d6b",
+      facts: [
+        "Bartók traveled through the Hungarian countryside recording and collecting folk songs on an early sound recorder.",
+        "He blended those folk melodies with his own modern classical style.",
+        "He wrote a set of graded piano pieces called 'Mikrokosmos' to help students learn to play, from beginner to advanced."
+      ],
+      works: ["Romanian Folk Dances", "Concerto for Orchestra", "Mikrokosmos"],
+      searchQuery: "Bartok music for kids"
+    },
+    {
+      name: "Zoltán Kodály", short: "Kodály", born: 1882, died: 1967,
+      era: "20th Century", country: "Hungary", color: "#3dbf7a",
+      facts: [
+        "Kodály developed a famous method for teaching children to sing and read music, still used in classrooms today.",
+        "Like his friend Bartók, he collected and preserved Hungarian folk songs.",
+        "His method uses hand signs and simple syllables to help kids learn to sing in tune."
+      ],
+      works: ["Háry János Suite", "Dances of Galánta"],
+      searchQuery: "Kodaly music for kids"
+    },
+    {
+      name: "Igor Stravinsky", short: "Stravinsky", born: 1882, died: 1971,
+      era: "20th Century", country: "Russia", color: "#e0673d",
+      facts: [
+        "Stravinsky's ballet 'The Rite of Spring' caused a riot at its 1913 premiere because the music and dancing were so shocking for the time.",
+        "He wrote music for ballets, including 'The Firebird' and 'Petrushka.'",
+        "Over his long career, Stravinsky's style changed dramatically, always experimenting with new ideas."
+      ],
+      works: ["The Rite of Spring", "The Firebird", "Petrushka"],
+      searchQuery: "Stravinsky music for kids"
+    },
+    {
+      name: "Florence Price", short: "Florence Price", born: 1887, died: 1953,
+      era: "20th Century", country: "United States", color: "#c23dae",
+      facts: [
+        "Florence Price was the first African American woman to have a symphony performed by a major American orchestra.",
+        "She blended classical forms with African American spirituals and folk melodies.",
+        "Many of her manuscripts were lost for decades until they were rediscovered in an old house in 2009."
+      ],
+      works: ["Symphony No. 1 in E minor", "The Oak"],
+      searchQuery: "Florence Price music for kids"
+    },
+    {
+      name: "Sergei Prokofiev", short: "Prokofiev", born: 1891, died: 1953,
+      era: "20th Century", country: "Russia", color: "#3d8ee0",
+      facts: [
+        "Prokofiev wrote 'Peter and the Wolf,' a story for children where each character has its own instrument.",
+        "He started composing as a young child and wrote his first opera at age nine.",
+        "He also composed music for the ballet 'Romeo and Juliet.'"
+      ],
+      works: ["Peter and the Wolf", "Romeo and Juliet", "Lieutenant Kijé Suite"],
+      searchQuery: "Prokofiev Peter and the Wolf for kids"
+    },
+    {
+      name: "Carl Orff", short: "Orff", born: 1895, died: 1982,
+      era: "20th Century", country: "Germany", color: "#8ac23d",
+      facts: [
+        "Orff created a popular way of teaching music to children using simple percussion, singing, and movement, called Orff Schulwerk.",
+        "Many elementary music classrooms use xylophones and mallet instruments based on his ideas.",
+        "His best-known piece, 'Carmina Burana,' features the dramatic, thundering chorus 'O Fortuna.'"
+      ],
+      works: ["Carmina Burana (O Fortuna)"],
+      searchQuery: "Carl Orff music for kids"
+    },
+    {
+      name: "William Grant Still", short: "W. G. Still", born: 1895, died: 1978,
+      era: "20th Century", country: "United States", color: "#3dc2b0",
+      facts: [
+        "William Grant Still was the first African American composer to have a symphony performed by a major American orchestra.",
+        "He is often called 'The Dean of African American Composers.'",
+        "His 'Afro-American Symphony' blends blues and classical traditions."
+      ],
+      works: ["Afro-American Symphony"],
+      searchQuery: "William Grant Still music for kids"
+    },
+    {
+      name: "George Gershwin", short: "Gershwin", born: 1898, died: 1937,
+      era: "20th Century", country: "United States", color: "#ffb03d",
+      facts: [
+        "Gershwin blended classical music with jazz to create a brand-new American sound.",
+        "He wrote 'Rhapsody in Blue,' famous for its wailing clarinet opening, in just a few weeks.",
+        "He also wrote 'Summertime' from the opera 'Porgy and Bess,' one of the most recorded songs ever."
+      ],
+      works: ["Rhapsody in Blue", "Summertime", "An American in Paris"],
+      searchQuery: "Gershwin music for kids"
+    },
+    {
+      name: "Duke Ellington", short: "Ellington", born: 1899, died: 1974,
+      era: "Jazz", country: "United States", color: "#4a4ae0",
+      facts: [
+        "Duke Ellington led his own jazz orchestra for about 50 years and wrote nearly 3,000 pieces of music.",
+        "He got the nickname 'Duke' as a kid because of his elegant style.",
+        "His band was famous for performances at the Cotton Club in New York City."
+      ],
+      works: ["Take the 'A' Train", "It Don't Mean a Thing", "Mood Indigo"],
+      searchQuery: "Duke Ellington music for kids"
+    },
+    {
+      name: "Aaron Copland", short: "Copland", born: 1900, died: 1990,
+      era: "20th Century", country: "United States", color: "#4aa8e0",
+      facts: [
+        "Copland is often called the 'Dean of American Composers' for his music that captures the sound of the American landscape.",
+        "His ballet 'Appalachian Spring' uses the Shaker tune 'Simple Gifts.'",
+        "'Fanfare for the Common Man' is often played at graduations, ceremonies, and patriotic events."
+      ],
+      works: ["Fanfare for the Common Man", "Appalachian Spring", "Rodeo"],
+      searchQuery: "Copland music for kids"
+    },
+    {
+      name: "John Cage", short: "Cage", born: 1912, died: 1992,
+      era: "20th Century", country: "United States", color: "#9e9e9e",
+      facts: [
+        "Cage wrote a famous — and famously strange — piece called '4′33″,' where the performer plays no notes at all, letting the audience's surroundings become the music.",
+        "He invented the 'prepared piano,' placing objects like screws and rubber erasers between the piano strings to change its sound.",
+        "Cage loved experimenting with chance and silence, pushing people to think differently about what music can be."
+      ],
+      works: ["4′33″", "Sonatas and Interludes"],
+      searchQuery: "John Cage music explained for kids"
     }
   ]
 };
