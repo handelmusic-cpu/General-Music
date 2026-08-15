@@ -572,7 +572,16 @@ input[type="range"]::-moz-range-thumb {
 
 /* --------------------------- Composer Spotlight --------------------------- */
 .composer-timeline { padding: 10px 4px 0; }
-.timeline-bar { position: relative; height: 6px; background: #e3ddef; border-radius: 999px; margin: 30px 10px 22px; }
+.timeline-scroll { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; touch-action: pan-x; padding-top: 30px; }
+.timeline-bar { position: relative; height: 6px; min-width: 100%; background: #e3ddef; border-radius: 999px; margin: 0 10px 22px; }
+.timeline-zoom-controls { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: -6px; }
+.timeline-zoom-btn {
+  border: none; border-radius: 999px; background: #fff; box-shadow: var(--shadow-sm); cursor: pointer;
+  font-family: var(--font-round); font-weight: 800; color: var(--ink);
+  width: 36px; height: 36px; font-size: 18px; display: flex; align-items: center; justify-content: center;
+}
+.timeline-zoom-btn:active { transform: translateY(2px); box-shadow: none; }
+.timeline-zoom-label { width: auto; padding: 0 14px; font-size: 14px; color: var(--ink-soft); }
 .timeline-dot {
   position: absolute; top: 50%; transform: translate(-50%, -50%);
   width: 20px; height: 20px; border-radius: 50%; background: var(--dc, var(--pink));
