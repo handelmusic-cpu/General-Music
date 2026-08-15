@@ -84,8 +84,11 @@ window.App = (function () {
     );
     var grid = el("div.tile-grid");
     activities.forEach(function (act) {
+      // Standalone apps (own codebase, own libraries) register with
+      // `external` instead of `render` and just open in a new tab rather
+      // than routing into the in-page activity view.
       var tile = el("button.tile." + act.color, {
-        onclick: function () { open(act.id); },
+        onclick: function () { if (act.external) window.open(act.external, "_blank", "noopener"); else open(act.id); },
         "aria-label": act.title
       },
         el("span.tile__emoji", { text: act.emoji }),
@@ -104,6 +107,7 @@ window.App = (function () {
   function open(id) {
     var act = byId[id];
     if (!act) return goHome();
+    if (act.external) { window.open(act.external, "_blank", "noopener"); return; }
     location.hash = id;
     clearView();
     trackView(id, act.title);
