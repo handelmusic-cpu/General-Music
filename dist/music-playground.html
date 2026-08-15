@@ -586,7 +586,7 @@ input[type="range"]::-moz-range-thumb {
 
 /* --------------------------- Composer Spotlight --------------------------- */
 .composer-timeline { padding: 10px 4px 0; }
-.timeline-scroll { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; touch-action: pan-x; padding-top: 30px; }
+.timeline-scroll { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; touch-action: pan-x; padding-top: 110px; }
 .timeline-bar { position: relative; height: 6px; min-width: 100%; background: #e3ddef; border-radius: 999px; margin: 0 10px 22px; }
 .timeline-zoom-controls { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: -6px; }
 .timeline-zoom-btn {
@@ -602,7 +602,7 @@ input[type="range"]::-moz-range-thumb {
   border: 4px solid #fff; box-shadow: var(--shadow-sm);
 }
 .timeline-dot-label {
-  position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+  position: absolute; left: 50%; transform: translateX(-50%);
   font-family: var(--font-round); font-weight: 800; font-size: 13px; color: var(--dc, var(--ink));
   white-space: nowrap;
 }
@@ -4008,7 +4008,14 @@ window.App = (function () {
 
 (function () {
   var TIMELINE_START = 1650, TIMELINE_END = 1950;
-  var ZOOM_MIN = 1, ZOOM_MAX = 6, ZOOM_STEP = 0.5;
+  var ZOOM_MIN = 1, ZOOM_MAX = 10, ZOOM_STEP = 0.5;
+  // Label text doesn't shrink as the timeline widens, so composers born in
+  // the same or nearby years (Bach/Handel both 1685; the cluster of
+  // Bartók/Kodály/Stravinsky in the 1880s) would still collide at any zoom
+  // level if every label sat at the same height. Cycling labels through a
+  // few vertical rows — in chronological order, so neighbors in time land
+  // on different rows — fixes that independently of zoom.
+  var LABEL_ROWS = 4, LABEL_ROW_STEP = 20, LABEL_BASE_OFFSET = 28;
 
   function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
   function touchDist(touches) {
@@ -4030,11 +4037,13 @@ window.App = (function () {
 
     var scrollWrap = el("div.timeline-scroll");
     var bar = el("div.timeline-bar");
-    DATA.composers.forEach(function (c) {
+    DATA.composers.forEach(function (c, i) {
       var leftPct = ((c.born - TIMELINE_START) / (TIMELINE_END - TIMELINE_START)) * 100;
       leftPct = Math.max(3, Math.min(97, leftPct));
+      var row = i % LABEL_ROWS;
+      var labelOffset = LABEL_BASE_OFFSET + row * LABEL_ROW_STEP;
       var dot = el("div.timeline-dot", { style: "left:" + leftPct + "%;--dc:" + c.color },
-        el("span.timeline-dot-label", { text: c.short })
+        el("span.timeline-dot-label", { text: c.short, style: "top:-" + labelOffset + "px" })
       );
       bar.appendChild(dot);
     });
