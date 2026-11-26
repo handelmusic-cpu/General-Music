@@ -1,11 +1,14 @@
 /* ==========================================================================
    sw.js — service worker for offline play.
    Precaches the whole app shell on install so Music Playground keeps working
-   with zero wifi (great for spotty school networks). Bump CACHE_NAME on any
+   with zero wifi (great for spotty school networks).
+   Every path here is relative ("./…") on purpose: they resolve against this
+   file's own URL, so the app works unchanged at a sub-path such as
+   /apps/music-playground/ and the worker's scope stays that folder. Bump CACHE_NAME on any
    deploy that changes file contents so old caches are cleared out.
    ========================================================================== */
 
-var CACHE_NAME = "music-playground-v9";
+var CACHE_NAME = "music-playground-v10";
 
 var PRECACHE_URLS = [
   "./",
@@ -82,36 +85,25 @@ self.addEventListener("fetch", function (event) {
   if (req.method !== "GET") return;
 
   var url = new URL(req.url);
-  var sameOrigin = url.origin === self.location.origin;
+  // Cross-origin requests (only the optional analytics script now — the app
+  // no longer loads web fonts) go straight to the network untouched; caching
+  // them would only serve a stale copy.
+  if (url.origin !== self.location.origin) return;
 
-  if (sameOrigin) {
-    // App files: cache-first (instant + offline), refresh the cache in the
-    // background so the next load picks up any update.
-    event.respondWith(
-      caches.match(req).then(function (cached) {
-        var networkFetch = fetch(req).then(function (res) {
-          if (res && res.ok) {
-            var copy = res.clone();
-            caches.open(CACHE_NAME).then(function (c) { c.put(req, copy); });
-          }
-          return res;
-        }).catch(function () { return cached; });
-        return cached || networkFetch;
-      })
-    );
-  } else {
-    // Cross-origin (Google Fonts): stale-while-revalidate, so once a font
-    // has loaded once, it also works offline next time.
-    event.respondWith(
-      caches.open(CACHE_NAME).then(function (cache) {
-        return cache.match(req).then(function (cached) {
-          var networkFetch = fetch(req).then(function (res) {
-            cache.put(req, res.clone());
-            return res;
-          }).catch(function () { return cached; });
-          return cached || networkFetch;
-        });
-      })
-    );
-  }
+  // App files: cache-first (instant + offline), refresh the cache in the
+  // background so the next load picks up any update. Page navigations ignore
+  // the query string so a shared "Magic Link" (?song=…) still opens offline.
+  var matchOpts = req.mode === "navigate" ? { ignoreSearch: true } : undefined;
+  event.respondWith(
+    caches.match(req, matchOpts).then(function (cached) {
+      var networkFetch = fetch(req).then(function (res) {
+        if (res && res.ok) {
+          var copy = res.clone();
+          caches.open(CACHE_NAME).then(function (c) { c.put(req, copy); });
+        }
+        return res;
+      }).catch(function () { return cached; });
+      return cached || networkFetch;
+    })
+  );
 });

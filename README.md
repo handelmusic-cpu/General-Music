@@ -37,7 +37,8 @@ which writes `dist/music-playground.html` from the current source.
 Because it's just files, you can share it several easy ways:
 1. **Google Sites / Google Drive** — upload the folder and share the link.
 2. **Netlify Drop** (free): go to app.netlify.com/drop and drag this whole folder in — you get a shareable web link in seconds.
-3. **Your school's web server** — copy the folder into the web root.
+3. **Your school's web server** — copy the folder into the web root, or into any sub-folder
+   (for example `/apps/music-playground/`). Every path is relative, so it works from any folder.
 4. **Add to Home Screen** — on an iPad, open the link in Safari → Share → "Add to Home Screen" for an app-like icon.
 
 ## Adding your own songs & games
