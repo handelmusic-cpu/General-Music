@@ -165,7 +165,7 @@ window.App = (function () {
     // that open a new tab rather than a bar of their own.
     var externals = activities.filter(function (a) { return a.external; });
     if (externals.length) {
-      var p = el("div.more-apps", null, el("h2", { text: "Two bigger apps" }));
+      var p = el("div.more-apps", null, el("h2", { text: "More mõd apps" }));
       var ul = el("ul");
       externals.forEach(function (a) {
         ul.appendChild(el("li", null,
