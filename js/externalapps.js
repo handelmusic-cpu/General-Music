@@ -11,7 +11,7 @@
     id: "modscore",
     title: "MōdScore",
     emoji: "📝",
-    desc: "Full music notation editor & player. Opens in a new tab.",
+    desc: "Write sheet music and play it back. Opens in a new tab.",
     color: "tile--indigo",
     external: "apps/modscore/index.html"
   });
@@ -20,7 +20,7 @@
     id: "modriff",
     title: "MōdRiff",
     emoji: "🎛️",
-    desc: "Sample-based riff & groove maker. Opens in a new tab.",
+    desc: "Build riffs and grooves from recorded instruments. Opens in a new tab.",
     color: "tile--rainbow",
     external: "apps/modriff/index.html"
   });

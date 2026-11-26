@@ -23,14 +23,14 @@
                   playing: false, pos: 0, timer: null };
 
     container.appendChild(h.pageHead("🥁", "Beat Maker",
-      "Tap the squares to build a beat — the band plays along when you press Play!"));
+      "Tap squares to add a sound on that step. Press Play to hear the band loop it."));
 
     var tempoVal = el("b", { text: state.tempo + "" });
     var tempo = el("input", { type: "range", min: "20", max: "500", value: state.tempo + "", "aria-label": "Tempo",
       oninput: function () { state.tempo = +tempo.value; tempoVal.textContent = tempo.value; } });
     container.appendChild(el("div.card", null,
-      el("div.control-row", null, el("label.slider", null, el("span", { text: "🐢 Tempo " }), tempo,
-        el("span", null, tempoVal, el("span", { text: " BPM 🐇" }))))
+      el("div.control-row", null, el("label.slider", null, el("span", { text: "Tempo " }), tempo,
+        el("span", null, tempoVal, el("span", { text: " beats per minute" }))))
     ));
 
     // ---- The rows of drummers + steps -----------------------------------
@@ -67,7 +67,7 @@
 
     // ---- Play / Clear ----------------------------------------------------
     var playBtn = el("button.btn.btn--play", { html: "▶︎ Play", onclick: toggle });
-    var clearBtn = el("button.btn.btn--stop", { html: "🧽 Clear", onclick: function () {
+    var clearBtn = el("button.btn.btn--text", { html: "Clear all", onclick: function () {
       state.grid = KIT.map(function () { return new Array(STEPS).fill(false); });
       stop(); redrawCells();
     }});
@@ -75,7 +75,7 @@
 
     // ---- Save My Beat (Magic Link) --------------------------------------
     container.appendChild(el("div.card", null,
-      App.shareControl({ label: "🔗 Save My Beat", hashId: "beatmaker", key: "beat", thing: "beat", getValue: encodeState })
+      App.shareControl({ label: "Copy a link to this beat", hashId: "beatmaker", key: "beat", thing: "beat", getValue: encodeState })
     ));
 
     container.appendChild(el("div.card", null,
@@ -172,7 +172,7 @@
     id: "beatmaker",
     title: "Beat Maker",
     emoji: "🥁",
-    desc: "Build a beat and watch a band of characters play it.",
+    desc: "Make a drum loop with hi-hat, clap, snare and kick.",
     color: "tile--berry",
     render: render
   });

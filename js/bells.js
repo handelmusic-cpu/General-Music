@@ -14,7 +14,7 @@
     var state = { song: null, playing: false, timers: [] };
 
     container.appendChild(h.pageHead("🔔", "Bells",
-      "Tap the colored bars to play. Or pick a song and follow the colors!"));
+      "Tap the bars to play. Pick a song and the colour dots show which bar comes next."));
 
     // ---- The bell bars (xylophone: lower notes are longer) --------------
     var barsWrap = el("div.bells-wrap");
@@ -94,7 +94,7 @@
       Sound.unlock();
       stopSong();
       state.playing = true;
-      playSongBtn.innerHTML = "🎶 Playing…";
+      playSongBtn.innerHTML = "Playing…";
       var beat = 60 / state.song.tempo;
       var t = Sound.now() + 0.15;
       var dots = dotsRow.querySelectorAll(".bell-dot");
@@ -138,7 +138,7 @@
     id: "bells",
     title: "Bells",
     emoji: "🔔",
-    desc: "A colored xylophone with a follow-the-colors play-along.",
+    desc: "Eight coloured bars, C to C. Play along by following the colours.",
     color: "tile--aqua",
     render: render
   });

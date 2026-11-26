@@ -33,7 +33,7 @@
     state.grid = blankGrid();
 
     container.appendChild(h.pageHead("🎶", "Song Maker",
-      "Tap the squares to make a tune, then press Play. It loops!"));
+      "Tap squares to add notes, then press Play. The tune loops until you stop it."));
 
     // ---- Controls --------------------------------------------------------
     var scaleGroup = pillGroup(Object.keys(SCALES), state.scale, function (v) {
@@ -49,8 +49,8 @@
       el("div.control-row", null, el("span.hint", { text: "Notes:" }), scaleGroup,
         el("span.hint", { text: "Sound:" }), voiceGroup),
       el("div.spacer-sm"),
-      el("div.control-row", null, el("label.slider", null, el("span", { text: "🐢 Tempo " }), tempo,
-        el("span", null, tempoVal, el("span", { text: " BPM 🐇" }))))
+      el("div.control-row", null, el("label.slider", null, el("span", { text: "Tempo " }), tempo,
+        el("span", null, tempoVal, el("span", { text: " beats per minute" }))))
     ));
 
     // ---- Grid ------------------------------------------------------------
@@ -61,14 +61,14 @@
 
     // ---- Play / Clear ----------------------------------------------------
     var playBtn = el("button.btn.btn--play", { html: "▶︎ Play", onclick: toggle });
-    var clearBtn = el("button.btn.btn--stop", { html: "🧽 Clear", onclick: function () {
+    var clearBtn = el("button.btn.btn--text", { html: "Clear all", onclick: function () {
       state.grid = blankGrid(); stop(); drawGrid();
     }});
     container.appendChild(el("div.control-row", { style: "justify-content:center" }, playBtn, clearBtn));
 
     // ---- Save My Song (Magic Link) --------------------------------------
     container.appendChild(el("div.card", null,
-      App.shareControl({ label: "🔗 Save My Song", hashId: "songmaker", key: "song", thing: "song", getValue: encodeState })
+      App.shareControl({ label: "Copy a link to this song", hashId: "songmaker", key: "song", thing: "song", getValue: encodeState })
     ));
 
     container.appendChild(el("div.card", null,
@@ -216,7 +216,7 @@
     id: "songmaker",
     title: "Song Maker",
     emoji: "🎶",
-    desc: "Tap a grid to make a melody — pentatonic, so it always sounds good.",
+    desc: "Tap a grid to write a melody. The pentatonic notes always fit together.",
     color: "tile--rainbow",
     render: render
   });

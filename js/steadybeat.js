@@ -11,7 +11,7 @@
     var state = { tempo: 90, beats: 4, playing: false, timer: null, beat: 0, lastBeatTime: 0, hits: 0, good: 0 };
 
     container.appendChild(h.pageHead("🥁", "Steady Beat",
-      "Watch the dot, feel the pulse, and tap along in time!"));
+      "Watch the dots light up and tap the pad in time with them."));
 
     // Tempo + meter controls
     var tempoVal = el("b", { text: state.tempo + "" });
@@ -27,8 +27,8 @@
       meterGroup.appendChild(p);
     });
     container.appendChild(el("div.card", null,
-      el("div.control-row", null, el("label.slider", null, el("span", { text: "🐢 Tempo " }), tempo,
-        el("span", null, tempoVal, el("span", { text: " BPM 🐇" })))),
+      el("div.control-row", null, el("label.slider", null, el("span", { text: "Tempo " }), tempo,
+        el("span", null, tempoVal, el("span", { text: " beats per minute" })))),
       el("div.spacer-sm"),
       el("div.control-row", null, el("span.hint", { text: "Beats per measure:" }), meterGroup)
     ));
@@ -52,7 +52,7 @@
 
     // Big tap pad
     var pad = el("button.big-pad.big-pad--tap", {
-      html: "<span>👆 TAP</span><span class='big-pad__sub'>tap here on every beat</span>",
+      html: "<span>Tap</span><span class='big-pad__sub'>on every beat</span>",
       onclick: onTap
     });
 
@@ -72,7 +72,7 @@
       state.playing = true; state.beat = 0; state.hits = 0; state.good = 0;
       startBtn.innerHTML = "⏸ Stop";
       startBtn.classList.remove("btn--play"); startBtn.classList.add("btn--stop");
-      score.innerHTML = "Tap along! 🎯";
+      score.innerHTML = "Tap along.";
       tick();
     }
 
@@ -100,11 +100,11 @@
       state.hits++;
       if (diff < beatMs * 0.18) {
         state.good++;
-        score.innerHTML = "🌟 Right on the beat! <small>" + state.good + " / " + state.hits + " on target</small>";
+        score.innerHTML = "Right on the beat! <small>" + state.good + " / " + state.hits + " on target</small>";
       } else if (diff < beatMs * 0.32) {
-        score.innerHTML = "👍 Close! Keep going. <small>" + state.good + " / " + state.hits + " on target</small>";
+        score.innerHTML = "Close. Keep going. <small>" + state.good + " / " + state.hits + " on target</small>";
       } else {
-        score.innerHTML = "🎵 Listen for the pulse… <small>" + state.good + " / " + state.hits + " on target</small>";
+        score.innerHTML = "Listen for the pulse. <small>" + state.good + " / " + state.hits + " on target</small>";
       }
     }
 
@@ -133,7 +133,7 @@
     id: "steadybeat",
     title: "Steady Beat",
     emoji: "🥁",
-    desc: "Bouncing-dot metronome and tap-along game.",
+    desc: "A metronome with lights, and a pad to tap in time.",
     color: "tile--teal",
     render: render
   });

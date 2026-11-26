@@ -26,7 +26,7 @@
   function render(container, h) {
     var el = h.el;
     container.appendChild(h.pageHead("🎼", "Composer Spotlight",
-      "Meet many of history's most famous composers."));
+      "Who wrote the music, when they lived, and a tune to listen to."));
 
     // ---- Timeline (pinch/scroll/button-zoomable) --------------------------
     // Dot positions are set as a % of the bar's own width, so zooming is just
@@ -106,28 +106,28 @@
       var factsList = el("ul.composer-facts");
       c.facts.forEach(function (f) { factsList.appendChild(el("li", { text: f })); });
 
-      var worksLine = el("p.composer-works", { html: "🎵 <b>Famous works:</b> " + c.works.map(escapeHtml).join(" · ") });
+      var worksLine = el("p.composer-works", { html: "<b>Famous works:</b> " + c.works.map(escapeHtml).join(", ") });
 
       var actions = el("div.song-actions");
       if (c.melody || c.melodyFromSong) {
-        var playBtn = el("button.mini-btn.mini-btn--play", { html: "🔊 " + (c.melodyCaption || "Hear a melody"), onclick: function () {
+        var playBtn = el("button.mini-btn.mini-btn--play", { html: (c.melodyCaption || "Hear a melody"), onclick: function () {
           if (playBtn.disabled) return;
           var mel = c.melody || DATA.melodies[c.melodyFromSong];
           var secs = Sound.playMelody(mel.notes, mel.tempo);
           playBtn.disabled = true; playBtn.style.opacity = "0.55";
-          var was = playBtn.innerHTML; playBtn.innerHTML = "🎶 Playing…";
+          var was = playBtn.innerHTML; playBtn.innerHTML = "Playing…";
           setTimeout(function () { playBtn.disabled = false; playBtn.style.opacity = "1"; playBtn.innerHTML = was; }, (secs + 0.3) * 1000);
         }});
         actions.appendChild(playBtn);
       }
       var url = "https://www.youtube.com/results?search_query=" + encodeURIComponent(c.searchQuery);
-      actions.appendChild(el("a.mini-btn.mini-btn--link", { href: url, target: "_blank", rel: "noopener noreferrer", html: "🎬 Find a recording" }));
+      actions.appendChild(el("a.mini-btn.mini-btn--link", { href: url, target: "_blank", rel: "noopener noreferrer", html: "Find a recording" }));
 
       var card = el("div.composer-card", { style: "--ac:" + c.color },
         avatar,
         el("div.composer-info", null,
           el("h3", { text: c.name }),
-          el("div.composer-meta", { text: c.era + " · " + c.country + " · " + c.born + "–" + c.died }),
+          el("div.composer-meta", { text: c.born + "–" + c.died + ", " + c.country + ". " + c.era + " era." }),
           factsList,
           worksLine,
           actions
@@ -148,7 +148,7 @@
     id: "composers",
     title: "Composer Spotlight",
     emoji: "🎼",
-    desc: "Meet Bach, Mozart, Beethoven & more.",
+    desc: "Bach, Mozart, Florence Price and 26 more, on a timeline.",
     color: "tile--gold",
     render: render
   });

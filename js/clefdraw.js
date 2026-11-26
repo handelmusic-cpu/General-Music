@@ -28,7 +28,7 @@
     var state = { clef: "treble", color: COLORS[5], size: 10, showGuide: true, strokes: [], drawing: null };
 
     container.appendChild(h.pageHead("✏️", "Clef Drawing",
-      "Trace the clef with your finger or stylus. Then try it on your own!"));
+      "Trace the clef with a finger or stylus, then turn the guide off and draw it yourself."));
 
     // Clef + guide toggle
     var clefGroup = el("div.pill-group");
@@ -40,7 +40,7 @@
       p.dataset.label = c[1];
       clefGroup.appendChild(p);
     });
-    var guideBtn = el("button.pill.is-active", { text: "👀 Guide", onclick: function () {
+    var guideBtn = el("button.pill.is-active", { text: "Show guide", onclick: function () {
       state.showGuide = !state.showGuide;
       guideBtn.classList.toggle("is-active", state.showGuide);
       redraw();
@@ -68,7 +68,7 @@
     container.appendChild(el("div.card", null,
       el("div.control-row", null, el("span.hint", { text: "Color:" }), swatches),
       el("div.spacer-sm"),
-      el("div.control-row", null, el("label.slider", null, el("span", { text: "🖌 Brush" }), sizeInput))
+      el("div.control-row", null, el("label.slider", null, el("span", { text: "Brush size" }), sizeInput))
     ));
 
     // Canvas stage — tall enough to fit a full-height clef above & below the staff
@@ -81,8 +81,8 @@
 
     // Buttons
     container.appendChild(el("div.control-row", null,
-      el("button.btn.btn--ghost", { html: "↶ Undo", onclick: function () { state.strokes.pop(); redraw(); } }),
-      el("button.btn.btn--stop", { html: "🧽 Clear", onclick: function () { state.strokes = []; redraw(); } })
+      el("button.btn.btn--text", { html: "Undo", onclick: function () { state.strokes.pop(); redraw(); } }),
+      el("button.btn.btn--text", { html: "Clear", onclick: function () { state.strokes = []; redraw(); } })
     ));
 
     // ---- Drawing via Pointer Events -------------------------------------
@@ -165,7 +165,7 @@
     id: "clefdraw",
     title: "Clef Drawing",
     emoji: "✏️",
-    desc: "Trace treble & bass clefs with finger or stylus.",
+    desc: "Trace treble and bass clefs over a faint guide.",
     color: "tile--purple",
     render: render
   });
