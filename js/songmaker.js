@@ -64,7 +64,21 @@
     var clearBtn = el("button.btn.btn--text", { html: "Clear all", onclick: function () {
       state.grid = blankGrid(); stop(); drawGrid();
     }});
-    container.appendChild(el("div.control-row", { style: "justify-content:center" }, playBtn, clearBtn));
+    // Hands the tune to mõdScore (one of the mõd apps, see js/suite.js) as sheet music:
+    // each lit square is an eighth note, so 16 columns are two bars of 4/4.
+    var scoreBtn = el("button.btn.btn--text", { text: "Open in mõdScore", title: "See your song as sheet music in mõdScore. It opens in a new tab.",
+      onclick: function () {
+        var notes = [];
+        for (var c = 0; c < COLS; c++) {
+          for (var r = 0; r < state.rows.length; r++) {
+            if (state.grid[r][c]) notes.push({ midi: ModSuite.noteNumber(state.rows[r]), start: c * 0.5, dur: 0.5 });
+          }
+        }
+        if (!notes.length) { scoreBtn.textContent = "Tap some squares first"; setTimeout(function () { scoreBtn.textContent = "Open in mõdScore"; }, 2000); return; }
+        ModSuite.send("score", { kind: "midi", from: "playground", title: "My Song Maker tune",
+          data: ModSuite.midi(notes, { bpm: state.tempo, title: "My Song Maker tune" }) });
+      } });
+    container.appendChild(el("div.control-row", { style: "justify-content:center" }, playBtn, clearBtn, window.ModSuite ? scoreBtn : null));
 
     // ---- Save My Song (Magic Link) --------------------------------------
     container.appendChild(el("div.card", null,

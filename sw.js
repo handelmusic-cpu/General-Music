@@ -8,7 +8,7 @@
    deploy that changes file contents so old caches are cleared out.
    ========================================================================== */
 
-var CACHE_NAME = "music-playground-v13";
+var CACHE_NAME = "music-playground-v14";
 
 var PRECACHE_URLS = [
   "./",
@@ -16,6 +16,7 @@ var PRECACHE_URLS = [
   "./manifest.json",
   "./css/styles.css",
   "./js/app.js",
+  "./js/suite.js",
   "./js/clefs.js",
   "./js/data.js",
   "./js/sound.js",
