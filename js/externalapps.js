@@ -20,7 +20,7 @@
     id: "modriff",
     title: "mõdRïff",
     emoji: "🎛️",
-    desc: "Build riffs and grooves from recorded instruments. Opens in a new tab.",
+    desc: "A groovebox where every part stays in key. Opens in a new tab.",
     color: "tile--rainbow",
     external: "apps/modriff/index.html"
   });
