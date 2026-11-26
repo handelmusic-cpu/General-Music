@@ -38,12 +38,11 @@ function main() {
   // ---- Swap the "download an offline copy" footer link for a note, since
   // in this file it's pointing at itself.
   var DOWNLOAD_LINK =
-    '<span class="app-footer__sep">·</span>\n' +
-    '    <a href="dist/music-playground.html" download>⬇ Download an offline copy</a>';
+    '<a href="dist/music-playground.html" download>Download a single-file copy</a>';
   if (!html.includes(DOWNLOAD_LINK)) throw new Error("download-link text has changed — update DOWNLOAD_LINK in build/bundle.js");
   html = html.replace(
     DOWNLOAD_LINK,
-    '<span class="app-footer__sep">·</span>\n    <span>📄 this is that offline copy</span>'
+    '<span>This is the single-file copy. It works without internet.</span>'
   );
 
   // ---- Inline the stylesheet -------------------------------------------

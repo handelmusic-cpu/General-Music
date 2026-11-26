@@ -19,16 +19,16 @@
     var state = { showLabels: true };
 
     container.appendChild(h.pageHead("🎹", "Piano Keyboard",
-      "Tap the keys to hear each note. Turn labels on or off to practice."));
+      "Tap the keys to hear each note. Turn the letter names off to practise."));
 
-    var labelBtn = el("button.pill.is-active", { text: "🔤 Note names", onclick: function () {
+    var labelBtn = el("button.pill.is-active", { text: "Note names", onclick: function () {
       state.showLabels = !state.showLabels;
       labelBtn.classList.toggle("is-active", state.showLabels);
       updateLabels();
     }});
     container.appendChild(el("div.card", null, el("div.control-row", null, labelBtn)));
 
-    var readout = el("div.note-readout", { html: "Tap a key to play! 🎶" });
+    var readout = el("div.note-readout", { html: "Tap a key to play." });
     var pianoWrap = el("div.piano-wrap");
     var piano = el("div.piano");
     pianoWrap.appendChild(piano);
@@ -68,7 +68,7 @@
         if (e) e.preventDefault();
         Sound.unlock();
         Sound.playNote(note, 0.9);
-        readout.innerHTML = "🎵 <b>" + prettied(note) + "</b>";
+        readout.innerHTML = "<b>" + prettied(note) + "</b>";
         key.classList.add("active");
         setTimeout(function () { key.classList.remove("active"); }, 180);
       }
@@ -92,7 +92,7 @@
     id: "piano",
     title: "Piano Keyboard",
     emoji: "🎹",
-    desc: "Tap a two-octave keyboard and hear every note.",
+    desc: "Two octaves, with the letter names on or off.",
     color: "tile--indigo",
     render: render
   });

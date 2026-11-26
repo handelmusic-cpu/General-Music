@@ -11,7 +11,7 @@
     var state = { cat: "All" };
 
     container.appendChild(h.pageHead("🔤", "Musical Terms",
-      "Tap a card to read it, then tap 🔊 to hear what it means."));
+      "Read the word, then press Hear it to hear what it sounds like."));
 
     var catRow = el("div.filter-row");
     ["All"].concat(DATA.termCategories).forEach(function (c) {
@@ -35,7 +35,7 @@
           card.appendChild(el("div.term-cat-tag", { text: t.category }));
           card.appendChild(el("h3", { html: t.term + (t.abbr ? " <span class='term-abbr'>" + t.abbr + "</span>" : "") }));
           card.appendChild(el("p", { text: t.meaning }));
-          var demoBtn = el("button.btn.btn--purple", { html: "🔊 Hear it", style: "font-size:15px;padding:10px 20px;min-height:auto;",
+          var demoBtn = el("button.btn.btn--purple.btn--sm", { html: "Hear it",
             onclick: function () { playDemo(t.demo, demoBtn); } });
           card.appendChild(demoBtn);
           grid.appendChild(card);
@@ -120,7 +120,7 @@
     id: "terms",
     title: "Musical Terms",
     emoji: "🔤",
-    desc: "Dynamics, tempo & expression — read it, then hear it.",
+    desc: "Dynamics, tempo and expression words, each with a sound.",
     color: "tile--grape",
     render: render
   });

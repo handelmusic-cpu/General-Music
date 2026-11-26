@@ -2,17 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#ff5da2" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#fff8f1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Music Playground" />
   <title>Music Playground</title>
   <link rel="manifest" href="manifest.json" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
@@ -81,19 +78,17 @@
 <body>
   <header class="app-header">
     <button class="home-btn" id="homeBtn" aria-label="Home" title="Home">
-      <span class="home-btn__icon">🎵</span>
       <span class="home-btn__text">Music Playground</span>
     </button>
     <div class="header-spacer"></div>
-    <button class="ghost-btn" id="fullscreenBtn" aria-label="Full screen" title="Full screen">⛶</button>
+    <button class="ghost-btn" id="fullscreenBtn" aria-label="Full screen" title="Full screen"><span aria-hidden="true">⛶</span></button>
   </header>
 
   <main id="view" class="view" aria-live="polite"></main>
 
   <footer class="app-footer">
-    <span>Made for music teachers &amp; their students · works on iPads &amp; Chromebooks</span>
-    <span class="app-footer__sep">·</span>
-    <a href="dist/music-playground.html" download>⬇ Download an offline copy</a>
+    <span>Made for music teachers and their classes. Works on iPads and Chromebooks, with or without wifi.</span>
+    <a href="dist/music-playground.html" download>Download a single-file copy</a>
   </footer>
 
   <!-- Load order matters: data + core first, then each activity registers itself -->

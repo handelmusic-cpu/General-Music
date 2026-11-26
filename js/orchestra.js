@@ -46,9 +46,9 @@
   function render(container, h) {
     var el = h.el;
     container.appendChild(h.pageHead("🎻", "Instruments of the Orchestra",
-      "Tap an instrument to hear a real recording and learn a fun fact."));
+      "Tap an instrument to hear a real recording and read one fact about it."));
 
-    var readout = el("div.note-readout", { html: "Tap any instrument to begin! 🎶" });
+    var readout = el("div.note-readout", { html: "Tap an instrument to hear it." });
     container.appendChild(el("div.card", null, readout));
 
     // Prefetch every real sample in the background so the first tap plays instantly.
@@ -74,7 +74,7 @@
     });
 
     container.appendChild(el("p.orch-credit", {
-      html: "🎵 Real instrument recordings courtesy of the <a href=\"https://philharmonia.co.uk/resources/sound-samples/\" target=\"_blank\" rel=\"noopener noreferrer\">Philharmonia Orchestra</a> sound sample library (CC BY-SA)."
+      html: "Real instrument recordings courtesy of the <a href=\"https://philharmonia.co.uk/resources/sound-samples/\" target=\"_blank\" rel=\"noopener noreferrer\">Philharmonia Orchestra</a> sound sample library (CC BY-SA)."
     }));
   }
 
@@ -92,7 +92,7 @@
     void card.offsetWidth;
     card.classList.add("flash");
     readout.innerHTML = "<b>" + inst.name + "</b> <small style='display:block'>" + inst.blurb + "</small>" +
-      "<small style='display:block;color:var(--ink-soft);margin-top:4px'>💡 " + inst.fact + "</small>";
+      "<small style='display:block;color:var(--ink-soft);margin-top:4px'>" + inst.fact + "</small>";
   }
 
   // ---- Hand-drawn instrument icons (SVG, not emoji) ------------------------
@@ -248,7 +248,7 @@
     id: "orchestra",
     title: "Instruments of the Orchestra",
     emoji: "🎻",
-    desc: "Strings, woodwinds, brass & percussion, grouped by section.",
+    desc: "Hear real recordings of strings, woodwinds, brass and percussion.",
     color: "tile--mint",
     render: render
   });

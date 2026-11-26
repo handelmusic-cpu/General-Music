@@ -17,7 +17,7 @@
     var state = { q: "", cat: "All", grade: "All" };
 
     container.appendChild(h.pageHead("🎵", "Song & Game Library",
-      "Public-domain songs, rhymes & a game to play with each one."));
+      "Songs and rhymes you can use freely, each with a game to play in class."));
 
     // Search bar
     var input = el("input", {
@@ -26,7 +26,7 @@
       "aria-label": "Search songs",
       oninput: function () { state.q = input.value.toLowerCase(); draw(); }
     });
-    var searchBar = el("div.search-bar", null, el("span.mag", { text: "🔍" }), input);
+    var searchBar = el("div.search-bar", null, input);
     container.appendChild(searchBar);
 
     // Filter chips: categories
@@ -72,7 +72,7 @@
       grid.innerHTML = "";
       var list = DATA.songs.filter(matches);
       if (!list.length) {
-        grid.appendChild(el("div.empty-note", { text: "No songs match yet — try clearing a filter. 🎶" }));
+        grid.appendChild(el("div.empty-note", { text: "No songs match. Try clearing a filter." }));
         return;
       }
       list.forEach(function (song) {
@@ -83,23 +83,23 @@
         var tags = el("div.tags", null,
           el("span.tag.tag--cat", { text: song.category }),
           el("span.tag.tag--meter", { text: song.meter }),
-          el("span.tag.tag--grade", { text: song.grades.join(" · ") })
+          el("span.tag.tag--grade", { text: "Grades " + song.grades.join(", ") })
         );
         card.appendChild(tags);
-        card.appendChild(el("div.focus", { html: "🎯 <b>Skills:</b> " + escapeHtml(song.focus) }));
+        card.appendChild(el("div.focus", { html: "<b>Skills:</b> " + escapeHtml(song.focus) }));
         card.appendChild(el("div.game", { html: "<b>Play this:</b> " + escapeHtml(song.game) }));
 
         // Listen row: synthesized tune (offline) + a link to find a recording.
         var actions = el("div.song-actions");
         var mel = DATA.melodies[song.title];
         if (mel) {
-          var tuneBtn = el("button.mini-btn.mini-btn--play", { html: "🔊 Play tune", onclick: function () {
+          var tuneBtn = el("button.mini-btn.mini-btn--play", { html: "Play the tune", onclick: function () {
             if (tuneBtn.disabled) return;
             var secs = Sound.playMelody(mel.notes, mel.tempo);
             tuneBtn.disabled = true;
             tuneBtn.style.opacity = "0.55";
             var was = tuneBtn.innerHTML;
-            tuneBtn.innerHTML = "🎶 Playing…";
+            tuneBtn.innerHTML = "Playing…";
             setTimeout(function () {
               tuneBtn.disabled = false; tuneBtn.style.opacity = "1"; tuneBtn.innerHTML = was;
             }, (secs + 0.3) * 1000);
@@ -109,7 +109,7 @@
         var url = "https://www.youtube.com/results?search_query=" +
           encodeURIComponent(song.title + " song for kids");
         actions.appendChild(el("a.mini-btn.mini-btn--link", {
-          href: url, target: "_blank", rel: "noopener noreferrer", html: "🎬 Find a recording"
+          href: url, target: "_blank", rel: "noopener noreferrer", html: "Find a recording"
         }));
         card.appendChild(actions);
 
@@ -130,7 +130,7 @@
     id: "library",
     title: "Song & Game Library",
     emoji: "🎵",
-    desc: "Public-domain songs & rhymes with a game for each.",
+    desc: "Folk songs, rhymes and patriotic songs, each with a class game.",
     color: "tile--pink",
     render: render
   });

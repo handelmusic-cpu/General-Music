@@ -54,7 +54,7 @@
     var state = { level: "Easy", tempo: 88, card: [], playing: false, timers: [] };
 
     container.appendChild(h.pageHead("🥁", "Rhythm Flashcards",
-      "Read the rhythm, then clap it back after the app claps it for you."));
+      "Read the card. The app claps it first, then the class claps it back."));
 
     // Level + tempo
     var levelGroup = el("div.pill-group");
@@ -72,8 +72,8 @@
     container.appendChild(el("div.card", null,
       el("div.control-row", null, el("span.hint", { text: "Level:" }), levelGroup),
       el("div.spacer-sm"),
-      el("div.control-row", null, el("label.slider", null, el("span", { text: "🐢 Tempo " }), tempo,
-        el("span", null, tempoVal, el("span", { text: " BPM 🐇" }))))
+      el("div.control-row", null, el("label.slider", null, el("span", { text: "Tempo " }), tempo,
+        el("span", null, tempoVal, el("span", { text: " beats per minute" }))))
     ));
 
     // The card
@@ -81,7 +81,7 @@
     container.appendChild(el("div.card.rhythm-card", null, beatsRow));
 
     // Controls
-    var clapBtn = el("button.btn.btn--play", { html: "👏 Clap it for me", onclick: playCard });
+    var clapBtn = el("button.btn.btn--play", { html: "Clap it for me", onclick: playCard });
     var newBtn = el("button.btn.btn--blue", { html: "🃏 New card", onclick: deal });
     container.appendChild(el("div.control-row", { style: "justify-content:center" }, clapBtn, newBtn));
 
@@ -169,7 +169,7 @@
     id: "rhythmcards",
     title: "Rhythm Flashcards",
     emoji: "🥁",
-    desc: "Echo-clap 4-beat rhythm cards at three levels.",
+    desc: "Four-beat cards to echo-clap, in three levels.",
     color: "tile--lime",
     render: render
   });

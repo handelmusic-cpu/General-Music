@@ -37,7 +37,8 @@ which writes `dist/music-playground.html` from the current source.
 Because it's just files, you can share it several easy ways:
 1. **Google Sites / Google Drive** — upload the folder and share the link.
 2. **Netlify Drop** (free): go to app.netlify.com/drop and drag this whole folder in — you get a shareable web link in seconds.
-3. **Your school's web server** — copy the folder into the web root.
+3. **Your school's web server** — copy the folder into the web root, or into any sub-folder
+   (for example `/apps/music-playground/`). Every path is relative, so it works from any folder.
 4. **Add to Home Screen** — on an iPad, open the link in Safari → Share → "Add to Home Screen" for an app-like icon.
 
 ## Adding your own songs & games
@@ -46,8 +47,9 @@ Open `js/data.js` and copy one of the entries in the `songs` list. Change the ti
 needed. The categories and grade filters update automatically.
 
 To add a brand-new *activity* (like Solfège hand signs or a note-name quiz), copy any
-file in `js/` such as `js/steadybeat.js`, and it will register a new colorful tile on
-the home screen by itself.
+file in `js/` such as `js/steadybeat.js`, and it will add itself to the home screen as
+a new tone bar. To place it in one of the groups (Sing and play, Rhythm and beat, …),
+add its id to `GROUPS` in `js/app.js`; otherwise it appears under "More".
 
 ## Files
 ```

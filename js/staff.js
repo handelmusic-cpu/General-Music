@@ -21,14 +21,14 @@
     treble: {
       shape: "treble", anchorIdx: 6, // spiral wraps the G line (2nd from bottom)
       notes: ["F5", "E5", "D5", "C5", "B4", "A4", "G4", "F4", "E4"],
-      lineMnemonic: "Every Good Boy Does Fine (E-G-B-D-F, bottom→top)",
-      spaceMnemonic: "F-A-C-E (bottom→top) spells FACE"
+      lineMnemonic: "Every Good Boy Does Fine (E-G-B-D-F, bottom to top)",
+      spaceMnemonic: "F-A-C-E (bottom to top) spells FACE"
     },
     bass: {
       shape: "bass", anchorIdx: 2, // dots straddle the F line (2nd from top)
       notes: ["A3", "G3", "F3", "E3", "D3", "C3", "B2", "A2", "G2"],
-      lineMnemonic: "Good Boys Do Fine Always (G-B-D-F-A, bottom→top)",
-      spaceMnemonic: "All Cows Eat Grass (A-C-E-G, bottom→top)"
+      lineMnemonic: "Good Boys Do Fine Always (G-B-D-F-A, bottom to top)",
+      spaceMnemonic: "All Cows Eat Grass (A-C-E-G, bottom to top)"
     }
   };
 
@@ -43,11 +43,11 @@
     var state = { clef: "treble", mode: "explore", showLabels: false,
                   placedSlot: null, quizSlot: null, answered: false, score: 0, total: 0 };
 
-    container.appendChild(h.pageHead("🎼", "Staff Basics", "Learn the lines and spaces of the staff."));
+    container.appendChild(h.pageHead("🎼", "Staff Basics", "Tap a line or space to hear the note and see its name, or switch to the quiz."));
 
     // ---- Mode + clef controls -------------------------------------------
     var modeGroup = el("div.pill-group");
-    [["explore", "👆 Explore"], ["quiz", "❓ Quiz Me"]].forEach(function (c) {
+    [["explore", "Explore"], ["quiz", "Quiz me"]].forEach(function (c) {
       var p = el("button.pill", { text: c[1], onclick: function () {
         state.mode = c[0]; syncPills(modeGroup, c[1]); rebuild();
       }});
@@ -68,7 +68,7 @@
       clefGroup.appendChild(p);
     });
 
-    var labelBtn = el("button.pill", { text: "🔤 Show note names", onclick: function () {
+    var labelBtn = el("button.pill", { text: "Show note names", onclick: function () {
       state.showLabels = !state.showLabels;
       labelBtn.classList.toggle("is-active", state.showLabels);
       draw();
@@ -91,7 +91,7 @@
     LETTERS.forEach(function (L) {
       answersRow.appendChild(el("button.letter-btn", { text: L, onclick: function () { answerLetter(L); } }));
     });
-    var nextBtn = el("button.btn.btn--play", { html: "Next note →", style: "display:none", onclick: newQuestion });
+    var nextBtn = el("button.btn.btn--play", { html: "Next note", style: "display:none", onclick: newQuestion });
     var scoreLine = el("div.hint", { text: "Score: 0 / 0", style: "text-align:center;margin-top:8px" });
     var quizCard = el("div.card", null, answersRow, el("div.spacer-sm"),
       el("div.control-row", { style: "justify-content:center" }, nextBtn), scoreLine);
@@ -111,7 +111,7 @@
       if (quiz) { newQuestion(); }
       else {
         state.quizSlot = null; state.answered = false;
-        readout.innerHTML = "Tap any line or space to hear it and see its name. 🎵";
+        readout.innerHTML = "Tap any line or space to hear it and see its name.";
         draw();
       }
     }
@@ -184,8 +184,8 @@
 
       mnemonicCard.innerHTML = "";
       mnemonicCard.appendChild(el("div.hint", { text: "Remember the names:" }));
-      mnemonicCard.appendChild(el("p", { html: "🟦 <b>Lines:</b> " + clef.lineMnemonic }));
-      mnemonicCard.appendChild(el("p", { html: "🟥 <b>Spaces:</b> " + clef.spaceMnemonic }));
+      mnemonicCard.appendChild(el("p", { html: "<b class='txt-line'>Lines:</b> " + clef.lineMnemonic }));
+      mnemonicCard.appendChild(el("p", { html: "<b class='txt-space'>Spaces:</b> " + clef.spaceMnemonic }));
     }
 
     function announce(idx) {
@@ -193,8 +193,8 @@
       var name = clef.notes[idx];
       var pretty = name.replace(/(\d)/, "");
       var isLine = idx % 2 === 0;
-      readout.innerHTML = "That's <span style='color:" + (isLine ? "#5b8cff" : "#ff5da2") + "'>" + pretty +
-        "</span>! <small>" + (isLine ? "a LINE note" : "a SPACE note") + " · octave " + name.replace(/\D/g, "") + "</small>";
+      readout.innerHTML = "That's <span class='" + (isLine ? "txt-line" : "txt-space") + "'>" + pretty +
+        "</span>! <small>" + (isLine ? "a line note" : "a space note") + ", octave " + name.replace(/\D/g, "") + "</small>";
     }
 
     // ---- Quiz logic ------------------------------------------------------
@@ -204,7 +204,7 @@
       state.answered = false;
       nextBtn.style.display = "none";
       setLetters(true);
-      readout.innerHTML = "🤔 What note is this? Tap a letter.";
+      readout.innerHTML = "What note is this? Tap a letter.";
       draw();
       Sound.playNote(clef.notes[state.quizSlot], 0.7); // let them hear it too
     }
@@ -218,11 +218,11 @@
       var isLine = state.quizSlot % 2 === 0;
       if (L === correct) {
         state.score++;
-        readout.innerHTML = "🌟 Yes! That's <span style='color:#7ed957'>" + correct + "</span> — " +
+        readout.innerHTML = "Yes! That's <span class='txt-good'>" + correct + "</span> — " +
           (isLine ? "a line note." : "a space note.");
         Sound.tone(880, null, 0.12, "square");
       } else {
-        readout.innerHTML = "Not quite — that one is <span style='color:#ff5da2'>" + correct + "</span>. " +
+        readout.innerHTML = "Not quite — that one is <span class='txt-bad'>" + correct + "</span>. " +
           "You picked " + L + ".";
         Sound.tone(220, null, 0.18, "sawtooth");
       }
@@ -250,7 +250,7 @@
     id: "staff",
     title: "Staff Basics",
     emoji: "🎼",
-    desc: "Explore the staff, or quiz yourself on note names.",
+    desc: "Lines and spaces on the treble and bass staff.",
     color: "tile--sky",
     render: render
   });

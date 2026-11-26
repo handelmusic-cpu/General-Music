@@ -8,11 +8,12 @@
 window.DATA = {
   categories: ["Patriotic", "Folk Song", "Nursery Rhyme", "Singing Game", "Seasonal"],
 
-  /* Boomwhacker-style note colors (a clean rainbow, C→B) shared by the Bells
-     and Song Maker so color becomes a consistent visual language for pitch. */
+  /* Boomwhacker note colours (C red … B magenta), shared by the Bells, Song
+     Maker and the home screen's tone bars (--note-* in css/styles.css), so a
+     colour always means the same pitch. Keep the two lists in step. */
   noteColors: {
-    C: "#ff4d4d", D: "#ff9a3d", E: "#ffd633", F: "#5ecb5e",
-    G: "#3b9bff", A: "#a06bff", B: "#ff6bd0"
+    C: "#d7263d", D: "#f28c28", E: "#ffd23f", F: "#4caf50",
+    G: "#0b7d70", A: "#7b3fb8", B: "#c2257a"
   },
 
   /* Simple, one-octave (C–C), no-sharps tunes for the Bells play-along.

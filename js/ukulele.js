@@ -62,7 +62,7 @@
   function render(container, h) {
     var el = h.el;
     container.appendChild(h.pageHead("🎸", "Ukulele Chords",
-      "Eight beginner chords with finger numbers. Tap Strum to hear each one."));
+      "Eight first chords with finger numbers. Press Strum to hear each one."));
 
     container.appendChild(el("div.card", null,
       el("p.hint", { text: "Finger numbers: 1 = index, 2 = middle, 3 = ring, 4 = pinky. An open circle means play that string open (no finger)." })
@@ -70,7 +70,7 @@
 
     var grid = el("div.uke-grid");
     DATA.ukuleleChords.forEach(function (chord) {
-      var strumBtn = el("button.btn.btn--play", { html: "🔊 Strum", style: "font-size:16px;padding:10px 20px;min-height:auto;", onclick: function () {
+      var strumBtn = el("button.btn.btn--play.btn--sm", { html: "Strum", onclick: function () {
         strum(chord);
       }});
       var card = el("div.uke-card", null,
@@ -98,7 +98,7 @@
     id: "ukulele",
     title: "Ukulele Chords",
     emoji: "🎸",
-    desc: "Beginner chord diagrams with finger numbers.",
+    desc: "Eight first chords, with finger numbers.",
     color: "tile--coral",
     render: render
   });

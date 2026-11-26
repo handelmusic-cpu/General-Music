@@ -4,7 +4,7 @@ This project includes material from the following third-party sources.
 
 ## VexFlow (apps/modscore/lib/vexflow.js)
 
-Vendored music engraving library used by the MōdScore notation app. VexFlow
+Vendored music engraving library used by the mõdScore notation app. VexFlow
 is © its contributors and licensed under the MIT License.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,13 +27,13 @@ DEALINGS IN THE SOFTWARE.
 
 ## Tone.js (apps/modscore/lib/Tone.js)
 
-Vendored Web Audio framework used by the MōdScore notation app for
+Vendored Web Audio framework used by the mõdScore notation app for
 playback. Tone.js is © Yotam Mann and contributors, licensed under the MIT
 License (same terms as above).
 
-## MōdRiff sample instruments (apps/modriff/samples/)
+## mõdRïff sample instruments (apps/modriff/samples/)
 
-The recorded instrument samples bundled with the MōdRiff app are rendered
+The recorded instrument samples bundled with the mõdRïff app are rendered
 from the FluidR3_GM and MusyngKite SoundFonts, redistributed by the
 midi-js-soundfonts project (Benjamin Gleitzman) under CC BY 3.0. Full
 per-instrument sourcing is documented in `apps/modriff/samples/CREDITS.md`.

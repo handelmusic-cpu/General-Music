@@ -27,7 +27,7 @@
     state.boxes = defaultBoxes(state.count);
 
     container.appendChild(h.pageHead("🍎", "Beat Boxes",
-      "Tap a box to change its rhythm, then press Play to clap along."));
+      "Tap a box to change its rhythm. Press Play and clap along."));
 
     // ---- Controls: beat count -------------------------------------------
     var countGroup = el("div.pill-group");
@@ -51,8 +51,8 @@
       "aria-label": "Tempo",
       oninput: function () { state.tempo = +tempo.value; tempoVal.textContent = tempo.value; }
     });
-    var tempoLabel = el("label.slider", null, el("span", { text: "🐢 Tempo " }), tempo,
-      el("span", null, tempoVal, el("span", { text: " BPM 🐇" })));
+    var tempoLabel = el("label.slider", null, el("span", { text: "Tempo " }), tempo,
+      el("span", null, tempoVal, el("span", { text: " beats per minute" })));
 
     var controls = el("div.card", null,
       el("div.control-row", null, el("span.hint", { text: "How many beats?" }), countGroup),
@@ -69,7 +69,7 @@
 
     // ---- Play / Reset ----------------------------------------------------
     var playBtn = el("button.btn.btn--play", { html: "▶︎ Play", onclick: toggle });
-    var resetBtn = el("button.btn.btn--ghost", { html: "↺ Reset", onclick: function () {
+    var resetBtn = el("button.btn.btn--ghost", { html: "Reset", onclick: function () {
       state.boxes = defaultBoxes(state.count); stop(); drawBoxes();
     }});
     container.appendChild(el("div.control-row", null, playBtn, resetBtn));
@@ -82,7 +82,7 @@
     container.appendChild(el("div.card", null,
       el("div.hint", { text: "What the fruit mean:" }), legend,
       el("div.spacer-sm"),
-      el("p.hint", { text: "Tip: 🍒🍒 \"ti-ti\" fits in the same beat as one 🍐 \"ta\" — that's how we split the beat!" })
+      el("p.hint", { text: "Two cherries (ti-ti) take the same time as one pear (ta). That is how we split the beat." })
     ));
 
     drawBoxes();
@@ -197,7 +197,7 @@
     id: "beatboxes",
     title: "Beat Boxes",
     emoji: "🍎",
-    desc: "Fruit & veggie boxes for beat and beat-division.",
+    desc: "Split the beat with fruit words: pear is ta, cherry-cherry is ti-ti.",
     color: "tile--orange",
     render: render
   });

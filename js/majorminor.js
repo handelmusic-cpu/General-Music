@@ -14,54 +14,49 @@
     var state = { root: "C4", minor: false, answered: false, score: 0, total: 0 };
 
     container.appendChild(h.pageHead("🎧", "Major or Minor?",
-      "Listen to the sound. Is it bright and happy, or mysterious and shadowy?"));
+      "Listen to a chord or a short tune and decide: major or minor?"));
 
     // What major / minor mean — a friendly reminder card.
     container.appendChild(el("div.card", null,
       el("div.row-wrap", null,
-        el("span.big-emoji-badge", { text: "☀️" }),
-        el("div", null,
-          el("p", { html: "<b>Major = bright.</b> Sounds happy, sunny, and cheerful — like a big smile." })
+                el("div", null,
+          el("p", { html: "<b>Major sounds bright.</b> Happy, sunny, cheerful." })
         )
       ),
       el("div.spacer-sm"),
       el("div.row-wrap", null,
-        el("span.big-emoji-badge", { text: "🌙" }),
-        el("div", null,
-          el("p", { html: "<b>Minor = mysterious.</b> Sounds shadowy, spooky, or a little sad — like a secret in the dark." })
+                el("div", null,
+          el("p", { html: "<b>Minor sounds mysterious.</b> Shadowy, spooky, or a little sad." })
         )
       )
     ));
 
     // Big "play the sound" button.
-    var listenBtn = el("button", {
-      style: "width:100%;min-height:150px;border:none;border-radius:26px;cursor:pointer;" +
-        "background:linear-gradient(150deg,#c79bff,#7fb0ff);color:#fff;font-family:var(--font-round);" +
-        "font-weight:800;font-size:30px;box-shadow:var(--shadow);",
-      html: "🔊 Play the Sound<br><span style='font-size:16px;font-weight:700;opacity:.9'>tap to listen (tap again to hear it once more)</span>",
+    var listenBtn = el("button.big-pad.big-pad--listen", {
+      html: "<span>Play the sound</span><span class='big-pad__sub'>Tap again to hear it once more</span>",
       onclick: function () { playCurrent(); }
     });
     container.appendChild(el("div.card", null, listenBtn));
 
     // Feedback readout.
-    var readout = el("div.note-readout", { html: "Tap <b>Play the Sound</b> to begin! 🎵" });
+    var readout = el("div.note-readout", { html: "Tap <b>Play the sound</b> to begin." });
     container.appendChild(readout);
 
     // The two answer buttons.
-    var majorBtn = el("button.btn", {
-      html: "☀️ Major<br><span style='font-size:14px;font-weight:700;opacity:.95'>bright &amp; happy</span>",
-      style: "flex:1;min-height:96px;font-size:24px;background:linear-gradient(150deg,#ffe27a,#ffab3d);",
+    var majorBtn = el("button.btn.btn--sun", {
+      html: "<span>Major</span><span class='btn__sub'>bright</span>",
+      style: "flex:1;min-height:96px;font-size:24px;",
       onclick: function () { answer(false); }
     });
     var minorBtn = el("button.btn.btn--purple", {
-      html: "🌙 Minor<br><span style='font-size:14px;font-weight:700;opacity:.95'>mysterious &amp; shadowy</span>",
+      html: "<span>Minor</span><span class='btn__sub'>mysterious</span>",
       style: "flex:1;min-height:96px;font-size:24px;",
       onclick: function () { answer(true); }
     });
     container.appendChild(el("div.control-row", { style: "align-items:stretch" }, majorBtn, minorBtn));
 
     // Next button (hidden until an answer is given).
-    var nextBtn = el("button.btn.btn--play", { html: "Next sound →", style: "display:none", onclick: newRound });
+    var nextBtn = el("button.btn.btn--play", { html: "Next sound", style: "display:none", onclick: newRound });
     var scoreLine = el("div.hint", { text: "Score: 0 / 0", style: "text-align:center;margin-top:8px" });
     container.appendChild(el("div.control-row", { style: "justify-content:center" }, nextBtn));
     container.appendChild(scoreLine);
@@ -73,7 +68,7 @@
       state.root = ROOTS[Math.floor(Math.random() * ROOTS.length)];
       state.minor = Math.random() < 0.5;
       state.answered = false;
-      readout.innerHTML = "Listen carefully… ☀️ or 🌙 ?";
+      readout.innerHTML = "Listen carefully. Major or minor?";
       nextBtn.style.display = "none";
       setEnabled(true);
       playCurrent();
@@ -104,12 +99,12 @@
       var correct = pickedMinor === state.minor;
       if (correct) state.score++;
       var realName = state.minor ? "Minor" : "Major";
-      var desc = state.minor ? "mysterious &amp; shadowy 🌙" : "bright &amp; happy ☀️";
+      var desc = state.minor ? "mysterious and shadowy" : "bright and happy";
       if (correct) {
-        readout.innerHTML = "🌟 Yes! That was <b>" + realName + "</b> — " + desc + ".";
+        readout.innerHTML = "Yes! That was <b>" + realName + "</b>, " + desc + ".";
         Sound.tone(880, null, 0.12, "square");
       } else {
-        readout.innerHTML = "So close! That one was actually <b>" + realName + "</b> — " + desc + ".";
+        readout.innerHTML = "So close! That one was actually <b>" + realName + "</b>, " + desc + ".";
         Sound.tone(220, null, 0.18, "sawtooth");
       }
       scoreLine.textContent = "Score: " + state.score + " / " + state.total;
@@ -129,7 +124,7 @@
     id: "majorminor",
     title: "Major or Minor?",
     emoji: "🎧",
-    desc: "Listen and decide: bright (major) or mysterious (minor)?",
+    desc: "Hear a chord or tune and decide which it is.",
     color: "tile--yellow",
     render: render
   });

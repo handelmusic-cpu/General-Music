@@ -249,7 +249,7 @@
   function render(container, h) {
     var el = h.el;
     container.appendChild(h.pageHead("❓", "Quiz Mode",
-      "Pick a topic and a difficulty, then see how you do!"));
+      "Pick a topic and a level. At the end you get a score sheet to save or print."));
 
     var stage = el("div");
     container.appendChild(stage);
@@ -275,7 +275,7 @@
           levelRow.appendChild(el("button.pill", { text: lv, onclick: function () { startQuiz(catName, lv); } }));
         });
         grid.appendChild(el("div.card.quiz-cat-card", null,
-          el("div.quiz-cat-head", null, el("span.quiz-cat-emoji", { text: cat.emoji }), el("h3", { text: catName })),
+          el("div.quiz-cat-head", null, el("h3", { text: catName })),
           el("p.hint", { text: cat.blurb }),
           levelRow
         ));
@@ -308,7 +308,7 @@
       stage.innerHTML = "";
       var q = state.questions[state.qIndex];
       var head = el("div.control-row", { style: "justify-content:space-between;align-items:center" },
-        el("span.hint", { text: state.catName + " · " + state.level }),
+        el("span.hint", { text: state.catName + ", " + state.level }),
         el("span.hint", { text: "Question " + (state.qIndex + 1) + " of " + state.questions.length })
       );
       stage.appendChild(head);
@@ -364,7 +364,7 @@
       });
       card.appendChild(beatsRow);
 
-      var tapBtn = el("button.btn.btn--play", { html: "👏 Start", style: "min-width:160px" });
+      var tapBtn = el("button.btn.btn--play", { html: "Start", style: "min-width:160px" });
       var statusLine = el("p.hint", { text: "" });
       card.appendChild(el("div.control-row", { style: "justify-content:center" }, tapBtn));
       card.appendChild(statusLine);
@@ -392,7 +392,7 @@
         });
         taps = [];
         var msUntilStart = (patternStart - Sound.now()) * 1000;
-        setTimeout(function () { if (running) statusLine.textContent = "Tap along now! 🥁"; }, Math.max(0, msUntilStart));
+        setTimeout(function () { if (running) statusLine.textContent = "Tap along now."; }, Math.max(0, msUntilStart));
         var totalMs = msUntilStart + (q.card.length * beatSec * 1000) + 400;
         endTimer = setTimeout(finish, totalMs);
         keyHandler = function (e) { if (e.code === "Space") { e.preventDefault(); registerTap(); } };
@@ -441,7 +441,7 @@
           isCorrect: pointsEarned >= maxPoints * 0.8,
           pointsEarned: pointsEarned, maxPoints: maxPoints
         });
-        var nextBtn = el("button.btn.btn--blue", { html: "Next →", onclick: advance });
+        var nextBtn = el("button.btn.btn--blue", { html: "Next question", onclick: advance });
         card.appendChild(el("div.control-row", { style: "justify-content:center" }, nextBtn));
       }
 
@@ -474,11 +474,11 @@
       cleanupActive();
       stage.innerHTML = "";
       var pct = state.maxScore ? Math.round((state.score / state.maxScore) * 100) : 0;
-      var grade = pct >= 90 ? "🌟 Excellent!" : pct >= 70 ? "👍 Good job!" : pct >= 50 ? "🙂 Keep practicing!" : "💪 Try again!";
+      var grade = pct >= 90 ? "Excellent!" : pct >= 70 ? "Good job!" : pct >= 50 ? "Keep practising." : "Have another go.";
 
       var sheet = el("div.card.quiz-sheet", { id: "quizScoreSheet" },
         el("h3", { text: "Quiz Results", style: "margin-top:0" }),
-        el("p.hint", { text: state.catName + " · " + state.level + " · " + new Date().toLocaleDateString() }),
+        el("p.hint", { text: state.catName + ", " + state.level + ", " + new Date().toLocaleDateString() }),
         el("div.quiz-score-big", { text: Math.round(state.score * 10) / 10 + " / " + state.maxScore + " (" + pct + "%)" }),
         el("div.quiz-grade", { text: grade })
       );
@@ -486,16 +486,16 @@
       var list = el("ul.quiz-review-list");
       state.results.forEach(function (r) {
         list.appendChild(el("li", { class: r.isCorrect ? "is-correct" : "is-wrong" },
-          el("span", { text: (r.isCorrect ? "✅ " : "❌ ") + r.prompt }),
-          el("span.quiz-review-detail", { text: r.isCorrect ? "" : "Your answer: " + r.chosen + " · Correct: " + r.correctText })
+          el("span", { text: (r.isCorrect ? "✓ " : "✗ ") + r.prompt }),
+          el("span.quiz-review-detail", { text: r.isCorrect ? "" : "You chose " + r.chosen + ". The answer is " + r.correctText + "." })
         ));
       });
       sheet.appendChild(list);
       stage.appendChild(sheet);
 
-      var downloadBtn = el("button.btn.btn--blue", { html: "⬇ Download score sheet", onclick: function () { downloadScoreSheet(state, pct, grade); } });
-      var tryAgainBtn = el("button.btn.btn--play", { html: "🔁 Try again", onclick: function () { startQuiz(state.catName, state.level); } });
-      var menuBtn = el("button.btn.btn--ghost", { html: "🏠 Quiz menu", onclick: showMenu });
+      var downloadBtn = el("button.btn.btn--text", { html: "Download the score sheet", onclick: function () { downloadScoreSheet(state, pct, grade); } });
+      var tryAgainBtn = el("button.btn.btn--play", { html: "Try again", onclick: function () { startQuiz(state.catName, state.level); } });
+      var menuBtn = el("button.btn.btn--text", { html: "Back to quiz topics", onclick: showMenu });
       stage.appendChild(el("div.control-row", { style: "justify-content:center;margin-top:14px" }, downloadBtn, tryAgainBtn, menuBtn));
       stage.appendChild(el("p.hint", { text: "Tip: you can also just take a screenshot of this screen!", style: "text-align:center;margin-top:10px" }));
     }
@@ -520,7 +520,7 @@
     ctx.fillText("Quiz Results", 30, 55);
     ctx.font = "600 18px sans-serif";
     ctx.fillStyle = "#5a4f73";
-    ctx.fillText(state.catName + " · " + state.level + " · " + new Date().toLocaleDateString(), 30, 85);
+    ctx.fillText(state.catName + ", " + state.level + ", " + new Date().toLocaleDateString(), 30, 85);
     ctx.fillStyle = "#2b2140";
     ctx.font = "bold 44px sans-serif";
     ctx.fillText(Math.round(state.score * 10) / 10 + " / " + state.maxScore + "  (" + pct + "%)", 30, 145);
@@ -560,7 +560,7 @@
     id: "quiz",
     title: "Quiz Mode",
     emoji: "❓",
-    desc: "Note names, terms, clefs, rhythm & composers — Easy to Hard.",
+    desc: "Note names, terms, clefs, rhythm and composers, in three levels.",
     color: "tile--berry",
     render: render
   });

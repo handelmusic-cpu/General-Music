@@ -10,6 +10,7 @@ window.App = (function () {
   var activities = [];   // registered activity descriptors
   var byId = {};
   var current = null;    // teardown fn for the active activity
+  var currentId = null;  // id of the open activity (for its colour)
 
   // ---- tiny DOM helper: el('div.card', {onclick:fn}, child, child...) ------
   function el(spec, attrs) {
@@ -55,16 +56,69 @@ window.App = (function () {
     renderHome();
   }
 
-  // Standard page header with a Back button, used by every activity.
+  // Standard page header, used by every activity. The `emoji` argument is
+  // still accepted (every activity passes one) but no longer drawn: the
+  // design rule is no emoji on headings. A short tone bar in the activity's
+  // home-screen colour links the page back to the bar the child tapped.
   function pageHead(emoji, title, subtitle) {
+    var c = currentId ? colourFor(currentId) : NOTE_ORDER[0];
     return el("div.page-head", null,
-      el("button.back-btn", { onclick: goHome, html: "← Home" }),
-      el("span.emoji", { text: emoji }),
-      el("div", null,
-        el("h2", { text: title }),
-        subtitle ? el("p", { text: subtitle }) : null
-      )
+      el("button.back-btn", { onclick: goHome, text: "All activities" }),
+      el("span.page-head__bar.bar--" + c, { "aria-hidden": "true" }),
+      el("h2", { text: title }),
+      subtitle ? el("p", { text: subtitle }) : null
     );
+  }
+
+  // ---- Home screen: activities as tone bars, grouped the way a music
+  // teacher plans a lesson. Each group is a little xylophone: bars in note
+  // order C, D, E, F… and each one shorter than the last. An activity that
+  // isn't listed here (a newly added file) still shows up, in "More".
+  var GROUPS = [
+    { title: "Sing and play", ids: ["library", "bells", "piano", "ukulele", "songmaker"] },
+    { title: "Rhythm and beat", ids: ["steadybeat", "beatboxes", "rhythmcards", "beatmaker"] },
+    { title: "Reading music", ids: ["staff", "clefdraw", "terms"] },
+    { title: "Listening and quizzes", ids: ["majorminor", "orchestra", "composers", "quiz"] }
+  ];
+  var NOTE_ORDER = ["c", "d", "e", "f", "g", "a", "b"];
+  var colourById = {};
+
+  function groupsWithLeftovers() {
+    var listed = {};
+    GROUPS.forEach(function (g) { g.ids.forEach(function (id) { listed[id] = true; }); });
+    var extra = activities.filter(function (a) { return !a.external && !listed[a.id]; }).map(function (a) { return a.id; });
+    var out = GROUPS.map(function (g) {
+      return { title: g.title, ids: g.ids.filter(function (id) { return byId[id]; }) };
+    });
+    if (extra.length) out.push({ title: "More", ids: extra });
+    return out.filter(function (g) { return g.ids.length; });
+  }
+
+  function colourFor(id) {
+    if (!colourById[id]) {
+      groupsWithLeftovers().forEach(function (g) {
+        g.ids.forEach(function (gid, i) { colourById[gid] = NOTE_ORDER[i % NOTE_ORDER.length]; });
+      });
+    }
+    return colourById[id] || NOTE_ORDER[0];
+  }
+
+  // Five faint staff lines behind the title: the one place the staff is drawn.
+  function staffLines() {
+    var ns = "http://www.w3.org/2000/svg";
+    var svg = document.createElementNS(ns, "svg");
+    svg.setAttribute("class", "hero__staff");
+    svg.setAttribute("viewBox", "0 0 100 40");
+    svg.setAttribute("preserveAspectRatio", "none");
+    svg.setAttribute("aria-hidden", "true");
+    for (var i = 0; i < 5; i++) {
+      var line = document.createElementNS(ns, "line");
+      line.setAttribute("x1", "0"); line.setAttribute("x2", "100");
+      line.setAttribute("y1", String(4 + i * 8)); line.setAttribute("y2", String(4 + i * 8));
+      line.setAttribute("vector-effect", "non-scaling-stroke");
+      svg.appendChild(line);
+    }
+    return svg;
   }
 
   // Fire one custom event per activity/Home view. Guarded so a blocked or
@@ -77,30 +131,51 @@ window.App = (function () {
 
   function renderHome() {
     clearView();
+    currentId = null;
+    document.body.setAttribute("data-view", "home");
     trackView("home", "Home");
-    var hero = el("div.hero", null,
-      el("h1", { html: 'Welcome to the <span class="wave">Music Playground</span>!' }),
-      el("p", { text: "Pick an activity below. Everything works with a tap — perfect for iPads, Chromebooks, and the classroom projector." })
-    );
-    var grid = el("div.tile-grid");
-    activities.forEach(function (act) {
-      // Standalone apps (own codebase, own libraries) register with
-      // `external` instead of `render` and just open in a new tab rather
-      // than routing into the in-page activity view.
-      var tile = el("button.tile." + act.color, {
-        onclick: function () { if (act.external) window.open(act.external, "_blank", "noopener"); else open(act.id); },
-        "aria-label": act.title
-      },
-        el("span.tile__emoji", { text: act.emoji }),
-        el("div", null,
-          el("div.tile__title", { text: act.title }),
-          el("div.tile__desc", { text: act.desc })
-        )
-      );
-      grid.appendChild(tile);
+    view.appendChild(el("div.hero", null,
+      staffLines(),
+      el("h1", { text: "Music Playground" }),
+      el("p", { text: "Music games and tools for class. Tap a bar to start. The sound comes on with your first tap." })
+    ));
+
+    groupsWithLeftovers().forEach(function (g) {
+      var list = el("ul.bar-set");
+      g.ids.forEach(function (id, i) {
+        var act = byId[id];
+        var note = colourFor(id);
+        // Longest bar first, each one a step shorter, like a xylophone.
+        // CSS turns --i into a width, with a smaller step on phones.
+        list.appendChild(el("li", null,
+          el("button.bar.bar--" + note, {
+            style: "--i:" + i,
+            onclick: function () { open(id); }
+          },
+            el("span.bar__title", { text: act.title }),
+            el("span.bar__desc", { text: act.desc })
+          )
+        ));
+      });
+      view.appendChild(el("section.bar-group", null, el("h2", { text: g.title }), list));
     });
-    view.appendChild(hero);
-    view.appendChild(grid);
+
+    // Standalone apps (own codebase, own libraries) register with `external`.
+    // They are bigger tools, not lesson activities, so they get plain links
+    // that open a new tab rather than a bar of their own.
+    var externals = activities.filter(function (a) { return a.external; });
+    if (externals.length) {
+      var p = el("div.more-apps", null, el("h2", { text: "Two bigger apps" }));
+      var ul = el("ul");
+      externals.forEach(function (a) {
+        ul.appendChild(el("li", null,
+          el("a", { href: a.external, target: "_blank", rel: "noopener", text: a.title }),
+          el("span", { text: " " + a.desc })
+        ));
+      });
+      p.appendChild(ul);
+      view.appendChild(p);
+    }
     window.scrollTo(0, 0);
   }
 
@@ -110,6 +185,8 @@ window.App = (function () {
     if (act.external) { window.open(act.external, "_blank", "noopener"); return; }
     location.hash = id;
     clearView();
+    currentId = id;
+    document.body.setAttribute("data-view", "activity");
     trackView(id, act.title);
     // activity.render(container, helpers) may return a teardown function
     current = act.render(view, { el: el, pageHead: pageHead, goHome: goHome }) || null;
@@ -172,8 +249,7 @@ window.App = (function () {
     function showBanner(mode) {
       if (banner) return;
       banner = el("div.install-banner", null,
-        el("span.install-banner__icon", { text: "📲" }),
-        el("div.install-banner__text", null,
+                el("div.install-banner__text", null,
           el("b", { text: "Add Music Playground to your Home Screen!" }),
           el("span", { text: mode === "ios"
             ? " Tap the Share icon below, then \"Add to Home Screen.\""
@@ -266,7 +342,7 @@ window.App = (function () {
       box.style.display = "";
       box.innerHTML = "";
       box.appendChild(el("div.share-msg", {
-        html: "✨ Ta-da! Here's your <b>Magic Link</b> — it's copied! Paste it in a message, or open it later to hear your " + opts.thing + " again."
+        html: "Link copied. Paste it into an email or your class page, and it will open this " + opts.thing + " again."
       }));
       var input = el("input.share-input", { type: "text", value: url, readonly: "readonly", "aria-label": "Your magic link" });
       input.addEventListener("focus", function () { input.select(); });
