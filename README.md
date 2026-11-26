@@ -47,8 +47,9 @@ Open `js/data.js` and copy one of the entries in the `songs` list. Change the ti
 needed. The categories and grade filters update automatically.
 
 To add a brand-new *activity* (like Solfège hand signs or a note-name quiz), copy any
-file in `js/` such as `js/steadybeat.js`, and it will register a new colorful tile on
-the home screen by itself.
+file in `js/` such as `js/steadybeat.js`, and it will add itself to the home screen as
+a new tone bar. To place it in one of the groups (Sing and play, Rhythm and beat, …),
+add its id to `GROUPS` in `js/app.js`; otherwise it appears under "More".
 
 ## Files
 ```
