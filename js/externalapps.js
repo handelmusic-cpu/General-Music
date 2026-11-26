@@ -1,6 +1,6 @@
 /* ==========================================================================
    externalapps.js — tiles for standalone companion apps.
-   MōdScore and MōdRiff are full apps in their own right (own libraries, own
+   mõdScore and mõdRïff are full apps in their own right (own libraries, own
    design system), vendored here as static folders under apps/. Rather than
    force them into the shared activity shell, their tiles just open the app
    in a new tab — see App.register's `external` handling in app.js.
@@ -9,7 +9,7 @@
 (function () {
   App.register({
     id: "modscore",
-    title: "MōdScore",
+    title: "mõdScore",
     emoji: "📝",
     desc: "Write sheet music and play it back. Opens in a new tab.",
     color: "tile--indigo",
@@ -18,7 +18,7 @@
 
   App.register({
     id: "modriff",
-    title: "MōdRiff",
+    title: "mõdRïff",
     emoji: "🎛️",
     desc: "Build riffs and grooves from recorded instruments. Opens in a new tab.",
     color: "tile--rainbow",
