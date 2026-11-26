@@ -70,7 +70,7 @@
 
     var grid = el("div.uke-grid");
     DATA.ukuleleChords.forEach(function (chord) {
-      var strumBtn = el("button.btn.btn--play", { html: "🔊 Strum", style: "font-size:16px;padding:10px 20px;min-height:auto;", onclick: function () {
+      var strumBtn = el("button.btn.btn--play.btn--sm", { html: "🔊 Strum", onclick: function () {
         strum(chord);
       }});
       var card = el("div.uke-card", null,

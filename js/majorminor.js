@@ -34,11 +34,8 @@
     ));
 
     // Big "play the sound" button.
-    var listenBtn = el("button", {
-      style: "width:100%;min-height:150px;border:none;border-radius:26px;cursor:pointer;" +
-        "background:linear-gradient(150deg,#c79bff,#7fb0ff);color:#fff;font-family:var(--font-round);" +
-        "font-weight:800;font-size:30px;box-shadow:var(--shadow);",
-      html: "🔊 Play the Sound<br><span style='font-size:16px;font-weight:700;opacity:.9'>tap to listen (tap again to hear it once more)</span>",
+    var listenBtn = el("button.big-pad.big-pad--listen", {
+      html: "<span>🔊 Play the Sound</span><span class='big-pad__sub'>tap to listen (tap again to hear it once more)</span>",
       onclick: function () { playCurrent(); }
     });
     container.appendChild(el("div.card", null, listenBtn));
@@ -48,13 +45,13 @@
     container.appendChild(readout);
 
     // The two answer buttons.
-    var majorBtn = el("button.btn", {
-      html: "☀️ Major<br><span style='font-size:14px;font-weight:700;opacity:.95'>bright &amp; happy</span>",
-      style: "flex:1;min-height:96px;font-size:24px;background:linear-gradient(150deg,#ffe27a,#ffab3d);",
+    var majorBtn = el("button.btn.btn--sun", {
+      html: "<span>☀️ Major</span><span class='btn__sub'>bright &amp; happy</span>",
+      style: "flex:1;min-height:96px;font-size:24px;",
       onclick: function () { answer(false); }
     });
     var minorBtn = el("button.btn.btn--purple", {
-      html: "🌙 Minor<br><span style='font-size:14px;font-weight:700;opacity:.95'>mysterious &amp; shadowy</span>",
+      html: "<span>🌙 Minor</span><span class='btn__sub'>mysterious &amp; shadowy</span>",
       style: "flex:1;min-height:96px;font-size:24px;",
       onclick: function () { answer(true); }
     });

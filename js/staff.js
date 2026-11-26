@@ -193,7 +193,7 @@
       var name = clef.notes[idx];
       var pretty = name.replace(/(\d)/, "");
       var isLine = idx % 2 === 0;
-      readout.innerHTML = "That's <span style='color:" + (isLine ? "#5b8cff" : "#ff5da2") + "'>" + pretty +
+      readout.innerHTML = "That's <span class='" + (isLine ? "txt-line" : "txt-space") + "'>" + pretty +
         "</span>! <small>" + (isLine ? "a LINE note" : "a SPACE note") + " · octave " + name.replace(/\D/g, "") + "</small>";
     }
 
@@ -218,11 +218,11 @@
       var isLine = state.quizSlot % 2 === 0;
       if (L === correct) {
         state.score++;
-        readout.innerHTML = "🌟 Yes! That's <span style='color:#7ed957'>" + correct + "</span> — " +
+        readout.innerHTML = "🌟 Yes! That's <span class='txt-good'>" + correct + "</span> — " +
           (isLine ? "a line note." : "a space note.");
         Sound.tone(880, null, 0.12, "square");
       } else {
-        readout.innerHTML = "Not quite — that one is <span style='color:#ff5da2'>" + correct + "</span>. " +
+        readout.innerHTML = "Not quite — that one is <span class='txt-bad'>" + correct + "</span>. " +
           "You picked " + L + ".";
         Sound.tone(220, null, 0.18, "sawtooth");
       }

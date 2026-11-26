@@ -59,7 +59,7 @@ window.App = (function () {
   function pageHead(emoji, title, subtitle) {
     return el("div.page-head", null,
       el("button.back-btn", { onclick: goHome, html: "← Home" }),
-      el("span.emoji", { text: emoji }),
+      el("span.emoji", { text: emoji, "aria-hidden": "true" }),
       el("div", null,
         el("h2", { text: title }),
         subtitle ? el("p", { text: subtitle }) : null
@@ -91,7 +91,7 @@ window.App = (function () {
         onclick: function () { if (act.external) window.open(act.external, "_blank", "noopener"); else open(act.id); },
         "aria-label": act.title
       },
-        el("span.tile__emoji", { text: act.emoji }),
+        el("span.tile__emoji", { text: act.emoji, "aria-hidden": "true" }),
         el("div", null,
           el("div.tile__title", { text: act.title }),
           el("div.tile__desc", { text: act.desc })
@@ -172,7 +172,7 @@ window.App = (function () {
     function showBanner(mode) {
       if (banner) return;
       banner = el("div.install-banner", null,
-        el("span.install-banner__icon", { text: "📲" }),
+        el("span.install-banner__icon", { text: "📲", "aria-hidden": "true" }),
         el("div.install-banner__text", null,
           el("b", { text: "Add Music Playground to your Home Screen!" }),
           el("span", { text: mode === "ios"

@@ -47,15 +47,12 @@
     }
     function dotStyle(active) {
       return "width:54px;height:54px;border-radius:50%;transition:transform .08s, background .08s;" +
-        "background:" + (active ? "var(--pink)" : "#e3ddef") + ";box-shadow:var(--shadow-sm);";
+        "background:" + (active ? "var(--pink)" : "var(--track)") + ";box-shadow:var(--shadow-sm);";
     }
 
     // Big tap pad
-    var pad = el("button", {
-      style: "width:100%;min-height:200px;border:none;border-radius:26px;cursor:pointer;" +
-        "background:linear-gradient(150deg,#8be86a,var(--lime));color:#fff;font-family:var(--font-round);" +
-        "font-weight:800;font-size:32px;box-shadow:var(--shadow);",
-      html: "👆 TAP<br><span style='font-size:16px;font-weight:700;opacity:.9'>tap here on every beat</span>",
+    var pad = el("button.big-pad.big-pad--tap", {
+      html: "<span>👆 TAP</span><span class='big-pad__sub'>tap here on every beat</span>",
       onclick: onTap
     });
 

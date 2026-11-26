@@ -35,7 +35,7 @@
           card.appendChild(el("div.term-cat-tag", { text: t.category }));
           card.appendChild(el("h3", { html: t.term + (t.abbr ? " <span class='term-abbr'>" + t.abbr + "</span>" : "") }));
           card.appendChild(el("p", { text: t.meaning }));
-          var demoBtn = el("button.btn.btn--purple", { html: "🔊 Hear it", style: "font-size:15px;padding:10px 20px;min-height:auto;",
+          var demoBtn = el("button.btn.btn--purple.btn--sm", { html: "🔊 Hear it",
             onclick: function () { playDemo(t.demo, demoBtn); } });
           card.appendChild(demoBtn);
           grid.appendChild(card);

@@ -87,7 +87,7 @@
           var note = state.rows[r];
           var color = DATA.noteColors[letter(note)] || "#ccc";
           var row = el("div.sm-row");
-          row.appendChild(el("span.sm-rowlabel", { text: letter(note), style: "color:" + color }));
+          row.appendChild(el("span.sm-rowlabel", { text: letter(note), style: "--cc:" + color }));
           for (var c = 0; c < COLS; c++) {
             (function (c) {
               var cell = el("div.sm-cell");
